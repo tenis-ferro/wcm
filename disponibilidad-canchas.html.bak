@@ -48,7 +48,7 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+          <li><a class="nav-link scrollto active" href="index.html">Inicio</a></li>
           <li><a class="nav-link scrollto" href="#about">El Club</a></li>
           <li><a class="nav-link scrollto" href="#services">Canchas</a></li>
           <li><a class="nav-link scrollto " href="#portfolio">Escalerilla</a></li>
@@ -87,7 +87,7 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">		  		  
-          <h2><br><br>Inner Page</h2>
+          <h2><br><br>Disponibilidad Canchas</h2>
           <ol>
             <li><a href="index.html">Home</a></li>
             <li>Inner Page</li>
@@ -99,30 +99,8 @@
 
     <section class="inner-page">
       <div class="container">
-		<table border="1">
-			<thead>
-				<tr>
-					<th>Horario</th>
-					<th>Cancha 1</th>
-					<th>Cancha 2</th>
-					<th>Cancha 3</th>
-					<th>Cancha 4</th>
-					<th>Cancha 5</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>09:00 - 11:00</td>
-					<td>Andrea Ibarra <br> Fernando Ibarra</td>
-					<td>Jugador 1 <br> Jugador 2</td>
-					<th></th>
-					<th></th>
-					<th></th>
-				</tr>				
-			</tbody>
-			<tfoot></tfoot>
-		</table>
-      </div>
+		En construcción
+	  </div>
     </section>
 
   </main><!-- End #main -->
