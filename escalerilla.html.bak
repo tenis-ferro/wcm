@@ -49,7 +49,7 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto" href="index.html">Inicio</a></li>
-          <li><a class="nav-link scrollto" href="">El Club</a></li>
+          <li><a class="nav-link scrollto" href="elclub.html">El Club</a></li>
           <li><a class="nav-link scrollto" href="disponibilidad-canchas2.html">Canchas</a></li>
           <li><a class="nav-link scrollto active" href="escalerilla.html">Escalerilla</a></li>
           <li><a class="nav-link scrollto" href="torneos.html">Torneos</a></li>
