@@ -49,7 +49,7 @@
         <ul>
           <li><a class="nav-link scrollto" href="../../index.html">Inicio</a></li>
           <li><a class="nav-link scrollto" href="../../elclub.html">El Club</a></li>
-          <li><a class="nav-link scrollto" href="../../disponibilidad-canchas2.html">Canchas</a></li>
+          <li><a class="nav-link scrollto" href="#">Canchas</a></li>
           <li><a class="nav-link scrollto" href="../../escalerilla.html">Escalerilla</a></li>
           <li><a class="nav-link scrollto active" href="../../torneos.html">Torneos</a></li>
 		  <li><a class="nav-link scrollto" href="">Directorio</a></li>       
@@ -100,9 +100,9 @@
           <div class="content" data-aos="fade-right" data-aos-delay="100">
             <ul>
               <li><a href="#" target="_blank"> <i class="ri-check-double-line"></i> Categoría Honor.</a></li>
-              <li><a href="#" target="_blank"><i class="ri-check-double-line"></i> Categoría A.</a></li>
-			  <li><a href="#" target="_blank"><i class="ri-check-double-line"></i> Categoría B.</a></li>
-			  <li><a href="#" target="_blank"><i class="ri-check-double-line"></i> Categoría C.</a></li>
+              <li><a href="https://drive.google.com/file/d/1rFr0kJn25buGWzz1DMRKfgrSJ7-Jg33Q/view?usp=sharing" target="_blank"><i class="ri-check-double-line"></i> Categoría A.</a></li>
+			  <li><a href="https://drive.google.com/file/d/10LAgXKMF-RcgjgFOpGpFviTCZLd9N3z9/view?usp=sharing" target="_blank"><i class="ri-check-double-line"></i> Categoría B.</a></li>
+			  <li><a href="https://drive.google.com/file/d/1hhGc7K-jxauaYLVq7LUXUgq4jBDdShEw/view?usp=sharing" target="_blank"><i class="ri-check-double-line"></i> Categoría C.</a></li>
 			  <li><a href="#" target="_blank"><i class="ri-check-double-line"></i> Categoría D.</a></li>
 			  <li><a href="#" target="_blank"><i class="ri-check-double-line"></i> Categoría Damas.</a></li>
             </ul>
@@ -110,7 +110,7 @@
         </div>
 		<div class="row">
 			<h4>
-			  Ver programación
+			  <a href="https://drive.google.com/file/d/1ug36POIZc9ktufL7K6EtjODEsiFVuiNS/view?usp=sharing" target="_blank">Ver programación</a>
 			</h4>
 		</div>			
 		<div class="row">
