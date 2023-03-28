@@ -50,7 +50,7 @@
         <ul>
           <li><a class="nav-link scrollto" href="index.html">Inicio</a></li>
           <li><a class="nav-link scrollto" href="elclub.html">El Club</a></li>
-          <li><a class="nav-link scrollto" href="disponibilidad-canchas2.html">Canchas</a></li>
+          <li><a class="nav-link scrollto" href="#">Canchas</a></li>
           <li><a class="nav-link scrollto" href="escalerilla.html">Escalerilla</a></li>
           <li><a class="nav-link scrollto active" href="torneos.html">Torneos</a></li>
 		  <li><a class="nav-link scrollto" href="">Directorio</a></li>       
