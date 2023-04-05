@@ -28,12 +28,15 @@
   <!-- Template Main CSS File -->
   <link href="../../assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Gp - v4.9.1
-  * Template URL: https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-26JLZNSPM7');
+	</script>
 </head>
 
 <body>
@@ -103,7 +106,7 @@
               <li><a href="https://drive.google.com/uc?export=download&id=1rFr0kJn25buGWzz1DMRKfgrSJ7-Jg33Q" target="_blank"><i class="ri-check-double-line"></i> Categoría A.</a></li>
 			  <li><a href="https://drive.google.com/uc?export=download&id=10LAgXKMF-RcgjgFOpGpFviTCZLd9N3z9" target="_blank"><i class="ri-check-double-line"></i> Categoría B.</a></li>
 			  <li><a href="https://drive.google.com/uc?export=download&id=1hhGc7K-jxauaYLVq7LUXUgq4jBDdShEw" target="_blank"><i class="ri-check-double-line"></i> Categoría C.</a></li>
-			  <li><a href="#" target="_blank"><i class="ri-check-double-line"></i> Categoría D (Pendiente)</a></li>
+			  <li><a href="https://drive.google.com/uc?export=download&id=1a8Aedz9J6b2lWfanvUzno96eIGA9A3Nw" target="_blank"><i class="ri-check-double-line"></i> Categoría D (Pendiente)</a></li>
 			  <li><a href="https://drive.google.com/uc?export=download&id=1g9F6QBqZp2_j_Gdbg_hDiXajtGnwh8nW" target="_blank"><i class="ri-check-double-line"></i> Categoría Damas.</a></li>
             </ul>
           </div>
