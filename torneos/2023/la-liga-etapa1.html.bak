@@ -74,7 +74,7 @@
 			<br>
 		</div>
         <div class="d-flex justify-content-between align-items-center">
-		  <h2>La Liga Etapa 1 Agosto 2023</h2>
+		  <h2>La Liga Etapa 1</h2>
           <ol>
             <li><a href="index.html">Inicio</a></li>
             <li>Torneos</li>
@@ -132,14 +132,14 @@
 				<tr>
 				  <th scope="row">1</th>
 				  <td>Primera/Segunda</td>
-				  <td>...</td>
-				  <td>...</td>
+				  <td><a href="#" target="_blank">Ver</a></td>
+				  <td><a href="#" target="_blank">Ver</a></td>
 				</tr>
 				<tr>
 				  <th scope="row">2</th>
 				  <td>Tercera/Cuarta</td>
-				  <td>...</td>
-				  <td>...</td>
+				  <td><a href="#" target="_blank">Ver</a></td>
+				  <td><a href="#" target="_blank">Ver</a></td>
 				</tr>
 			  </tbody>
 			</table>
