@@ -155,7 +155,7 @@
 			<p>
 			   <lu>
 					<li>
-						<a href="la-liga-etapa1.html">Etapa 1 (Agosto)</a>
+						<a id="etapa1" href="la-liga-etapa1.html">Etapa 1 (Agosto)</a>
 					</li>
 					<li>
 						Etapa 2 (Septiembre)
