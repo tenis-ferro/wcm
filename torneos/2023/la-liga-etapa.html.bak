@@ -74,11 +74,10 @@
 			<br>
 		</div>
         <div class="d-flex justify-content-between align-items-center">
-		  <h2>La Liga Etapa 1</h2>
+		  <h2>La Liga 2023</h2>
           <ol>
-            <li><a href="../../index.html">Inicio</a></li>
-            <li><a href="../../torneos.html">Torneos</a></li>
-			<li><a href="la-liga.html">La Liga</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li>Torneos</li>
           </ol>
         </div>
 
@@ -89,100 +88,87 @@
       <div class="container" data-aos="fade-up">
 		<div class="row">
 			<p>
-			  <b>Fecha de inicio</b>: Sábado 5 de agosto - <b>Fecha de término</b>: Sábado 19 de Agosto<br>			  
+				<h4>
+				  Formato			  
+				</h4>
+			</p>
+		</div>		  
+		<div class="row">
+			<p>
+			  <b>La Liga es un sistema de competencia permanente. De Agosto a Diciembre hay 4 etapas<br>			  
+			</p>
+			<p>La Liga se compone de dos categorías<br>
+			   <lu>
+				<li>
+					Categoría Primera/Segunda
+				</li>
+				<li>
+					Categoría Tercera/Cuarta
+				</li>
+			</p>
+			<p>Cada etapa se juega en dos fases.</p>
+			<p>
+			   Fase 1: Grupos.<br>
+			   Cada grupo se compone de tres jugadores y clasifica el primero al cuadro final.
+			</p>
+		    <p>Fase 2: Eliminación directa.<br>
+			   Se arma un cuadro final, con el primer jugador de cada grupo.
 			</p>
 		</div>
 		<div class="row">
 			<p>
 				<h4>
-				  <a href="#" target="_blank">Ver programación (Oficial)</a>				  
+				  Premios			  
 				</h4>
+			</p>
+		</div>		  
+		<div class="row">
+			<p>Premios al primer y segundo lugar de la liga (Por categoría).<br>
+			   <lu>
+				<li>
+					Primer lugar. Un Bolso raquetero de tenis, al primer jugador que obtenga mas puntos en la liga.
+				</li>
+				<li>
+					Segundo lugar. Un par de Zapatillas de tenis, al segundo jugador que obtenga mas puntos en la liga.<br>
+				</li>
+			   </lu>
+			</p>
+			<p>Premios al campeón y finalista de la etapa.<br>
+			   <lu>
+				<li>
+					Campeón. Copa y premio no superior a $10.000.
+				</li>
+				<li>
+					Campeón. Medalla y premio no superior a $8.000.
+				</li>
+			   </lu>
 			</p>
 		</div>		
 		<div class="row">
-			<h3>
-			  Grupos y Cuadros
-			</h3>
-		</div>		
-        <div class="row">
-          <div class="content" data-aos="fade-right" data-aos-delay="100">
-			<table class="table">
-			  <thead>
-				<tr>
-				  <th scope="col">#</th>
-				  <th scope="col">Categoría</th>
-				  <th scope="col">Grupos</th>
-				  <th scope="col">Cuadro final</th>
-				</tr>
-			  </thead>
-			  <tbody>
-				<tr>
-				  <th scope="row">1</th>
-				  <td>Primera/Segunda</td>
-				  <td><a href="#" target="_blank">Ver</a></td>
-				  <td><a href="#" target="_blank">Ver</a></td>
-				</tr>
-				<tr>
-				  <th scope="row">2</th>
-				  <td>Tercera/Cuarta</td>
-				  <td><a href="#" target="_blank">Ver</a></td>
-				  <td><a href="#" target="_blank">Ver</a></td>
-				</tr>
-			  </tbody>
-			</table>
-          </div>
-        </div>
-		<div class="row">
-			<h3>
-			  Fechas
-			</h3>
+			<p>
+				<h4>
+				  Etapas			  
+				</h4>
+			</p>
 		</div>			
-        <div class="row">
-          <div class="content" data-aos="fade-right" data-aos-delay="100">
-			<table class="table">
-			  <thead>
-				<tr>
-				  <th scope="col">#</th>
-				  <th scope="col">Día</th>
-				  <th scope="col">Fecha</th>
-				  <th scope="col">Descripción</th>
-				</tr>
-			  </thead>
-			  <tbody>
-				<tr>
-				  <th scope="row">1</th>
-				  <td>Sábado</td>
-				  <td>05/08/2023</td>
-				  <td>Primer partido de grupo, ambas categorías</td>
-				</tr>
-				<tr>
-				  <th scope="row">2</th>
-				  <td>Domingo</td>
-				  <td>06/08/2023</td>
-				  <td>Segundo partido de grupo, ambas categorías</td>
-				</tr>
-				<tr>
-				  <th scope="row">3</th>
-				  <td>Sábado</td>
-				  <td>12/08/2023</td>
-				  <td>Tercer partido de grupo, ambas categorías</td>
-				</tr>
-				<tr>
-				  <th scope="row">4</th>
-				  <td>Domingo</td>
-				  <td>13/08/2023</td>
-				  <td>Partido de cuartos y semifinal, ambas categorías</td>
-				</tr>
-				<tr>
-				  <th scope="row">5</th>
-				  <td>Sábado</td>
-				  <td>19/08/2023</td>
-				  <td>Finales etapa 1</td>
-				</tr>
-			  </tbody>
-			</table>
-          </div>
-        </div>		
+		<div class="row">
+			<p>
+			   <lu>
+					<li>
+						Etapa 1 (Agosto)
+					</li>
+					<li>
+						Etapa 2 (Septiembre)
+					</li>
+					<li>
+						Etapa 3 (Octubre)
+					</li>
+					<li>
+						Etapa Master (Diciembre)
+					</li>					
+				</lu>
+			</p>			
+		</div>		
       </div>
     </section>
 
