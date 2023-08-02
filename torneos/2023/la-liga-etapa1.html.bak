@@ -76,8 +76,9 @@
         <div class="d-flex justify-content-between align-items-center">
 		  <h2>La Liga Etapa 1</h2>
           <ol>
-            <li><a href="index.html">Inicio</a></li>
-            <li>Torneos</li>
+            <li><a href="../../index.html">Inicio</a></li>
+            <li><a href="../../torneos.html">Torneos</a></li>
+			<li><a href="la-liga.html">La Liga</a></li>
           </ol>
         </div>
 
@@ -118,8 +119,8 @@
 				<tr>
 				  <th scope="row">1</th>
 				  <td>Primera/Segunda</td>
-				  <td><a href="#" target="_blank">Ver</a></td>
-				  <td><a href="#" target="_blank">Ver</a></td>
+				  <td><a href="https://drive.google.com/uc?export=download&id=18K2JNjZhvZJ6ZBW8LHoQMxeQt4kPJ1np" target="_blank">Ver</a></td>
+				  <td><a href="https://drive.google.com/uc?export=download&id=1RlgRr2Se5Z4aiGNglb4WhaoeI8d1LL2f" target="_blank">Ver</a></td>
 				</tr>
 				<tr>
 				  <th scope="row">2</th>
@@ -150,34 +151,40 @@
 			  <tbody>
 				<tr>
 				  <th scope="row">1</th>
-				  <td>Sábado</td>
-				  <td>05/08/2023</td>
-				  <td>Primer partido de grupo, ambas categorías</td>
+				  <td>Sábado y Domingo</td>
+				  <td>05/08/23 - 06/08/23</td>
+				  <td>Partidos de grupo, ambas categorías</td>
 				</tr>
 				<tr>
 				  <th scope="row">2</th>
-				  <td>Domingo</td>
-				  <td>06/08/2023</td>
-				  <td>Segundo partido de grupo, ambas categorías</td>
+				  <td>Miércoles a Viernes</td>
+				  <td>09/08/23 al 11/08/23</td>
+				  <td>Partidos de grupo, ambas categorías</td>
 				</tr>
 				<tr>
 				  <th scope="row">3</th>
-				  <td>Sábado</td>
-				  <td>12/08/2023</td>
-				  <td>Tercer partido de grupo, ambas categorías</td>
+				  <td>Sábado y Domingo</td>
+				  <td>12/08/23 - 13/08/23</td>
+				  <td>Partidos de grupo, ambas categorías</td>
 				</tr>
 				<tr>
 				  <th scope="row">4</th>
-				  <td>Domingo</td>
-				  <td>13/08/2023</td>
-				  <td>Partido de cuartos y semifinal, ambas categorías</td>
+				  <td>Miércoles a Viernes</td>
+				  <td>16/08/23 al 18/08/23</td>
+				  <td>Partidos cuadro final, de eliminación directa</td>
 				</tr>
 				<tr>
 				  <th scope="row">5</th>
 				  <td>Sábado</td>
-				  <td>19/08/2023</td>
-				  <td>Finales etapa 1</td>
+				  <td>19/08/23</td>
+				  <td>Partidos cuadro final, de eliminación directa</td>
 				</tr>
+				<tr>
+				  <th scope="row">6</th>
+				  <td>Domingo</td>
+				  <td>20/08/23</td>
+				  <td>Semifinales y finales, ambas categorías</td>
+				</tr>				
 			  </tbody>
 			</table>
           </div>
