@@ -168,7 +168,59 @@
 					</li>					
 				</lu>
 			</p>			
-		</div>		
+		</div>
+		<div class="row">
+			<p>
+				<h4>
+				  Puntos			  
+				</h4>
+			</p>
+		</div>
+        <div class="row">
+          <div class="content" data-aos="fade-right" data-aos-delay="100">
+			<table class="table">
+			  <thead>
+				<tr>
+				  <th scope="col">Ronda</th>
+				  <th scope="col">Puntos Etapa</th>
+				  <th scope="col">Puntos Master</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td>Campeón</td>
+				  <td>25</td>
+				  <td>40</td>
+				</tr>
+				<tr>
+				  <td>Finalista</td>
+				  <td>20</td>
+				  <td>35</td>
+				</tr>
+				<tr>
+				  <td>SF</td>
+				  <td>15</td>
+				  <td>25</td>
+				</tr>
+				<tr>
+				  <td>QF</td>
+				  <td>10</td>
+				  <td>15</td>
+				</tr>
+				<tr>
+				  <td>Ganar 1 partido RR</td>
+				  <td>5</td>
+				  <td>5</td>
+				</tr>
+				<tr>
+				  <td>No ganar en RR</td>
+				  <td>3</td>
+				  <td>3</td>
+				</tr>				
+			  </tbody>
+			</table>
+          </div>
+        </div>		
       </div>
     </section>
 
