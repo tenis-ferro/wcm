@@ -55,8 +55,7 @@
           <li><a class="nav-link scrollto" href="#">Canchas</a></li>
           <li><a class="nav-link scrollto" href="../../escalerilla.html">Escalerilla</a></li>
           <li><a class="nav-link scrollto active" href="../../torneos.html">Torneos</a></li>
-		  <li><a class="nav-link scrollto" href="">Directorio</a></li>
-		  <li><a class="nav-link scrollto" href="../../estatutos.html">Estatutos</a></li>		  
+		  <li><a class="nav-link scrollto" href="">Directorio</a></li>       
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -75,7 +74,7 @@
 			<br>
 		</div>
         <div class="d-flex justify-content-between align-items-center">
-		  <h2>Torneo Dobles Abierto Mayo-Junio 2023</h2>
+		  <h2>Torneos</h2>
           <ol>
             <li><a href="index.html">Inicio</a></li>
             <li>Torneos</li>
@@ -89,48 +88,39 @@
       <div class="container" data-aos="fade-up">
 		<div class="row">
 			<p>
-			  <b>Fecha de inicio</b>: Viernes 26 de mayo - <b>Fecha de término</b>: Domingo 11 de Junio<br>			  
+			  Escalerilla Marzo 2023. El torneo comienza el Viernes 17 de marzo.
 			</p>
-			<p>El torneo se juega en dos etapas.<br>
-			   Etapa 1: Etapa de grupos.
-			  <lu>
-				  <li>
-					Dobles A, B y C. Se componen de cuatro grupos de tres parejas y clasifica la primera pareja del grupo a semifinales.
-				  </li>				  
-				  <li>
-					Dobles Mixto, se compone de 2 grupos de 4 parejas, clasifican las dos primeras parejas a semifinales.
-				  </li>
-			  </lu>
-			</p>
-		    <p>Etapa 2: Etapa final inicia en Semifinales.<br>
-			   En Dobles A, B y C se hará un sorteo para armar las llaves de semifinal.<br>
-			   En Dobles Mixto:<br>
-			   &nbsp;&nbsp;&nbsp;El 1° del grupo 1 se enfrenta al 2° del grupo 2<br>
-		 	   &nbsp;&nbsp;&nbsp;El 1° del grupo 2 se enfrenta al 2° del grupo 1<br>
-			</p>
+			<p>
+			  La programación se publica el miércoles 15 de marzo.
+			</p>			
 		</div>
 		<div class="row">
-			<p>
-				<h4>
-				  <a href="https://drive.google.com/uc?export=download&id=1HNQCr0wXwgpglz9X6Km4P3jVfPKaE4WC" target="_blank">Ver programación (Oficial)</a>				  
-				</h4>
-			</p>
-		</div>		
-		<div class="row">
-			<h3>
-			  Grupos por categoría
-			</h3>
+			<h2>
+			  Cuadros
+			</h2>
 		</div>		
         <div class="row">
           <div class="content" data-aos="fade-right" data-aos-delay="100">
             <ul>
-              <li><a href="https://drive.google.com/uc?export=download&id=1SHMP9zm0nmoHYnhXVqFa-otUPiC9Ofus" target="_blank"><i class="ri-check-double-line"></i> Dobles A.</a></li>			  
-			  <li><a href="https://drive.google.com/uc?export=download&id=1XPTZrunLKIeCxe9FZvTs6tgRi4bRgx38" target="_blank"><i class="ri-check-double-line"></i> Dobles B.</a></li>			  
-			  <li><a href="https://drive.google.com/uc?export=download&id=1hDChckIgOIjvCVyRg-fh6puuNWuBpa7W" target="_blank"><i class="ri-check-double-line"></i> Dobles C.</a></li>			  
-			  <li><a href="https://drive.google.com/uc?export=download&id=1b1Wx4_84QxZ4p0zLZlPaCv3s01zQUktS" target="_blank"><i class="ri-check-double-line"></i> Dobles Mixto.</a></li>			  
+              <li><a href="https://drive.google.com/uc?export=download&id=1IbYhEzVF9YS9sm7O3v9_rEHUfXPReWfF" target="_blank"> <i class="ri-check-double-line"></i> Categoría Honor.</a></li>
+              <li><a href="https://drive.google.com/uc?export=download&id=1rFr0kJn25buGWzz1DMRKfgrSJ7-Jg33Q" target="_blank"><i class="ri-check-double-line"></i> Categoría A.</a></li>
+			  <li><a href="https://drive.google.com/uc?export=download&id=10LAgXKMF-RcgjgFOpGpFviTCZLd9N3z9" target="_blank"><i class="ri-check-double-line"></i> Categoría B.</a></li>
+			  <li><a href="https://drive.google.com/uc?export=download&id=1hhGc7K-jxauaYLVq7LUXUgq4jBDdShEw" target="_blank"><i class="ri-check-double-line"></i> Categoría C.</a></li>
+			  <li><a href="https://drive.google.com/uc?export=download&id=1a8Aedz9J6b2lWfanvUzno96eIGA9A3Nw" target="_blank"><i class="ri-check-double-line"></i> Categoría D.</a></li>
+			  <li><a href="https://drive.google.com/uc?export=download&id=1g9F6QBqZp2_j_Gdbg_hDiXajtGnwh8nW" target="_blank"><i class="ri-check-double-line"></i> Categoría Damas.</a></li>
             </ul>
           </div>
         </div>
+		<div class="row">
+			<h4>
+			  <a href="https://drive.google.com/uc?export=download&id=1ug36POIZc9ktufL7K6EtjODEsiFVuiNS" target="_blank">Ver programación</a>
+			</h4>
+		</div>			
+		<div class="row">
+			<h4>
+			  <a href="https://drive.google.com/file/d/1SLRyC0VqmUQTbPxyxgXpp7uxoComuUwQ/view?usp=sharing" target="_blank">Ver bases</a>
+			</h4>
+		</div>			
       </div>
     </section>
 

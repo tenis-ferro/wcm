@@ -74,7 +74,7 @@
 			<br>
 		</div>
         <div class="d-flex justify-content-between align-items-center">
-		  <h2>Torneos</h2>
+		  <h2>Torneo Dobles Abierto Mayo-Junio 2023</h2>
           <ol>
             <li><a href="index.html">Inicio</a></li>
             <li>Torneos</li>
@@ -88,9 +88,7 @@
       <div class="container" data-aos="fade-up">
 		<div class="row">
 			<p>
-			  <h3>Torneo Dobles Abierto Mayo-Junio 2023</h3>.<br>			  
-			  <b>Fecha de inicio</b>: Viernes 26 de mayo - <b>Fecha de término</b>: Domingo 11 de Junio<br>
-			  
+			  <b>Fecha de inicio</b>: Viernes 26 de mayo - <b>Fecha de término</b>: Domingo 11 de Junio<br>			  
 			</p>
 			<p>El torneo se juega en dos etapas.<br>
 			   Etapa 1: Etapa de grupos.
