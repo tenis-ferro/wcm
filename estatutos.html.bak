@@ -53,7 +53,8 @@
           <li><a class="nav-link scrollto" href="#">Canchas</a></li>
           <li><a class="nav-link scrollto active" href="escalerilla.html">Escalerilla</a></li>
           <li><a class="nav-link scrollto" href="torneos.html">Torneos</a></li>
-		  <li><a class="nav-link scrollto" href="">Directorio</a></li>       
+		  <li><a class="nav-link scrollto" href="">Directorio</a></li>
+		  <li><a class="nav-link scrollto" href="estatutos.html">Estatutos</a></li>		  
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -86,10 +87,15 @@
       <div class="container" data-aos="fade-up">
 		<div class="row">
 			<ul>
-			  <li><a class="nav-link scrollto" href="../../index.html">Estatutos</a></li>
-			  <li><a class="nav-link scrollto" href="../../index.html">Reglamento de canchas</a></li>
+			  <li><a class="nav-link scrollto" href="https://drive.google.com/uc?export=download&id=1x01-JvlGHgqWxYRPn7kV_raUdvAoZinA" target="_blank">ESTATUTOS</a></li>
+			  <li><a class="nav-link scrollto" href="https://drive.google.com/uc?export=download&id=1FXqh2xPhs3M1pC_2glq63h2ZxuN_znW-" target="_blank">REGLAMENTO DE CANCHAS</a></li>
 			</ul>			
 		</div>	
+		<div class="row">
+			<p>
+			  <b>En periodo de pandemia, entro en régimen la reserva. No obstante, el reglamento de canchas está vigente y será modificado durante el 2023, para la convivencia entre el uso libre y la reserva.<br>			  
+			</p>
+		</div>		
       </div>
     </section>
 
