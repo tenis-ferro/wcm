@@ -42,7 +42,7 @@
   <header id="header" class="fixed-top header-inner-pages">
     <div class="container d-flex align-items-center justify-content-lg-between">
 
-      <h1 class="logo me-auto me-lg-0"><a href="index.html"><img src="../../../../assets/img/Logo-Ferro.png" alt=""></a></h1>
+      <h1 class="logo me-auto me-lg-0"><a href="index.html"><img src="assets/img/Logo-Ferro.png" alt=""></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="../../assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -69,9 +69,11 @@
     <!-- ======= Breadcrumbs ======= -->
     <section class="breadcrumbs">
       <div class="container">
-
+		<div>
+			<br>
+		</div>
         <div class="d-flex justify-content-between align-items-center">
-		  <h2>Agenda de Canchas</h2>
+		  <h2><br>Agenda de Canchas</h2>
           <ol>
             <li><a href="index.html">Inicio</a></li>
             <li>Canchas</li>
@@ -79,10 +81,10 @@
         </div>
 
       </div>
-    </section><!-- End Breadcrumbs -->
+    </section><!-- End Breadcrumbs -->	
     <section class="inner-page">
       <div class="container">
-		<h3><a href="https://forms.gle/VN2WkPCihDdGxBQHA" target="_blank">Solicitar cancha</a></h3>
+		<h3><mark><a href="https://forms.gle/VN2WkPCihDdGxBQHA" target="_blank">Solicite cancha, aquí!</a></mark></h3>
 	  </div>
       <div class="container">
 		<iframe width="1000px" height="400px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTILRcrPPGmSqZYqrX4QXwIUUFnPSqCLNRVyMVPJdrwuzHcrIP2txbGvWAFrZlKKQ/pubhtml?widget=true&amp;headers=false"></iframe>
