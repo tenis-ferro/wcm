@@ -114,7 +114,7 @@
 		-->
 		<div class="container easyui-tabs">
 			<div title="Formulario" style="padding:10px">
-				<p style="font-size:14px">Las reservas aplican para Martes a Viernes, de la semana siguiente.</p>
+				<p style="font-size:14px">Las reservas son válidas de Martes a Viernes, de la semana siguiente.</p>
 				<p style="font-size:14px">Sábado y Domingo uso de cancha sin reserva. Desde 9 de septiembre 2023</p>
 				<h3><mark><a href="https://forms.gle/EETd9XpZTb4wdrux7" target="_blank">Solicite cancha, aquí!</a></mark></h3>
 			</div>
