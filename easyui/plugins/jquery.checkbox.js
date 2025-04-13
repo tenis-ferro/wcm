@@ -1,13 +1,13 @@
 /**
- * EasyUI for jQuery 1.10.17
+ * EasyUI for jQuery 1.11.3
  * 
- * Copyright (c) 2009-2023 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2025 www.jeasyui.com. All rights reserved.
  *
  * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
  * To use it on other terms please contact us: info@jeasyui.com
  *
  */
-(function($){
+ (function($){
 var _1=1;
 function _2(_3){
 var _4=$("<span class=\"checkbox inputbox\">"+"<span class=\"checkbox-inner\">"+"<svg xml:space=\"preserve\" focusable=\"false\" version=\"1.1\" viewBox=\"0 0 24 24\"><path d=\"M4.1,12.7 9,17.6 20.3,6.3\" fill=\"none\" stroke=\"white\"></path></svg>"+"</span>"+"<input type=\"checkbox\" class=\"checkbox-value\">"+"</span>").insertAfter(_3);

@@ -1,9 +1,9 @@
-/**
- * EasyUI for jQuery 1.10.17
+﻿/**
+ * EasyUI for jQuery 1.11.0
  * 
- * Copyright (c) 2009-2023 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2024 www.jeasyui.com. All rights reserved.
  *
- * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
+ * Licensed under the commercial license: http://www.jeasyui.com/license_commercial.php
  * To use it on other terms please contact us: info@jeasyui.com
  *
  */

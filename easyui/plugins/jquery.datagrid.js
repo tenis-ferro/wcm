@@ -1,13 +1,13 @@
 /**
- * EasyUI for jQuery 1.10.17
+ * EasyUI for jQuery 1.11.3
  * 
- * Copyright (c) 2009-2023 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2025 www.jeasyui.com. All rights reserved.
  *
  * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
  * To use it on other terms please contact us: info@jeasyui.com
  *
  */
-(function($){
+ (function($){
 var _1=0;
 function _2(a,o){
 return $.easyui.indexOfArray(a,o);
@@ -306,10 +306,15 @@ if(btn=="-"){
 $("<td><div class=\"datagrid-btn-separator\"></div></td>").appendTo(tr);
 }else{
 var td=$("<td></td>").appendTo(tr);
+btn.type=btn.type||"linkbutton";
+btn.plain=btn.plain||true;
 var _63=$("<a href=\"javascript:;\"></a>").appendTo(td);
 _63[0].onclick=eval(btn.handler||function(){
 });
-_63.linkbutton($.extend({},btn,{plain:true}));
+_63[btn.type](btn);
+if(btn.onInit){
+btn.onInit.call(_63[0]);
+}
 }
 }
 }else{

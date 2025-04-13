@@ -1,13 +1,13 @@
 /**
- * EasyUI for jQuery 1.10.17
+ * EasyUI for jQuery 1.11.3
  * 
- * Copyright (c) 2009-2023 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2025 www.jeasyui.com. All rights reserved.
  *
  * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
  * To use it on other terms please contact us: info@jeasyui.com
  *
  */
-(function($){
+ (function($){
 $.easyui={indexOfArray:function(a,o,id){
 for(var i=0,_1=a.length;i<_1;i++){
 if(id==undefined){
@@ -64,7 +64,7 @@ _9.unshift(_a.children[i]);
 }};
 $.parser={auto:true,emptyFn:function(){
 },onComplete:function(_b){
-},plugins:["draggable","droppable","resizable","pagination","tooltip","linkbutton","menu","sidemenu","menubutton","splitbutton","switchbutton","progressbar","radiobutton","checkbox","radiogroup","checkgroup","tree","textbox","passwordbox","maskedbox","filebox","combo","combobox","combotree","combogrid","combotreegrid","tagbox","numberbox","validatebox","searchbox","spinner","numberspinner","timespinner","datetimespinner","calendar","datebox","datetimebox","timepicker","slider","layout","panel","datagrid","propertygrid","treegrid","datalist","tabs","accordion","window","dialog","drawer","form"],parse:function(_c){
+},plugins:["draggable","droppable","resizable","pagination","tooltip","linkbutton","menu","sidemenu","menubutton","splitbutton","switchbutton","progressbar","radiobutton","checkbox","radiogroup","checkgroup","tree","textbox","passwordbox","maskedbox","filebox","combo","combobox","combotree","combogrid","combotreegrid","tagbox","numberbox","validatebox","searchbox","spinner","numberspinner","timespinner","datetimespinner","calendar","datebox","datetimebox","timepicker","slider","rate","layout","panel","datagrid","propertygrid","treegrid","datalist","tabs","accordion","window","dialog","drawer","swiper","timeline","form"],parse:function(_c){
 var aa=[];
 for(var i=0;i<$.parser.plugins.length;i++){
 var _d=$.parser.plugins[i];
@@ -160,7 +160,7 @@ $.extend(_17,_18);
 return _17;
 },parseVars:function(){
 var d=$("<div style=\"position:absolute;top:-1000px;width:100px;height:100px;padding:5px\"></div>").appendTo("body");
-$._boxModel=d.outerWidth()!=100;
+$._boxModel=Math.abs(d.outerWidth()-100)>0.1;
 d.remove();
 d=$("<div style=\"position:fixed\"></div>").appendTo("body");
 $._positionFixed=(d.css("position")=="fixed");

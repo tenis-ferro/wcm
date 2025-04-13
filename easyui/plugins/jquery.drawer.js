@@ -1,89 +1,95 @@
 /**
- * EasyUI for jQuery 1.10.17
+ * EasyUI for jQuery 1.11.3
  * 
- * Copyright (c) 2009-2023 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2025 www.jeasyui.com. All rights reserved.
  *
  * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
  * To use it on other terms please contact us: info@jeasyui.com
  *
  */
-(function($){
+ (function($){
 function _1(_2){
 var _3=$.data(_2,"drawer").options;
-$(_2).dialog($.extend({},_3,{cls:"drawer f-column window-shadow layout-panel layout-collapsed layout-panel-"+_3.region,bodyCls:"f-full",collapsed:false,top:0,left:"auto",right:"auto"}));
-$(_2).dialog("header").find(".panel-tool-collapse").addClass("layout-button-"+(_3.region=="east"?"right":"left"))._unbind()._bind("click",function(){
-_6(_2);
-});
+$(_2).dialog($.extend({},_3,{cls:"drawer f-column window-shadow layout-panel layout-collapsed layout-panel-"+_3.region,bodyCls:"f-full",collapsed:false,top:0,left:"auto",right:"auto",onResize:function(w,h){
+if(_3.collapsed){
 var _4=$(_2).dialog("dialog").width();
 $(_2).dialog("dialog").css({display:"",left:_3.region=="east"?"auto":-_4,right:_3.region=="east"?-_4:"auto"});
-var _5=$(_2).data("window").mask;
-$(_5).addClass("drawer-mask").hide()._unbind()._bind("click",function(){
-_6(_2);
+}
+_3.onResize.call(this,w,h);
+}}));
+$(_2).dialog("header").find(".panel-tool-collapse").addClass("layout-button-"+(_3.region=="east"?"right":"left"))._unbind()._bind("click",function(){
+_7(_2);
+});
+var _5=$(_2).dialog("dialog").width();
+$(_2).dialog("dialog").css({display:"",left:_3.region=="east"?"auto":-_5,right:_3.region=="east"?-_5:"auto"});
+var _6=$(_2).data("window").mask;
+$(_6).addClass("drawer-mask").hide()._unbind()._bind("click",function(){
+_7(_2);
 });
 };
-function _7(_8){
-var _9=$.data(_8,"drawer").options;
-if(_9.onBeforeExpand.call(_8)==false){
+function _8(_9){
+var _a=$.data(_9,"drawer").options;
+if(_a.onBeforeExpand.call(_9)==false){
 return;
 }
-var _a=$(_8).dialog("dialog").width();
-var _b=$(_8).data("window").mask;
-$(_b).show();
-$(_8).show().css({display:""}).dialog("dialog").animate({left:_9.region=="east"?"auto":0,right:_9.region=="east"?0:"auto"},function(){
+var _b=$(_9).dialog("dialog").width();
+var _c=$(_9).data("window").mask;
+$(_c).show();
+$(_9).show().css({display:""}).dialog("dialog").animate({left:_a.region=="east"?"auto":0,right:_a.region=="east"?0:"auto"},function(){
 $(this).removeClass("layout-collapsed");
-_9.collapsed=false;
-_9.onExpand.call(_8);
+_a.collapsed=false;
+_a.onExpand.call(_9);
 });
 };
-function _6(_c){
-var _d=$.data(_c,"drawer").options;
-if(_d.onBeforeCollapse.call(_c)==false){
+function _7(_d){
+var _e=$.data(_d,"drawer").options;
+if(_e.onBeforeCollapse.call(_d)==false){
 return;
 }
-var _e=$(_c).dialog("dialog").width();
-$(_c).show().css({display:""}).dialog("dialog").animate({left:_d.region=="east"?"auto":-_e,right:_d.region=="east"?-_e:"auto"},function(){
+var _f=$(_d).dialog("dialog").width();
+$(_d).show().css({display:""}).dialog("dialog").animate({left:_e.region=="east"?"auto":-_f,right:_e.region=="east"?-_f:"auto"},function(){
 $(this).addClass("layout-collapsed");
-var _f=$(_c).data("window").mask;
-$(_f).hide();
-_d.collapsed=true;
-_d.onCollapse.call(this);
+var _10=$(_d).data("window").mask;
+$(_10).hide();
+_e.collapsed=true;
+_e.onCollapse.call(this);
 });
 };
-$.fn.drawer=function(_10,_11){
-if(typeof _10=="string"){
-var _12=$.fn.drawer.methods[_10];
-if(_12){
-return _12(this,_11);
-}else{
-return this.dialog(_10,_11);
-}
-}
-_10=_10||{};
-this.each(function(){
-var _13=$.data(this,"drawer");
+$.fn.drawer=function(_11,_12){
+if(typeof _11=="string"){
+var _13=$.fn.drawer.methods[_11];
 if(_13){
-$.extend(_13.options,_10);
+return _13(this,_12);
 }else{
-var _14=$.extend({},$.fn.drawer.defaults,$.fn.drawer.parseOptions(this),_10);
-$.data(this,"drawer",{options:_14});
+return this.dialog(_11,_12);
+}
+}
+_11=_11||{};
+this.each(function(){
+var _14=$.data(this,"drawer");
+if(_14){
+$.extend(_14.options,_11);
+}else{
+var _15=$.extend({},$.fn.drawer.defaults,$.fn.drawer.parseOptions(this),_11);
+$.data(this,"drawer",{options:_15});
 }
 _1(this);
 });
 };
 $.fn.drawer.methods={options:function(jq){
-var _15=$.data(jq[0],"drawer").options;
-return $.extend(jq.dialog("options"),{region:_15.region,collapsed:_15.collapsed});
+var _16=$.data(jq[0],"drawer").options;
+return $.extend(jq.dialog("options"),{region:_16.region,collapsed:_16.collapsed});
 },expand:function(jq){
 return jq.each(function(){
-_7(this);
+_8(this);
 });
 },collapse:function(jq){
 return jq.each(function(){
-_6(this);
+_7(this);
 });
 }};
-$.fn.drawer.parseOptions=function(_16){
-return $.extend({},$.fn.dialog.parseOptions(_16),$.parser.parseOptions(_16,["region"]));
+$.fn.drawer.parseOptions=function(_17){
+return $.extend({},$.fn.dialog.parseOptions(_17),$.parser.parseOptions(_17,["region"]));
 };
 $.fn.drawer.defaults=$.extend({},$.fn.dialog.defaults,{border:false,region:"east",title:null,shadow:false,fixed:true,collapsed:true,closable:false,modal:true,draggable:false});
 })(jQuery);

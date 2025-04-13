@@ -1,13 +1,13 @@
 /**
- * EasyUI for jQuery 1.10.17
+ * EasyUI for jQuery 1.11.3
  * 
- * Copyright (c) 2009-2023 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2025 www.jeasyui.com. All rights reserved.
  *
  * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
  * To use it on other terms please contact us: info@jeasyui.com
  *
  */
-/**
+ /**
  * linkbutton - EasyUI for jQuery
  * 
  */
@@ -38,7 +38,7 @@
 			btn._size(opts, parent);
 			var left = btn.find('.l-btn-left');
 			left.css('margin-top', 0);
-			left.css('margin-top', parseInt((btn.height()-left.height())/2)+'px');
+			left.css('margin-top', Math.round((btn.height()-left.height())/2)+'px');
 			if (!isVisible){
 				btn.insertAfter(spacer);
 				btn.css(style);
