@@ -31,12 +31,12 @@ async function cargarResultados() {
       */
       $('#dg').datagrid({
         data:resultados,
-        loadMsg:'Leyendoo resultado de los partidos',
+        loadMsg:'Leyendo resultado de los partidos',
         loading:true,
         title:'Resultado de partidos',
         iconCls:'icon-ok',
         columns:[[
-            {field:'Nro',title:'Nro',width:50},
+            {field:'Nro',title:'#',width:50},
             {field:'Fecha',title:'Fecha', width:100, formatter:function(val, row, idx){               
                 var dt = new Date(Date.parse(val));
                 
@@ -44,11 +44,16 @@ async function cargarResultados() {
                 //console.log(formattedDate,idx)
                 return formattedDate;
             }},
-            {field:'Categoria',title:'Categoria',width:80,align:'right'},
-            {field:'Jugador 1',title:'Jugador 1',width:150,align:'right'},
-            {field:'Jugador 2',title:'Jugador 2',width:150,align:'right'},
-            {field:'Ganador',title:'Ganador',width:150,align:'right'},
-            {field:'Resultado',title:'Resultado',width:100,align:'right'}
+            {field:'Ganador',title:'Ganador',width:150,align:'right',formatter:function(val, row, idx){               
+              return '<span style="color:black;font-weight:bold;">'+val+'</span>';
+            }},
+            {field:'Jugador 1',title:'Partido', width:300, formatter:function(val, row, idx){               
+              console.log(row,idx)
+              let partido = '';
+              return partido.concat(row["Jugador 1"],' / ', row["Jugador 2"]);
+            }},
+            {field:'Resultado',title:'Resultado',width:100,align:'right'},
+            {field:'Categoria',title:'Categoria',width:80,align:'right'}
         ]],
         sort:{
             sortName: 'Nro',
