@@ -45,7 +45,9 @@ async function cargarResultados() {
             sortName: 'Nro',
             sortOrder: 'asc'
         }]        
-        });      
+        });
+        
+        $('#dg').datagrid('enableFilter');
 
     } catch (error) {
       console.error(error.message);
