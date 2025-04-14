@@ -1,7 +1,3 @@
-function cargarResultados2() {
-    console.log('Cargando tabla');
-}
-
 async function cargarResultados() {
     const url = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Partidos-Grupo&action=read";
     try {
@@ -20,23 +16,12 @@ async function cargarResultados() {
 
       //console.log(resultados);
       $('#dg').datagrid({
-        loadMsg:'Leyendoo resultado de los partidos'
-      });
-      $('#dg').datagrid('loading');
-      /*
-      $('#dg').datagrid('sort', {
-        sortName: 'Nro',
-        sortOrder: 'desc'
-        });      
-      */
-      $('#dg').datagrid({
         data:resultados,
         loadMsg:'Leyendo resultado de los partidos',
-        loading:true,
         title:'Resultado de partidos',
         iconCls:'icon-ok',
         columns:[[
-            {field:'Nro',title:'#',width:50},
+            {field:'Nro',title:'#',width:35},
             {field:'Fecha',title:'Fecha', width:100, formatter:function(val, row, idx){               
                 var dt = new Date(Date.parse(val));
                 
@@ -44,28 +29,25 @@ async function cargarResultados() {
                 //console.log(formattedDate,idx)
                 return formattedDate;
             }},
-            {field:'Ganador',title:'Ganador',width:150,align:'right',formatter:function(val, row, idx){               
+            {field:'Ganador',title:'Ganador',width:150,align:'left',formatter:function(val, row, idx){               
               return '<span style="color:black;font-weight:bold;">'+val+'</span>';
             }},
-            {field:'Jugador 1',title:'Partido', width:300, formatter:function(val, row, idx){               
-              console.log(row,idx)
+            {field:'Jugador 1',title:'Partido', width:300,align:'left', formatter:function(val, row, idx){               
+              //console.log(row,idx)
               let partido = '';
               return partido.concat(row["Jugador 1"],' / ', row["Jugador 2"]);
             }},
-            {field:'Resultado',title:'Resultado',width:100,align:'right'},
-            {field:'Categoria',title:'Categoria',width:80,align:'right'}
+            {field:'Resultado',title:'Resultado',width:100,align:'left'},
+            {field:'Categoria',title:'Categoria',width:80,align:'left'}
         ]],
-        sort:{
+        enableFilter : [{}],
+        sort:[{
             sortName: 'Nro',
-            sortOrder: 'desc'
-        }        
+            sortOrder: 'asc'
+        }]        
         });      
 
     } catch (error) {
       console.error(error.message);
     }
-  }
-
-  function formatFecha(val,row) {
-    console.log('Formateando fecha ...')
   }
