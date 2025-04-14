@@ -10,7 +10,7 @@ async function cargarResultados() {
       const resultados = json.data;
       //console.log(resultados);
 
-      resultados.sort((a, b) => b.Nro - a.Nro);
+      //resultados.sort((a, b) => b.Nro - a.Nro);
 
       document.getElementById('load-resultados').setAttribute('hidden','hidden');
 
@@ -20,6 +20,7 @@ async function cargarResultados() {
         loadMsg:'Leyendo resultado de los partidos',
         title:'Resultado de partidos',
         iconCls:'icon-ok',
+        fitColumns:true,
         columns:[[
             {field:'Nro',title:'#',width:35},
             {field:'Fecha',title:'Fecha', width:100, formatter:function(val, row, idx){               
@@ -39,15 +40,11 @@ async function cargarResultados() {
             }},
             {field:'Resultado',title:'Resultado',width:100,align:'left'},
             {field:'Categoria',title:'Categoria',width:80,align:'left'}
-        ]],
-        enableFilter : [{}],
-        sort:[{
-            sortName: 'Nro',
-            sortOrder: 'asc'
-        }]        
+        ]]
         });
         
         $('#dg').datagrid('enableFilter');
+        //$('#dg').datagrid('toExcel','resultados.xls'); 
 
     } catch (error) {
       console.error(error.message);

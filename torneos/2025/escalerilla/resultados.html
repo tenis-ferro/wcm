@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Resultados Escalerilla 2025</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!--
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
@@ -13,7 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="../../../easyui/themes/icon.css">
     <script type="text/javascript" src="../../../easyui/jquery.min.js"></script>
 	<script type="text/javascript" src="../../../easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="../../../easyui/datagrid-filter.js"></script>	    
+    <script type="text/javascript" src="../../../easyui/datagrid-filter.js"></script>
+    <script type="text/javascript" src="../../../easyui/datagrid-export.js"></script>    
     <script type="text/javascript" src="../../../assets/js/moment.js"></script>
     <script src='js/main.js'></script>
     <style>
@@ -62,6 +63,11 @@
 </head>
 <body onload="cargarResultados()">
     <div id="load-resultados" class="loader"></div>
+    <!--
+    <div style="margin:20px 0;">
+        <a href="javascript:;" class="easyui-linkbutton" onclick="$('#dg').datagrid('toExcel','resultados.xls')">Generar Excel</a>
+    </div>    
+    -->
     <table id="dg"></table>
 </body>
 </html>
