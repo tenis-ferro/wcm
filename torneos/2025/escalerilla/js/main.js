@@ -10,7 +10,7 @@ async function cargarResultados() {
       const resultados = json.data;
       //console.log(resultados);
 
-      //resultados.sort((a, b) => b.Nro - a.Nro);
+      resultados.sort((a, b) => b.Nro - a.Nro);
 
       document.getElementById('load-resultados').setAttribute('hidden','hidden');
 
