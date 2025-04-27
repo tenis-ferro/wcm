@@ -62,12 +62,30 @@
 	</script>
 </head>
 <body onload="cargarResultados()">
-    <div id="load-resultados" class="loader"></div>
-    <!--
-    <div style="margin:20px 0;">
-        <a href="javascript:;" class="easyui-linkbutton" onclick="$('#dg').datagrid('toExcel','resultados.xls')">Generar Excel</a>
-    </div>    
-    -->
-    <table id="dg"></table>
+    <div class="container easyui-tabs">
+        <div title="Resultados" style="padding:10px">
+            <div id="load-resultados" class="loader"></div>
+            <table id="dg"></table>
+        </div>
+        <div title="Clasificación parcial" style="padding:10px">
+            <!--<div id="load-resultados2" class="loader"></div>-->
+            <div style="margin-bottom:20px">
+                <select class="easyui-combobox" id="cat" name="categoria" label="Categoria:" labelPosition="top" style="width:20%;">
+                    <option value="Honor">Honor</option>
+                    <option value="Damas" selected>Damas</option>
+                    <option value="Primera">Primera</option>
+                    <option value="Segunda">Segunda</option>
+                    <option value="Tercera">Tercera</option>
+                    <option value="Cuarta">Cuarta</option>
+                </select>
+            </div>
+            <table id="dg1"></table>
+            <table id="dg2"></table>
+            <table id="dg3"></table>
+            <table id="dg4"></table>
+            <table id="dg5"></table>
+            <table id="dg6"></table>                                                
+        </div>
+    </div>	    
 </body>
 </html>
