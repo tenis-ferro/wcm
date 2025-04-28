@@ -46,7 +46,7 @@
         animation: l2 2s linear infinite;
         }
         .loader:before {
-        content:"Cargando resultados..."
+        content:"Leyendo información..."
         }
 @keyframes l2 {to{background-size: 100% 3px}}
 
@@ -61,31 +61,33 @@
 	  gtag('config', 'G-26JLZNSPM7');
 	</script>
 </head>
-<body onload="cargarResultados()">
-    <div class="container easyui-tabs">
-        <div title="Resultados" style="padding:10px">
-            <div id="load-resultados" class="loader"></div>
-            <table id="dg"></table>
-        </div>
-        <div title="Clasificación parcial" style="padding:10px">
-            <!--<div id="load-resultados2" class="loader"></div>-->
-            <div style="margin-bottom:20px">
-                <select class="easyui-combobox" id="cat" name="categoria" label="Categoria:" labelPosition="top" style="width:20%;">
-                    <option value="Honor">Honor</option>
-                    <option value="Damas" selected>Damas</option>
-                    <option value="Primera">Primera</option>
-                    <option value="Segunda">Segunda</option>
-                    <option value="Tercera">Tercera</option>
-                    <option value="Cuarta">Cuarta</option>
-                </select>
+<body onload="cargarResultados()">    
+    <div id="panel" class="easyui-panel" title="Fase 1 : Round Robin (Grupos)">
+        <div id="load-resultados" class="loader"></div>
+        <div class="container easyui-tabs">        
+            <div title="Resultados" style="padding:10px">            
+                <table id="dg"></table>
             </div>
-            <table id="dg1"></table>
-            <table id="dg2"></table>
-            <table id="dg3"></table>
-            <table id="dg4"></table>
-            <table id="dg5"></table>
-            <table id="dg6"></table>                                                
+            <div title="Clasificación parcial" style="padding:10px">
+                <!--<div id="load-resultados2" class="loader"></div>-->
+                <div style="margin-bottom:20px">
+                    <select class="easyui-combobox" id="cat" name="categoria" label="Categoria:" labelPosition="top" style="width:20%;">
+                        <option value="Honor">Honor</option>
+                        <option value="Damas" selected>Damas</option>
+                        <option value="Primera">Primera</option>
+                        <option value="Segunda">Segunda</option>
+                        <option value="Tercera">Tercera</option>
+                        <option value="Cuarta">Cuarta</option>
+                    </select>
+                </div>
+                <table id="dg1"></table>
+                <table id="dg2"></table>
+                <table id="dg3"></table>
+                <table id="dg4"></table>
+                <table id="dg5"></table>
+                <table id="dg6"></table>                                                
+            </div>
         </div>
-    </div>	    
+    </div>     
 </body>
 </html>

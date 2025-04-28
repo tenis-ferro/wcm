@@ -19,11 +19,12 @@ async function cargarResultados() {
       if (!response2.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
-      
+
       const json2 = await response2.json();
       arrRnk = json2.data;      
 
       document.getElementById('load-resultados').setAttribute('hidden','hidden');
+      //$('#divResult').css('display', 'block');
 
       //console.log(resultados);
       $('#dg').datagrid({
@@ -56,11 +57,13 @@ async function cargarResultados() {
         });
         
         $('#dg').datagrid('enableFilter');
+        /*
         $('#dg').datagrid({
           onLoadSuccess: function() {
-            console.log('Resultados cargados');
+            console.log('Resultados cargados');                        
           }
         });
+        */
         //$('#dg').datagrid('toExcel','resultados.xls'); 
 
 
