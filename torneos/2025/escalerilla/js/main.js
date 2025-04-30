@@ -117,6 +117,7 @@ async function cargarResultados() {
           {field:'PJ',title:'P.Jugados',width:80,align:'left'},
           {field:'PG',title:'P.Ganados',width:80,align:'left'},              
           {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+          {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
           {field:'Rnk',title:'Posición',width:80,align:'left'}
       ]]
       });
@@ -137,6 +138,7 @@ async function cargarResultados() {
           {field:'PJ',title:'P.Jugados',width:80,align:'left'},
           {field:'PG',title:'P.Ganados',width:80,align:'left'},              
           {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+          {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
           {field:'Rnk',title:'Posición',width:80,align:'left'}
         ]]
         });
@@ -158,6 +160,7 @@ async function cargarResultados() {
             {field:'PJ',title:'P.Jugados',width:80,align:'left'},
             {field:'PG',title:'P.Ganados',width:80,align:'left'},              
             {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+            {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
             {field:'Rnk',title:'Posición',width:80,align:'left'}
           ]]
           });
@@ -186,6 +189,7 @@ async function cargarResultados() {
               {field:'PJ',title:'P.Jugados',width:80,align:'left'},
               {field:'PG',title:'P.Ganados',width:80,align:'left'},              
               {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+              {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
               {field:'Rnk',title:'Posición',width:80,align:'left'}
             ]]
             });
@@ -206,6 +210,7 @@ async function cargarResultados() {
                 {field:'PJ',title:'P.Jugados',width:80,align:'left'},
                 {field:'PG',title:'P.Ganados',width:80,align:'left'},              
                 {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+                {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
                 {field:'Rnk',title:'Posición',width:80,align:'left'}
               ]]
               });
@@ -226,6 +231,7 @@ async function cargarResultados() {
                   {field:'PJ',title:'P.Jugados',width:80,align:'left'},
                   {field:'PG',title:'P.Ganados',width:80,align:'left'},              
                   {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+                  {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
                   {field:'Rnk',title:'Posición',width:80,align:'left'}
                 ]]
                 });                 
