@@ -11,8 +11,9 @@ async function cargarResultados() {
       }
   
       const json = await response.json();
-      const resultados = json.data;
+      var resultados = json.data;
       //console.log(resultados);
+      resultados = resultados.filter(item => item.Resultado != '');
       resultados.sort((a, b) => b.Nro - a.Nro);
 
       const response2 = await fetch(url2);
