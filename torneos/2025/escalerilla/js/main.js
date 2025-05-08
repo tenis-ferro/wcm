@@ -2,8 +2,12 @@ var arrResult;
 var arrRnk;
 
 async function cargarResultados() {
-    const url = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Partidos-Grupo&action=read";
-    const url2 = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Rnk-Grupos&action=read";
+    //const url = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Partidos-Grupo&action=read";
+    //const url2 = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Rnk-Grupos&action=read";
+
+    const url = "/torneos/2025/escalerilla/data/resultados.json";
+    const url2 = "/torneos/2025/escalerilla/data/clasificados.json";    
+
     try {
       const response = await fetch(url);
       if (!response.ok) {

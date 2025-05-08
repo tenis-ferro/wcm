@@ -1,0 +1,1045 @@
+{
+    "debugInfo": "doGet called. Path: Partidos-Grupo, Action: read",
+    "data": [
+        {
+            "Nro": 1,
+            "Fecha": "2025-04-03T03:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Roy Diaz",
+            "Jugador 2": "Jorge Olivares",
+            "Ganador": "Roy Diaz",
+            "Resultado": "6-4 / 6-0"
+        },
+        {
+            "Nro": 2,
+            "Fecha": "2025-04-05T03:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Francisco Farias",
+            "Jugador 2": "Marco Godoy",
+            "Ganador": "Francisco Farias",
+            "Resultado": "6-0 / 6-1"
+        },
+        {
+            "Nro": 3,
+            "Fecha": "2025-04-05T03:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Iván Galleguillos",
+            "Jugador 2": "Francisco Catalán",
+            "Ganador": "Iván Galleguillos",
+            "Resultado": "6-1 / 6-4"
+        },
+        {
+            "Nro": 4,
+            "Fecha": "2025-04-08T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Juan Gatica",
+            "Jugador 2": "Roberto Cordero",
+            "Ganador": "Juan Gatica",
+            "Resultado": "2-6 / 6-4 / 10-8"
+        },
+        {
+            "Nro": 5,
+            "Fecha": "2025-04-09T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Nicolás Martinez",
+            "Jugador 2": "Hugo Gutierrez",
+            "Ganador": "Nicolás Martinez",
+            "Resultado": "6-2 / 6-3"
+        },
+        {
+            "Nro": 6,
+            "Fecha": "2025-04-09T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "JL Martinez",
+            "Jugador 2": "Franco Seckel",
+            "Ganador": "JL Martinez",
+            "Resultado": "7-6 / 4-6 / 10-7"
+        },
+        {
+            "Nro": 7,
+            "Fecha": "2025-04-10T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Fabio Zunino",
+            "Jugador 2": "Alexis Farias",
+            "Ganador": "Fabio Zunino",
+            "Resultado": "6-4 / 5-7 / 10-8"
+        },
+        {
+            "Nro": 8,
+            "Fecha": "2025-04-10T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Jaime Vasquez",
+            "Jugador 2": "Horario Palma",
+            "Ganador": "Jaime Vasquez",
+            "Resultado": "3-6 / 7-5 / 10-7"
+        },
+        {
+            "Nro": 9,
+            "Fecha": "2025-04-10T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Paulo Corvalan",
+            "Jugador 2": "Marco Silva",
+            "Ganador": "Paulo Corvalan",
+            "Resultado": "6-1  / 6-1"
+        },
+        {
+            "Nro": 10,
+            "Fecha": "2025-04-10T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Luis Carvacho",
+            "Jugador 2": "JC Arteaga",
+            "Ganador": "Luis Carvacho",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 11,
+            "Fecha": "2025-04-11T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Alexis Farias",
+            "Jugador 2": "Claudio Peralta",
+            "Ganador": "Alexis Farias",
+            "Resultado": "0-6 / 6-4 / 10-8"
+        },
+        {
+            "Nro": 12,
+            "Fecha": "2025-04-11T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 6",
+            "Jugador 1": "Fernando Rodriguez",
+            "Jugador 2": "Cristian Quevedo",
+            "Ganador": "Fernando Rodriguez",
+            "Resultado": "6-1 / 6-2"
+        },
+        {
+            "Nro": 13,
+            "Fecha": "2025-04-11T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Francisco Farias",
+            "Jugador 2": "Andrea Ibarra",
+            "Ganador": "Francisco Farias",
+            "Resultado": "6-1 / 6-1"
+        },
+        {
+            "Nro": 14,
+            "Fecha": "2025-04-12T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Juan Fuentes",
+            "Jugador 2": "Manuel Toledo",
+            "Ganador": "Juan Fuentes",
+            "Resultado": "6-2 / 6-2"
+        },
+        {
+            "Nro": 15,
+            "Fecha": "2025-04-12T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Javier Rivera",
+            "Jugador 2": "JL Martinez",
+            "Ganador": "Javier Rivera",
+            "Resultado": "6-4 / 6-4"
+        },
+        {
+            "Nro": 16,
+            "Fecha": "2025-04-12T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Arturo Palma",
+            "Jugador 2": "Johanna Cespedes",
+            "Ganador": "Arturo Palma",
+            "Resultado": "6-1 / 6-2"
+        },
+        {
+            "Nro": 17,
+            "Fecha": "2025-04-12T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Ignacio Gonzalez",
+            "Jugador 2": "Fabio Zunino",
+            "Ganador": "Ignacio Gonzalez",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 18,
+            "Fecha": "2025-04-12T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Fernando Ibarra",
+            "Jugador 2": "Gastón Villarroel",
+            "Ganador": "Fernando Ibarra",
+            "Resultado": "3-6 / 6-4 / 10-8"
+        },
+        {
+            "Nro": 19,
+            "Fecha": "2025-04-12T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Sherman Ravelo",
+            "Jugador 2": "Francisco Catalán",
+            "Ganador": "Sherman Ravelo",
+            "Resultado": "6-0 / 6-3"
+        },
+        {
+            "Nro": 20,
+            "Fecha": "2025-04-13T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Alejandro Zenteno",
+            "Jugador 2": "Fabián Sanchez",
+            "Ganador": "Alejandro Zenteno",
+            "Resultado": "6-1 / 5-1 (Ret)"
+        },
+        {
+            "Nro": 21,
+            "Fecha": "2025-04-13T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Luis Carvacho",
+            "Jugador 2": "Luis Gutierrez",
+            "Ganador": "Luis Carvacho",
+            "Resultado": "6-0 / 6-4"
+        },
+        {
+            "Nro": 22,
+            "Fecha": "2025-04-13T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Javier Rivera",
+            "Jugador 2": "Franco Seckel",
+            "Ganador": "Javier Rivera",
+            "Resultado": "7-6 / 6-1"
+        },
+        {
+            "Nro": 23,
+            "Fecha": "2025-04-13T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Dimari Diaz",
+            "Jugador 2": "Catalina Santana",
+            "Ganador": "Dimari Diaz",
+            "Resultado": "6-0 / 6-2"
+        },
+        {
+            "Nro": 24,
+            "Fecha": "2025-04-13T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Jorge Tapia",
+            "Jugador 2": "Hugo Gutierrez",
+            "Ganador": "Jorge Tapia",
+            "Resultado": "6-2 / 6-2"
+        },
+        {
+            "Nro": 25,
+            "Fecha": "2025-04-15T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Manuel Tamayo",
+            "Jugador 2": "Victor Alvial",
+            "Ganador": "Manuel Tamayo",
+            "Resultado": "6-2 / 6-3"
+        },
+        {
+            "Nro": 26,
+            "Fecha": "2025-04-15T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Felipe Rojas",
+            "Jugador 2": "Johanna Cespedes",
+            "Ganador": "Felipe Rojas",
+            "Resultado": "6-3 / 6-2"
+        },
+        {
+            "Nro": 27,
+            "Fecha": "2025-04-15T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Jaime Parra",
+            "Jugador 2": "Williams Bustos",
+            "Ganador": "Jaime Parra",
+            "Resultado": "6-1 / 6-3"
+        },
+        {
+            "Nro": 28,
+            "Fecha": "2025-04-16T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Marco Godoy",
+            "Jugador 2": "Andrea Ibarra",
+            "Ganador": "Marco Godoy",
+            "Resultado": "6-0 / 6-3"
+        },
+        {
+            "Nro": 29,
+            "Fecha": "2025-04-16T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Lorena Illesca",
+            "Jugador 2": "Herminia Marquez",
+            "Ganador": "Lorena Illesca",
+            "Resultado": "6-2 / 6-3"
+        },
+        {
+            "Nro": 30,
+            "Fecha": "2025-04-16T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Alejandra Tamayo",
+            "Jugador 2": "Soledad Sandoval",
+            "Ganador": "Alejandra Tamayo",
+            "Resultado": "6-2 / 7-6"
+        },
+        {
+            "Nro": 31,
+            "Fecha": "2025-04-17T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "JL Martinez",
+            "Jugador 2": "Claudio Bustos",
+            "Ganador": "JL Martinez",
+            "Resultado": "6-3 / 6-1"
+        },
+        {
+            "Nro": 32,
+            "Fecha": "2025-04-17T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 6",
+            "Jugador 1": "Jairo Martinez",
+            "Jugador 2": "Fernando Rodriguez",
+            "Ganador": "Jairo Martinez",
+            "Resultado": "6-3 / 4-6 / 10-4"
+        },
+        {
+            "Nro": 33,
+            "Fecha": "2025-04-18T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Osvaldo Andahur",
+            "Jugador 2": "Sergio Cuevas",
+            "Ganador": "Osvaldo Andahur",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 34,
+            "Fecha": "2025-04-18T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Andrea Ibarra",
+            "Jugador 2": "Catalina Santana",
+            "Ganador": "Andrea Ibarra",
+            "Resultado": "6-1 / 6-4"
+        },
+        {
+            "Nro": 35,
+            "Fecha": "2025-04-18T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Alejandro Herrera",
+            "Jugador 2": "Juan Gatica",
+            "Ganador": "Alejandro Herrera",
+            "Resultado": "6-4 / 6-3"
+        },
+        {
+            "Nro": 36,
+            "Fecha": "2025-04-18T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Ignacio Gonzalez",
+            "Jugador 2": "Claudio Peralta",
+            "Ganador": "Ignacio Gonzalez",
+            "Resultado": "6-1 / 6-2"
+        },
+        {
+            "Nro": 37,
+            "Fecha": "2025-04-18T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Jaime Vasquez",
+            "Jugador 2": "Eduardo Garcia",
+            "Ganador": "Jaime Vasquez",
+            "Resultado": "6-3 / 6-3"
+        },
+        {
+            "Nro": 38,
+            "Fecha": "2025-04-19T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Bianca Antican",
+            "Jugador 2": "Andrea Ibarra",
+            "Ganador": "Bianca Antican",
+            "Resultado": "6-1 / 6-3"
+        },
+        {
+            "Nro": 39,
+            "Fecha": "2025-04-19T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Juan Fuentes",
+            "Jugador 2": "Victor Gutierrez",
+            "Ganador": "Juan Fuentes",
+            "Resultado": "6-4 / 6-2"
+        },
+        {
+            "Nro": 40,
+            "Fecha": "2025-04-19T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Osvaldo Andahur",
+            "Jugador 2": "Nelson Tobar",
+            "Ganador": "Osvaldo Andahur",
+            "Resultado": "6-3 / 6-1"
+        },
+        {
+            "Nro": 41,
+            "Fecha": "2025-04-19T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Johanna Cespedes",
+            "Jugador 2": "Soledad Sandoval",
+            "Ganador": "Johanna Cespedes",
+            "Resultado": "6-4 / 6-4"
+        },
+        {
+            "Nro": 42,
+            "Fecha": "2025-04-20T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Andrea Ibarra",
+            "Jugador 2": "Paulina Ortiz",
+            "Ganador": "Andrea Ibarra",
+            "Resultado": "6-4 / 6-4"
+        },
+        {
+            "Nro": 43,
+            "Fecha": "2025-04-20T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Lorena Illesca",
+            "Jugador 2": "Stephany Ruiz",
+            "Ganador": "Lorena Illesca",
+            "Resultado": "6-2 / 6-3"
+        },
+        {
+            "Nro": 44,
+            "Fecha": "2025-04-20T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Iván Galleguillos",
+            "Jugador 2": "Sherman Ravelo",
+            "Ganador": "Iván Galleguillos",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 45,
+            "Fecha": "2025-04-22T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Manuel Tamayo",
+            "Jugador 2": "Mauricio Tobar",
+            "Ganador": "Manuel Tamayo",
+            "Resultado": "6-3 / 6-4"
+        },
+        {
+            "Nro": 46,
+            "Fecha": "2025-04-22T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 6",
+            "Jugador 1": "JL Dinamarca",
+            "Jugador 2": "Williams Bustos",
+            "Ganador": "JL Dinamarca",
+            "Resultado": "6-7 / 7-5 / 10-8"
+        },
+        {
+            "Nro": 47,
+            "Fecha": "2025-04-22T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Alejandro Herrera",
+            "Jugador 2": "Roberto Cordero",
+            "Ganador": "Alejandro Herrera",
+            "Resultado": "6-3 / 6-3"
+        },
+        {
+            "Nro": 48,
+            "Fecha": "2025-04-23T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Nain Obreque",
+            "Jugador 2": "Fernando Ibarra",
+            "Ganador": "Nain Obreque",
+            "Resultado": "6-3 / 4-6 / 11-9"
+        },
+        {
+            "Nro": 49,
+            "Fecha": "2025-04-23T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "JC Mura",
+            "Jugador 2": "Roberto Cordero",
+            "Ganador": "JC Mura",
+            "Resultado": "6-1 / 6-3"
+        },
+        {
+            "Nro": 50,
+            "Fecha": "2025-04-23T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Edson Rios",
+            "Jugador 2": "Roy Diaz",
+            "Ganador": "Edson Rios",
+            "Resultado": "3-6 / 6-2 / 10-4"
+        },
+        {
+            "Nro": 51,
+            "Fecha": "2025-04-23T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Sthefany Ruiz",
+            "Jugador 2": "Herminia Marquez",
+            "Ganador": "Sthefany Ruiz",
+            "Resultado": "6-7 / 6-0 / 13-11"
+        },
+        {
+            "Nro": 52,
+            "Fecha": "2025-04-23T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Alejandra Tamayo",
+            "Jugador 2": "Johanna Cespedes",
+            "Ganador": "Alejandra Tamayo",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 53,
+            "Fecha": "2025-04-23T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Javier Rivera",
+            "Jugador 2": "Ramón Suarez",
+            "Ganador": "Javier Rivera",
+            "Resultado": "6-3 / 6-3"
+        },
+        {
+            "Nro": 54,
+            "Fecha": "2025-04-24T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Manuel Tamayo",
+            "Jugador 2": "Israel Gonzalez",
+            "Ganador": "Manuel Tamayo",
+            "Resultado": "6-4 / 5-7 / 10-3"
+        },
+        {
+            "Nro": 55,
+            "Fecha": "2025-04-24T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Javier Rivera",
+            "Jugador 2": "Ramtes Huenuman",
+            "Ganador": "Javier Rivera",
+            "Resultado": "6-3 / 6-1"
+        },
+        {
+            "Nro": 56,
+            "Fecha": "2025-04-24T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 6",
+            "Jugador 1": "Jairo Martinez",
+            "Jugador 2": "Cristian Quevedo",
+            "Ganador": "Jairo Martinez",
+            "Resultado": "6-3 / 6-4"
+        },
+        {
+            "Nro": 57,
+            "Fecha": "2025-04-24T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "JL Dinamarca",
+            "Jugador 2": "Jaime Parra",
+            "Ganador": "JL Dinamarca",
+            "Resultado": "6-2 / 5-7 / 10-6"
+        },
+        {
+            "Nro": 58,
+            "Fecha": "2025-04-25T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Claudio Bustos",
+            "Jugador 2": "Alejandro Tamayo",
+            "Ganador": "Claudio Bustos",
+            "Resultado": "6-3 / 6-1"
+        },
+        {
+            "Nro": 59,
+            "Fecha": "2025-04-26T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Ramtes Huenuman",
+            "Jugador 2": "Franco Seckel",
+            "Ganador": "Ramtes Huenuman",
+            "Resultado": "7-6 / 6-2"
+        },
+        {
+            "Nro": 60,
+            "Fecha": "2025-04-26T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Bianca Antican",
+            "Jugador 2": "Marco Godoy",
+            "Ganador": "Bianca Antican",
+            "Resultado": "6-2 / 7-5"
+        },
+        {
+            "Nro": 61,
+            "Fecha": "2025-04-26T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Alexis Farias",
+            "Jugador 2": "Ignacio Gonzalez",
+            "Ganador": "Alexis Farias",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 62,
+            "Fecha": "2025-04-26T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "JC Mura",
+            "Jugador 2": "Juan Gatica",
+            "Ganador": "JC Mura",
+            "Resultado": "6-4 / 4-6 / 10-6"
+        },
+        {
+            "Nro": 63,
+            "Fecha": "2025-04-26T04:00:00.000Z",
+            "Categoria": "Honor",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Felipe Tamayo",
+            "Jugador 2": "Cristian Abumohor",
+            "Ganador": "Felipe Tamayo",
+            "Resultado": "6-0 / 6-1"
+        },
+        {
+            "Nro": 64,
+            "Fecha": "2025-04-26T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Paulina Ortiz",
+            "Jugador 2": "Dimari Diaz",
+            "Ganador": "Paulina Ortiz",
+            "Resultado": "3-6 / 6-1 / 10-6"
+        },
+        {
+            "Nro": 65,
+            "Fecha": "2025-04-27T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Andrea Ibarra",
+            "Jugador 2": "Dimari Diaz",
+            "Ganador": "Andrea Ibarra",
+            "Resultado": "6-4 / 6-4"
+        },
+        {
+            "Nro": 66,
+            "Fecha": "2025-04-27T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Alejandro Zenteno",
+            "Jugador 2": "Paulo Corvalán",
+            "Ganador": "Alejandro Zenteno",
+            "Resultado": "7-6 / 7-5"
+        },
+        {
+            "Nro": 67,
+            "Fecha": "2025-04-27T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Iván Galleguillos",
+            "Jugador 2": "Guillermo Reygadas",
+            "Ganador": "Iván Galleguillos",
+            "Resultado": "6-1 / 6-0"
+        },
+        {
+            "Nro": 68,
+            "Fecha": "2025-04-27T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Hernán Aedo",
+            "Jugador 2": "Mauricio Taiba",
+            "Ganador": "Hernán Aedo",
+            "Resultado": "3-6 / 3-0 (Ret)"
+        },
+        {
+            "Nro": 69,
+            "Fecha": "2025-04-27T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "JL Dinamarca",
+            "Jugador 2": "Marcelo Arroyo",
+            "Ganador": "JL Dinamarca",
+            "Resultado": "6-4 / 6-2"
+        },
+        {
+            "Nro": 70,
+            "Fecha": "2025-04-29T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Nain Obreque",
+            "Jugador 2": "Gastón Villarroel",
+            "Ganador": "Nain Obreque",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 71,
+            "Fecha": "2025-04-29T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Williams Bustos",
+            "Jugador 2": "Marcelo Arroyo",
+            "Ganador": "Williams Bustos",
+            "Resultado": "7-5 / 6-3"
+        },
+        {
+            "Nro": 72,
+            "Fecha": "2025-04-29T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Ramón Suarez",
+            "Jugador 2": "Franco Vargas",
+            "Ganador": "Ramón Suarez",
+            "Resultado": "4-6 / 6-4 / 10-6"
+        },
+        {
+            "Nro": 73,
+            "Fecha": "2025-04-30T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Alejandro Tamayo",
+            "Jugador 2": "Ulises Sepulveda",
+            "Ganador": "Alejandro Tamayo",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 74,
+            "Fecha": "2025-04-30T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Nain Obreque",
+            "Jugador 2": "Claudio Lillo",
+            "Ganador": "Nain Obreque",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 75,
+            "Fecha": "2025-04-30T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Jorge Tapia",
+            "Jugador 2": "Rodrigo Bustamante",
+            "Ganador": "Jorge Tapia",
+            "Resultado": "6-4 / 6-2"
+        },
+        {
+            "Nro": 76,
+            "Fecha": "2025-05-02T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Marco Silva",
+            "Jugador 2": "Fabian Sanchez",
+            "Ganador": "Marco Silva",
+            "Resultado": "6-4 / 6-1"
+        },
+        {
+            "Nro": 77,
+            "Fecha": "2025-05-02T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Jorge Olivares",
+            "Jugador 2": "César Barahona",
+            "Ganador": "Jorge Olivares",
+            "Resultado": "2-6 / 7-6 / 10-8"
+        },
+        {
+            "Nro": 78,
+            "Fecha": "2025-05-02T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "JG Peña",
+            "Jugador 2": "Arturo Palma",
+            "Ganador": "JG Peña",
+            "Resultado": "6-4 / 5-7 / 10-7"
+        },
+        {
+            "Nro": 79,
+            "Fecha": "2025-05-02T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Jaime Parra",
+            "Jugador 2": "Marcelo Arroyo",
+            "Ganador": "Jaime Parra",
+            "Resultado": "6-3 / 7-6"
+        },
+        {
+            "Nro": 80,
+            "Fecha": "2025-05-02T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Nain Obreque",
+            "Jugador 2": "Franco Seckel",
+            "Ganador": "Nain Obreque",
+            "Resultado": "6-3 / 5-7 / 10-5"
+        },
+        {
+            "Nro": 81,
+            "Fecha": "2025-05-02T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Manuel Perez",
+            "Jugador 2": "Franco Vargas",
+            "Ganador": "Manuel Perez",
+            "Resultado": "6-3 / 6-2"
+        },
+        {
+            "Nro": 82,
+            "Fecha": "2025-05-03T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Nicolás Martinez",
+            "Jugador 2": "Jorge Tapia",
+            "Ganador": "Nicolás Martinez",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 83,
+            "Fecha": "2025-05-03T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "Arturo Palma",
+            "Jugador 2": "Felipe Rojas",
+            "Ganador": "Arturo Palma",
+            "Resultado": "6-2 / 6-2"
+        },
+        {
+            "Nro": 84,
+            "Fecha": "2025-05-03T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Mauricio Taiba",
+            "Jugador 2": "Claudio Lillo",
+            "Ganador": "Mauricio Taiba",
+            "Resultado": "6-2 / 6-0"
+        },
+        {
+            "Nro": 85,
+            "Fecha": "2025-05-03T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Luis Carvacho",
+            "Jugador 2": "Hernan Vega",
+            "Ganador": "Luis Carvacho",
+            "Resultado": "6-4 / 7-5"
+        },
+        {
+            "Nro": 86,
+            "Fecha": "2025-05-03T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "JG Peña",
+            "Jugador 2": "Johanna Cespedes",
+            "Ganador": "JG Peña",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 87,
+            "Fecha": "2025-05-04T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Nicolás Martinez",
+            "Jugador 2": "Rodrigo Bustamante",
+            "Ganador": "Nicolás Martinez",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 88,
+            "Fecha": "2025-05-04T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Paulo Corvalan",
+            "Jugador 2": "Fabian Sanchez",
+            "Ganador": "Paulo Corvalan",
+            "Resultado": "6-0 / 6-3"
+        },
+        {
+            "Nro": 89,
+            "Fecha": "2025-05-04T04:00:00.000Z",
+            "Categoria": "Damas",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Paulina Ortiz",
+            "Jugador 2": "Catalina Santana",
+            "Ganador": "Paulina Ortiz",
+            "Resultado": "6-1 / 6-0"
+        },
+        {
+            "Nro": 90,
+            "Fecha": "2025-05-04T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 6",
+            "Jugador 1": "Ricardo Raby",
+            "Jugador 2": "Fernando Rodriguez",
+            "Ganador": "Ricardo Raby",
+            "Resultado": "6-2 / 6-7 / 10-8"
+        },
+        {
+            "Nro": 91,
+            "Fecha": "2025-05-04T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Fernando Ibarra",
+            "Jugador 2": "Franco Seckel",
+            "Ganador": "Fernando Ibarra",
+            "Resultado": "6-2 / 6-4"
+        },
+        {
+            "Nro": 92,
+            "Fecha": "2025-05-04T04:00:00.000Z",
+            "Categoria": "Honor",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Felipe Riveros",
+            "Jugador 2": "Ricardo Aguilera",
+            "Ganador": "Felipe Riveros",
+            "Resultado": "6-0 / 6-2"
+        },
+        {
+            "Nro": 93,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 6",
+            "Jugador 1": "Ricardo Raby",
+            "Jugador 2": "Jairo Martinez",
+            "Ganador": "Ricardo Raby",
+            "Resultado": "6-4 / 4-6 / 10-5"
+        },
+        {
+            "Nro": 94,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Claudio Bustos",
+            "Jugador 2": "Ulises Sepulveda",
+            "Ganador": "Claudio Bustos",
+            "Resultado": "6-1 / 7-5"
+        },
+        {
+            "Nro": 95,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Honor",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "Cristian Abumohor",
+            "Jugador 2": "Javier Zuñiga",
+            "Ganador": "Cristian Abumohor",
+            "Resultado": "0-6 / 7-6 / 10-8"
+        },
+        {
+            "Nro": 96,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 2",
+            "Jugador 1": "Gastón Villarroel",
+            "Jugador 2": "Franco Seckel",
+            "Ganador": "Gastón Villarroel",
+            "Resultado": "3-6 / 6-1 / 10-8"
+        },
+        {
+            "Nro": 97,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Hernan Vega",
+            "Jugador 2": "JC Arteaga",
+            "Ganador": "Hernan Vega",
+            "Resultado": "6-1 / 6-1"
+        },
+        {
+            "Nro": 98,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Edson Rios",
+            "Jugador 2": "Jorge Olivares",
+            "Ganador": "Edson Rios",
+            "Resultado": "6-1 / 7-6"
+        },
+        {
+            "Nro": 99,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Segunda",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Alejandro Zenteno",
+            "Jugador 2": "Marco Silva",
+            "Ganador": "Alejandro Zenteno",
+            "Resultado": "6-0 / 6-1"
+        },
+        {
+            "Nro": 100,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 3",
+            "Jugador 1": "Franco Vargas",
+            "Jugador 2": "Javier Rivera",
+            "Ganador": "Franco Vargas",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 101,
+            "Fecha": "2025-05-06T04:00:00.000Z",
+            "Categoria": "Cuarta",
+            "Grupo": "Grupo 4",
+            "Jugador 1": "JG Peña",
+            "Jugador 2": "Felipe Rojas",
+            "Ganador": "JG Peña",
+            "Resultado": "1-6 / 6-3 / 13-11"
+        },
+        {
+            "Nro": 102,
+            "Fecha": "2025-05-07T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Roy Diaz",
+            "Jugador 2": "Cesar Barahona",
+            "Ganador": "Roy Diaz",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 103,
+            "Fecha": "2025-05-07T04:00:00.000Z",
+            "Categoria": "Tercera",
+            "Grupo": "Grupo 1",
+            "Jugador 1": "JL Martinez",
+            "Jugador 2": "Ulises Sepulveda",
+            "Ganador": "JL Martinez",
+            "Resultado": "7-5 / 6-1"
+        },
+        {
+            "Nro": 104,
+            "Fecha": "2025-05-07T04:00:00.000Z",
+            "Categoria": "Primera",
+            "Grupo": "Grupo 5",
+            "Jugador 1": "Edson Rios",
+            "Jugador 2": "Cesar Barahona",
+            "Ganador": "Edson Rios",
+            "Resultado": "6-0 / 6-0"
+        }
+    ]
+}
