@@ -99,8 +99,35 @@ async function cargarResultados() {
     const af4 = arrRnk.filter(item => item.Categoria == Categoria && item.Grupo == 'G4');
     const af5 = arrRnk.filter(item => item.Categoria == Categoria && item.Grupo == 'G5');
     const af6 = arrRnk.filter(item => item.Categoria == Categoria && item.Grupo == 'G6');
+
+    //const m3c1 = af1.filter(item => item.Rnk == 3 && item.M3 == 'SI');
+    const m3c1 = arrRnk.filter(item => item.Categoria == Categoria && item.Rnk == 3 && item.M3 == 'SI');
+    //console.log('m3c1.length:',m3c1.length);
+    //console.log('m3c1:',m3c1);
+
     //console.log(af1);
     console.log(af1.length,af2.length,af3.length,af4.length,af5.length,af6.length);
+
+    m3c1.sort((a, b) => a.POS - b.POS);
+                
+    $('#dgm3').datagrid({
+      data:m3c1,
+      loadMsg:'Leyendo Ranking',
+      title:'Mejores terceros',
+      iconCls:'icon-ok',
+      //rownumbers: true,
+      //fitColumns:true,
+      columns:[[
+        {field:'Categoria',title:'Categoria',width:100,align:'left'},
+        {field:'Grupo',title:'Grupo',width:60,align:'left'},
+        {field:'Jugador',title:'Jugador',width:100,align:'left'},
+        {field:'PJ',title:'P.Jugados',width:80,align:'left'},
+        {field:'PG',title:'P.Ganados',width:80,align:'left'},              
+        {field:'DS',title:'Dif.Sets',width:80,align:'left'},
+        {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
+        {field:'POS',title:'Posición',width:80,align:'left'}
+      ]]
+      });    
 
     af1.sort((a, b) => a.Rnk - b.Rnk);
 
@@ -235,5 +262,5 @@ async function cargarResultados() {
                   {field:'DJ',title:'Dif.Juegos',width:80,align:'left'},
                   {field:'Rnk',title:'Posición',width:80,align:'left'}
                 ]]
-                });                 
+                });
   }
