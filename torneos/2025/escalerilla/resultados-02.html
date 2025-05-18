@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Resultados Escalerilla 2025 - Fase 1</title>
+    <title>Resultados Escalerilla 2025 - Fase 2</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!--
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../../../easyui/datagrid-filter.js"></script>
     <script type="text/javascript" src="../../../easyui/datagrid-export.js"></script>    
     <script type="text/javascript" src="../../../assets/js/moment.js"></script>
-    <script src='js/main.js'></script>
+    <script src='js/main02.js'></script>
     <style>
         /*
         .loader {
@@ -62,32 +62,10 @@
 	</script>
 </head>
 <body onload="cargarResultados()">
-    <div id="panel" class="easyui-panel" title="Fase 1 : Round Robin (Grupos)">
+    <div id="panel" class="easyui-panel" title="Fase 2 : Eliminación directa">
         <div id="load-resultados" class="loader"></div>
-        <div class="container easyui-tabs">        
-            <div title="Clasificados 08-Mayo" style="padding:10px">
-                <!--<div id="load-resultados2" class="loader"></div>-->
-                <div style="margin-bottom:20px">
-                    <select class="easyui-combobox" id="cat" name="categoria" label="Categoria:" labelPosition="top" style="width:150px;">
-                        <option value="Honor">Honor</option>
-                        <option value="Damas" selected>Damas</option>
-                        <option value="Primera">Primera</option>
-                        <option value="Segunda">Segunda</option>
-                        <option value="Tercera">Tercera</option>
-                        <option value="Cuarta">Cuarta</option>
-                    </select>
-                </div>
-                <table id="dgm3"></table>                
-                <table id="dg1"></table>
-                <table id="dg2"></table>
-                <table id="dg3"></table>
-                <table id="dg4"></table>
-                <table id="dg5"></table>
-                <table id="dg6"></table>
-            </div>
-            <div title="Resultados" style="padding:10px">            
-                <table id="dg"></table>
-            </div>            
+        <div title="Resultados" style="padding:10px">            
+            <table id="dg"></table>
         </div>
     </div>     
 </body>

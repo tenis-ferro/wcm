@@ -5,8 +5,10 @@ async function cargarResultados() {
     //const url = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Partidos-Grupo&action=read";
     //const url2 = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Rnk-Grupos&action=read";
 
-    const url = "/wcm/torneos/2025/escalerilla/data/resultados.json";
-    const url2 = "/wcm/torneos/2025/escalerilla/data/clasificados.json";    
+    //const url = "/wcm/torneos/2025/escalerilla/data/resultados.json";
+    //const url2 = "/wcm/torneos/2025/escalerilla/data/clasificados.json";
+    const url = "./data/resultados.json";
+    const url2 = "./data/clasificados.json";      
 
     try {
       const response = await fetch(url);
@@ -30,6 +32,35 @@ async function cargarResultados() {
 
       document.getElementById('load-resultados').setAttribute('hidden','hidden');
       //$('#divResult').css('display', 'block');
+
+      $('#dged').datagrid({
+        data:resultados,
+        loadMsg:'Leyendo resultado de los partidos',
+        title:'Resultado de partidos',
+        iconCls:'icon-ok',
+        //rownumbers: true,
+        //fitColumns:true,
+        columns:[[
+            {field:'Nro',title:'#',width:35},
+            {field:'Fecha',title:'Fecha', width:100, formatter:function(val, row, idx){               
+                var dt = new Date(Date.parse(val));
+                
+                var formattedDate = moment(dt).format('DD-MM-YYYY');
+                //console.log(formattedDate,idx)
+                return formattedDate;
+            }},
+            {field:'Ganador',title:'Ganador',width:200,align:'left',formatter:function(val, row, idx){               
+              return '<span style="color:black;font-weight:bold;">'+val+'</span>';
+            }},
+            {field:'Jugador 1',title:'Partido', width:350,align:'left', formatter:function(val, row, idx){               
+              //console.log(row,idx)
+              let partido = '';
+              return partido.concat(row["Jugador 1"],' / ', row["Jugador 2"]);
+            }},
+            {field:'Resultado',title:'Resultado',width:150,align:'left'},
+            {field:'Categoria',title:'Categoria',width:80,align:'left'}
+        ]],        
+        });      
 
       //console.log(resultados);
       $('#dg').datagrid({
