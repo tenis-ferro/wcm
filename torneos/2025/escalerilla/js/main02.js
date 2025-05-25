@@ -13,7 +13,7 @@ async function cargarResultados() {
       const json = await response.json();
       var resultados = json.data;
       //console.log(resultados);
-      resultados = resultados.filter(item => item.Fase == 'MD' && item.Resultado != '');
+      resultados = resultados.filter(item => item.Fase == 'MD' && item.Nro != '');
       resultados.sort((a, b) => b.Nro - a.Nro);
 
       document.getElementById('load-resultados').setAttribute('hidden','hidden');
