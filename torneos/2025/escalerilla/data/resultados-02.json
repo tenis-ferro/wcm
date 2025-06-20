@@ -1,5 +1,5 @@
 {
-    "fecha": "2025-06-20T15:26:00.000Z",
+    "fecha": "2025-06-20T16:36:00.000Z",
     "debugInfo": "doGet called. Path: Partidos-Grupo, Action: read",
     "data": [
         {
@@ -1806,7 +1806,7 @@
             "Nro": 152,
             "Fecha": "2025-05-31T04:00:00.000Z",
             "Hora": "09:00",
-            "Categoria": "Tercera",
+            "Categoria": "Cuarta",
             "Grupo": "QF",
             "Jugador 1": "Nicolas Martinez",
             "Jugador 2": "Arturo Palma",
