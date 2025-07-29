@@ -1,0 +1,18 @@
+[
+  {
+    "id": "post-1",
+    "title": "Mi Primer Post",
+    "date": "2024-07-25",
+    "author": "Tu Nombre",
+    "excerpt": "Este es un breve resumen de mi primer post. Aquí aprenderemos sobre...",
+    "content": "<p>Bienvenido a mi blog. En este post exploraremos los fundamentos de la creación de un blog con JS vainilla y JSON.</p><p>Puedes agregar más párrafos y contenido HTML aquí.</p>"
+  },
+  {
+    "id": "post-2",
+    "title": "Consejos para JS Vainilla",
+    "date": "2024-07-20",
+    "author": "Tu Nombre",
+    "excerpt": "Descubre algunos trucos y consejos útiles para trabajar con JavaScript puro.",
+    "content": "<p>JavaScript puro es increíblemente potente. Aquí tienes algunos consejos:</p><ul><li>Usa `document.querySelector` para seleccionar elementos.</li><li>Aprovecha `fetch` para cargar datos.</li><li>Crea componentes dinámicos con `createElement`.</li></ul>"
+  }
+]

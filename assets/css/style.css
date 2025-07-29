@@ -571,6 +571,18 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
+.about h1 {
+  font-weight: 700;
+  font-size: 25px;
+  font-family: "Poppins", sans-serif;
+}
+
+.about h2 {
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
 .about .content h3 {
   font-weight: 700;
   font-size: 28px;
