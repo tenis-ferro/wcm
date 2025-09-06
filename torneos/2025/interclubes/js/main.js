@@ -1,6 +1,14 @@
 var arrResult;
 var arrRnk;
 
+function updateScoreboard (ferroScore, municipalScore) {
+    const ferroScoreEl = document.getElementById('ferroviario-score');
+    const municipalScoreEl = document.getElementById('municipal-score');  
+
+    ferroScoreEl.textContent = ferroScore.toString().padStart(2, '0');
+    municipalScoreEl.textContent = municipalScore.toString().padStart(2, '0');
+};
+
 async function cargarResultados() {
     const url = "https://script.google.com/macros/s/AKfycbxTtHDPsoX_Q0-hnxe0zgfeHG9pQQu8-zbyqycmljeNJ1gz2u_SOV4nlrVBhVGhqSm3/exec?path=Partidos&action=read";
 
@@ -18,6 +26,26 @@ async function cargarResultados() {
       document.getElementById('load-resultados').setAttribute('hidden','hidden');
       //$('#divResult').css('display', 'block');
 
+      // --- INICIO DE LA LÓGICA DE CONTEO ---
+      // Se inicializa el objeto con los posibles ganadores.
+      let victorias = {
+        'Ferroviario': 0,
+        'Municipal': 0
+      };
+
+      // Recorre el arreglo de resultados y cuenta las victorias de cada equipo.
+      resultados.forEach(item => {
+        if (item.Ganador) {
+          if (victorias[item.Ganador] !== undefined) {
+            victorias[item.Ganador]++;
+          }
+        }
+      });
+      
+      // Actualiza el marcador con el conteo de victorias.
+      updateScoreboard(victorias['Ferroviario'], victorias['Municipal']);
+      // --- FIN DE LA LÓGICA DE CONTEO ---
+
       //console.log(resultados);
       $('#dg').datagrid({
         data:resultados,
@@ -29,8 +57,8 @@ async function cargarResultados() {
         columns:[[
             {field:'Nro',title:'#',width:35},
             {field:'Hora',title:'Hora',width:60},
-            {field:'Ferroviario',title:'Ferroviario',width:150,align:'left'},
-            {field:'Municipal',title:'Municipal',width:150,align:'left'},
+            {field:'Ferroviario',title:'Ferroviario',width:180,align:'left'},
+            {field:'Municipal',title:'Municipal',width:180,align:'left'},
             {field:'Ganador',title:'Ganador',width:100,align:'left',formatter:function(val, row, idx){               
               return '<span style="color:black;font-weight:bold;">'+val+'</span>';
             }},            
