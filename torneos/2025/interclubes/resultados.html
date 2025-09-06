@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Resultados Interclub Ferrovario vs Municipal</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../../../easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../../easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../easyui/datagrid-filter.js"></script>
+    <script type="text/javascript" src="../../../easyui/datagrid-export.js"></script>    
+    <script type="text/javascript" src="../../../assets/js/moment.js"></script>
+    <script src='js/main.js'></script>
+
+    <style>
+        /* Estilos del cargador y otros elementos originales */
+        .loader {
+            width: fit-content;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: 30px;
+            padding-bottom: 8px;
+            background: linear-gradient(currentColor 0 0) 0 100%/0% 3px no-repeat;
+            animation: l2 2s linear infinite;
+        }
+        .loader:before {
+            content:"Leyendo información..."
+        }
+        @keyframes l2 {
+            to{background-size: 100% 3px}
+        }
+        
+        /* Estilos del marcador */
+        .scoreboard-container {
+            background-color: #0d0d0d;
+            border: 5px solid #333;
+            border-radius: 15px;
+            /* AJUSTES PARA EL TAMAÑO */
+            padding: 20px;
+            max-width: 600px; /* Un tercio de 900px, por ejemplo */
+            /* FIN DE AJUSTES */
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.2);
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+        
+        .team-info {
+            margin-bottom: 10px; /* Reducido para espacio */
+        }
+        
+        .team-info .name {
+            font-size: 1.5em; /* Tamaño de fuente más pequeño */
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        
+        .team-info .label {
+            font-size: 0.8em; /* Tamaño de fuente más pequeño */
+            color: #ccc;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        #ferroviario-name {
+            color: #ff5722;
+        }
+        
+        #municipal-name {
+            color: #03a9f4;
+        }
+        
+        .score {
+            font-size: 3.5em; /* Tamaño de fuente más pequeño */
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+        
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .scoreboard-container {
+                padding: 10px;
+                max-width: 90%; /* Ajuste para móviles */
+            }
+            .team-info .name {
+                font-size: 1.2em;
+            }
+            .team-info .label {
+                font-size: 0.7em;
+            }
+            .score {
+                font-size: 2.5em;
+            }
+        }
+    </style>    
+
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-26JLZNSPM7');
+	</script>
+</head>
+<body onload="cargarResultados()">
+    <div id="panel" class="easyui-panel" title="Interclub : Ferroviario vs Municipal">
+        <div id="load-resultados" class="loader"></div>
+        <div class="container easyui-tabs">
+            <div title="Resultados" style="padding:10px">
+                
+                <div class="scoreboard-container">
+                    <div class="team">
+                        <div class="team-info">
+                            <div class="name" id="ferroviario-name">Ferroviario</div>
+                            <div class="label">(LOCAL)</div>
+                        </div>
+                        <div class="score" id="ferroviario-score">00</div>
+                    </div>
+
+                    <div class="team">
+                        <div class="team-info">
+                            <div class="name" id="municipal-name">Municipal</div>
+                            <div class="label">(VISITA)</div>
+                        </div>
+                        <div class="score" id="municipal-score">00</div>
+                    </div>
+                </div>
+                <table id="dg"></table>
+            </div>            
+        </div>
+    </div>     
+</body>
+</html>

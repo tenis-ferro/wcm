@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcador INTERCLUB</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            font-size: 16px;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 700px;
+        }
+        
+        @media (max-width: 768px) {
+            .scoreboard-container {
+                width: 95%;
+                padding: 15px;
+            }
+            .team-info .name {
+                font-size: 1.8em;
+            }
+            .team-info .label {
+                font-size: 0.9em;
+            }
+            .score {
+                font-size: 5em;
+            }
+            .title {
+                font-size: 2.5em;
+            }
+        }
+
+        .title {
+            font-size: 3em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+
+        .scoreboard-container {
+            background-color: #0d0d0d;
+            border: 5px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.2);
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+
+        .team-info {
+            margin-bottom: 15px;
+        }
+
+        .team-info .name {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .team-info .label {
+            font-size: 1em;
+            color: #ccc;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        #ferroviario-name {
+            color: #ff5722;
+        }
+        
+        #municipal-name {
+            color: #03a9f4;
+        }
+
+        .score {
+            font-size: 7em;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="title">INTERCLUB</div>
+        <div class="scoreboard-container">
+            <div class="team">
+                <div class="team-info">
+                    <div class="name" id="ferroviario-name">Ferroviario</div>
+                    <div class="label">(LOCAL)</div>
+                </div>
+                <div class="score" id="ferroviario-score">00</div>
+            </div>
+
+            <div class="team">
+                <div class="team-info">
+                    <div class="name" id="municipal-name">Municipal</div>
+                    <div class="label">(VISITA)</div>
+                </div>
+                <div class="score" id="municipal-score">00</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Este script solo actualiza los valores, asumiendo que vienen de una fuente externa.
+        document.addEventListener('DOMContentLoaded', () => {
+            const ferroScoreEl = document.getElementById('ferroviario-score');
+            const municipalScoreEl = document.getElementById('municipal-score');
+
+            // Función para actualizar el marcador.
+            // Los valores (ferroScore, municipalScore) provendrían de tu Google Sheet.
+            const updateScoreboard = (ferroScore, municipalScore) => {
+                ferroScoreEl.textContent = ferroScore.toString().padStart(2, '0');
+                municipalScoreEl.textContent = municipalScore.toString().padStart(2, '0');
+            };
+
+            // --- EJEMPLO DE USO (simulando datos) ---
+            // Para conectar esto a Google Sheets, necesitarás usar la API de Google Sheets
+            // y hacer una llamada periódica para obtener los datos.
+
+            // Ejemplo: Actualiza el marcador con estos valores.
+            // Para probar, puedes descomentar la siguiente línea:
+            // updateScoreboard(85, 78);
+        });
+    </script>
+</body>
+</html>
