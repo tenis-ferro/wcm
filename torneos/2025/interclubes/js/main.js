@@ -10,7 +10,8 @@ function updateScoreboard (ferroScore, municipalScore) {
 };
 
 async function cargarResultados() {
-    const url = "https://script.google.com/macros/s/AKfycbxTtHDPsoX_Q0-hnxe0zgfeHG9pQQu8-zbyqycmljeNJ1gz2u_SOV4nlrVBhVGhqSm3/exec?path=Partidos&action=read";
+    //const url = "https://script.google.com/macros/s/AKfycbxTtHDPsoX_Q0-hnxe0zgfeHG9pQQu8-zbyqycmljeNJ1gz2u_SOV4nlrVBhVGhqSm3/exec?path=Partidos&action=read";
+    const url = "./data/resultados.json";
 
     try {
       const response = await fetch(url);

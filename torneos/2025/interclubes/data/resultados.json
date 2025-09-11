@@ -1,0 +1,248 @@
+{
+    "debugInfo": "doGet called. Path: Partidos, Action: read",
+    "data": [
+        {
+            "Nro": 1,
+            "Hora": "08:50",
+            "Categoria": "SINGLES HONOR",
+            "Ferroviario": "Felipe Tamayo",
+            "Municipal": "Joaquin Flores",
+            "Ganador": "Municipal",
+            "Resultado": "7-6 / 6-2"
+        },
+        {
+            "Nro": 2,
+            "Hora": "08:50",
+            "Categoria": "SINGLES C",
+            "Ferroviario": "JL Martinez",
+            "Municipal": "Jaime Vergara",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 3,
+            "Hora": "08:50",
+            "Categoria": "SINGLES B",
+            "Ferroviario": "Javier Rivera",
+            "Municipal": "Juan Ruiz",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-1 / 6-1"
+        },
+        {
+            "Nro": 4,
+            "Hora": "08:50",
+            "Categoria": "SINGLES C",
+            "Ferroviario": "Francisco Farias",
+            "Municipal": "Carlos Bravo",
+            "Ganador": "Ferroviario",
+            "Resultado": "7-5 / 6-7 / 15-13"
+        },
+        {
+            "Nro": 5,
+            "Hora": "08:50",
+            "Categoria": "SINGLES C",
+            "Ferroviario": "Ramtes Huenuman",
+            "Municipal": "Oscar Flores",
+            "Ganador": "Municipal",
+            "Resultado": "6-2 / 6-1"
+        },
+        {
+            "Nro": 6,
+            "Hora": "10:45",
+            "Categoria": "DOBLES HONOR",
+            "Ferroviario": "F.Tamayo/J.Zuñiga",
+            "Municipal": "J.Flores/O.Flores",
+            "Ganador": "Municipal",
+            "Resultado": "2-6 / 6-4 / 10-8"
+        },
+        {
+            "Nro": 7,
+            "Hora": "10:45",
+            "Categoria": "DOBLES C",
+            "Ferroviario": "M.Ponce/JL Martinez",
+            "Municipal": "Jiménez/Concha",
+            "Ganador": "Municipal",
+            "Resultado": ""
+        },
+        {
+            "Nro": 8,
+            "Hora": "10:45",
+            "Categoria": "DOBLES +65",
+            "Ferroviario": "J.Fuentes/H.Vega",
+            "Municipal": "Mena/Tibileti",
+            "Ganador": "Municipal",
+            "Resultado": "6-4 / 7-5"
+        },
+        {
+            "Nro": 9,
+            "Hora": "10:45",
+            "Categoria": "DOBLES C",
+            "Ferroviario": "A.Farias/F.Farias",
+            "Municipal": "Vergara/Bravo",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-4 / 6-1"
+        },
+        {
+            "Nro": 10,
+            "Hora": "10:45",
+            "Categoria": "DOBLES +55",
+            "Ferroviario": "J.Gatica/M.Taiba",
+            "Municipal": "Polanco/Ruiz",
+            "Ganador": "Municipal",
+            "Resultado": "6-1 / 6-2"
+        },
+        {
+            "Nro": 11,
+            "Hora": "12:45",
+            "Categoria": "SINGLES HONOR",
+            "Ferroviario": "Javier Zuñiga",
+            "Municipal": "Oscar Flores",
+            "Ganador": "Municipal",
+            "Resultado": "7-5 / 3-6 / 14-12"
+        },
+        {
+            "Nro": 12,
+            "Hora": "12:45",
+            "Categoria": "DOBLES +65",
+            "Ferroviario": "L.Tapia/L.Vega",
+            "Municipal": "Rebolledo/Flores",
+            "Ganador": "Ferroviario",
+            "Resultado": ""
+        },
+        {
+            "Nro": 13,
+            "Hora": "12:45",
+            "Categoria": "DOBLES MXTO",
+            "Ferroviario": "A.Ibarra/R.Suarez",
+            "Municipal": "Muñoz/Vidal",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-4 / 5-4"
+        },
+        {
+            "Nro": 14,
+            "Hora": "12:45",
+            "Categoria": "DOBLES B",
+            "Ferroviario": "G.Villarroel/J.Olivares",
+            "Municipal": "Ibacache/Villalobos",
+            "Ganador": "Municipal",
+            "Resultado": "6-3 / 6-4"
+        },
+        {
+            "Nro": 15,
+            "Hora": "13:00",
+            "Categoria": "SINGLES +55",
+            "Ferroviario": "Juan Antican",
+            "Municipal": "Luis Riveros",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-3 / 4-6 / 10-6"
+        },
+        {
+            "Nro": 16,
+            "Hora": "15:00",
+            "Categoria": "SINGLES B",
+            "Ferroviario": "Roy Diaz",
+            "Municipal": "Cristian Nanco",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-2 / 7-6"
+        },
+        {
+            "Nro": 17,
+            "Hora": "15:00",
+            "Categoria": "SINGLES B",
+            "Ferroviario": "Ricardo Raby",
+            "Municipal": "Jorge Vitar",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-4 / 7-6"
+        },
+        {
+            "Nro": 18,
+            "Hora": "15:00",
+            "Categoria": "DOBLES A",
+            "Ferroviario": "P.Mella/W.Bustos",
+            "Municipal": "Fortuzzi/Rodriguez",
+            "Ganador": "Municipal",
+            "Resultado": ""
+        },
+        {
+            "Nro": 19,
+            "Hora": "15:00",
+            "Categoria": "SINGLES A",
+            "Ferroviario": "Ignacio Gonzalez",
+            "Municipal": "Andres Lorca",
+            "Ganador": "Ferroviario",
+            "Resultado": "7-5 / 7-5"
+        },
+        {
+            "Nro": 20,
+            "Hora": "15:00",
+            "Categoria": "DOBLES MIXTO",
+            "Ferroviario": "A.Ibarra/F.Ibarra",
+            "Municipal": "Silva/Silva",
+            "Ganador": "Municipal",
+            "Resultado": "6-3 / 6-2"
+        },
+        {
+            "Nro": 21,
+            "Hora": "16:30",
+            "Categoria": "DOBLES B",
+            "Ferroviario": "R.Raby/P.Mella",
+            "Municipal": "Gutiérrez/Rivera",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-3 / 6-3"
+        },
+        {
+            "Nro": 22,
+            "Hora": "16:30",
+            "Categoria": "DOBLES B",
+            "Ferroviario": "L.Tapia/J.Martinez",
+            "Municipal": "Riveros/Gallardo",
+            "Ganador": "Ferroviario",
+            "Resultado": ""
+        },
+        {
+            "Nro": 23,
+            "Hora": "16:30",
+            "Categoria": "SINGLES A",
+            "Ferroviario": "Williams Bustos",
+            "Municipal": "Victor Díaz",
+            "Ganador": "Municipal",
+            "Resultado": ""
+        },
+        {
+            "Nro": 24,
+            "Hora": "16:30",
+            "Categoria": "DOBLES MIXTO",
+            "Ferroviario": "A.Tamayo/M.Yutronic",
+            "Municipal": "Olivares/Tobar",
+            "Ganador": "Municipal",
+            "Resultado": "6-3 / 6-3"
+        },
+        {
+            "Nro": 25,
+            "Hora": "16:30",
+            "Categoria": "DOBLES C",
+            "Ferroviario": "C.Barahona/N.Obreque",
+            "Municipal": "Pino/Bravo",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-1 / 6-3"
+        },
+        {
+            "Nro": 26,
+            "Hora": "18:30",
+            "Categoria": "DOBLES C",
+            "Ferroviario": "P.Corvalan/N.Martinez",
+            "Municipal": "NN/NN",
+            "Ganador": "Municipal",
+            "Resultado": "6-0 / 6-0"
+        },
+        {
+            "Nro": 27,
+            "Hora": "18:30",
+            "Categoria": "DOBLES C",
+            "Ferroviario": "L.Gutierrez/J.Marchant",
+            "Municipal": "Vergara/Adasme",
+            "Ganador": "Ferroviario",
+            "Resultado": "6-1 / 1-6 / 10-7"
+        }
+    ]
+}
