@@ -2,10 +2,10 @@ var arrResult;
 var arrRnk;
 
 async function cargarResultados() {
-    //const url = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Partidos-Grupo&action=read";
+    const url = "https://script.google.com/macros/s/AKfycbz3v-tPBGOyCqZfzsz7GejHrni6LV6zFvWyR7_V_q3uUTgZ6KICB_SWPzb8t_NHMPtI/exec?path=Partidos-Grupo&action=read";
     //const url2 = "https://script.google.com/macros/s/AKfycbyP1LxSSrheRTXQT4YvQZGNOIggL7g0PqzLsLc5vCNsmmQJL3HdJLTklrbKe7Wc4i-Y/exec?path=Rnk-Grupos&action=read";
 
-    const url = "./data/resultados.json";
+    //const url = "./data/resultados.json";
     const url2 = "./data/clasificados.json";     
 
     try {
