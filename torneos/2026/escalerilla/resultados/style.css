@@ -1,17 +1,21 @@
+/* style.css - Diseño Final Optimizado Tenis Ferro */
+
 :root {
     --gold: #ffc451;
     --gold-dark: #e6ac39;
-    --bg-body: #f8f9fa; /* Gris muy claro de fondo */
-    --bg-card: #ffffff; /* Blanco puro para las filas */
-    --text-main: #2d3436; /* Gris oscuro para texto (mejor que negro puro) */
+    --bg-body: #f8f9fa;
+    --bg-card: #ffffff;
+    --text-main: #2d3436;
     --text-muted: #636e72;
     --border: #e9ecef;
 }
 
+* { box-sizing: border-box; }
+
 body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-body);
     color: var(--text-main);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     -webkit-font-smoothing: antialiased;
 }
@@ -22,140 +26,119 @@ body {
     padding: 0 15px;
 }
 
-/* --- Header Profesional --- */
+/* --- HEADER Y CONTROLES --- */
 .main-header {
-    background: #ffffff;
-    padding: 25px 0;
+    background: #fff;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
 }
 
-.tournament-info h2 {
-    margin: 0;
-    color: var(--text-main);
-    font-size: 1.5rem;
-}
+.tournament-info h2 { margin: 0; font-size: 1.4rem; color: var(--text-main); }
+.tournament-info p { margin: 2px 0 0 0; color: var(--gold-dark); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
 
-.tournament-info p {
-    margin: 5px 0 0 0;
-    color: var(--gold-dark);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-}
-
-/* --- Controles --- */
 .controls-bar {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 10px;
+    gap: 12px;
     margin: 20px 0;
 }
 
 input, select {
     background: white;
     border: 1px solid #ced4da;
-    color: var(--text-main);
-    padding: 12px;
+    padding: 10px 15px;
     border-radius: 8px;
     font-size: 0.95rem;
+    width: 100%;
 }
 
-input:focus {
-    border-color: var(--gold);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 196, 81, 0.2);
-}
-
-/* --- Stats en una fila (Estilo Pills) --- */
-.stats-grid {
+/* --- ESTADÍSTICAS (Píldoras) --- */
+.stats-pills {
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    padding: 10px 0;
-    scrollbar-width: none;
+    padding: 5px 0;
+    scrollbar-width: none; /* Oculta scroll en Firefox */
 }
+.stats-pills::-webkit-scrollbar { display: none; } /* Oculta scroll en Chrome/Safari */
 
 .stat-card {
     background: white;
     border: 1px solid var(--border);
     padding: 6px 14px;
-    border-radius: 50px; /* Estilo píldora */
+    border-radius: 50px;
     display: flex;
     align-items: center;
     gap: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    white-space: nowrap;
 }
-
-.stat-card h3 { font-size: 0.7rem; color: var(--text-muted); margin: 0; }
+.stat-card h3 { font-size: 0.65rem; color: var(--text-muted); margin: 0; text-transform: uppercase; }
 .stat-card p { font-size: 0.9rem; color: var(--text-main); margin: 0; font-weight: 700; }
 
-/* --- Lista de Resultados (Vista Rápida) --- */
-.match-list {
-    margin-top: 10px;
-    padding-bottom: 40px;
-}
+/* --- FILAS DE PARTIDOS (Escritorio) --- */
+.match-list { margin-top: 15px; padding-bottom: 40px; }
 
 .match-row {
     display: grid;
-    /* 20% Información | 40% Jugadores | 40% Score */
-    grid-template-columns: 20% 40% 40%; 
+    /* Proporción: 20% Info | 45% Jugadores | 35% Score */
+    grid-template-columns: 20% 45% 35%;
     align-items: center;
     background: var(--bg-card);
     margin-bottom: 8px;
     padding: 12px 20px;
     border-radius: 10px;
     border: 1px solid var(--border);
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
 .match-row:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     border-color: var(--gold);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Columna Info: Categoría ARRIBA, Fecha ABAJO */
+.col-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
 }
 
 .category-badge {
     font-size: 0.65rem;
-    padding: 4px 8px;
+    padding: 3px 8px;
     border-radius: 5px;
     color: white;
-    font-weight: 700;
-    text-align: center;
-    width: fit-content;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .match-date {
     font-size: 0.75rem;
     color: var(--text-muted);
-    margin-top: 4px;
-    display: block;
+    font-weight: 400;
 }
 
-/* Columna Info (20%) */
-.col-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* Columna Jugadores (40%) */
+/* Columna Jugadores */
 .col-players {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
-    overflow: hidden;
 }
 
 .player {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.95rem;
-    white-space: nowrap; /* Nombre en una sola línea */
+    font-size: 1rem;
+    color: var(--text-muted);
 }
+
+.player-name { white-space: nowrap; }
 
 .is-winner {
     color: var(--text-main);
@@ -165,47 +148,66 @@ input:focus {
 .winner-icon {
     display: none;
     color: var(--gold-dark);
+    font-size: 0.9rem;
 }
 
-.is-winner .winner-icon {
-    display: inline;
-}
+.is-winner .winner-icon { display: inline; }
 
-.vs-text {
-    font-size: 0.75rem;
-    color: #b2bec3;
-    padding: 0 5px;
-}
+.vs-text { font-size: 0.8rem; color: #b2bec3; font-style: italic; }
 
-/* Columna Score (40%) */
+/* Columna Score */
 .col-score {
     text-align: right;
     font-weight: 800;
     color: var(--text-main);
-    font-size: 1rem;
-    white-space: nowrap; /* CRÍTICO: Evita que el score salte de línea */
-    letter-spacing: 0.5px;
+    font-size: 1.05rem;
+    white-space: nowrap;
 }
 
-/* Colores de Categorías */
-.cat-primera { 
-    background-color: #d32f2f !important; 
-    color: white !important;
-}
+/* --- COLORES DE CATEGORÍAS --- */
+.cat-primera { background-color: #d32f2f; }
 .cat-segunda { background-color: #1976d2; }
 .cat-tercera { background-color: #388e3c; }
-.cat-cuarta { background-color: #f57c00; }
-.cat-honor { background-color: #7b1fa2; }
-/* Damas: Rosado Vibrante */
-.cat-damas { 
-    background-color: #ff69b4 !important; /* HotPink */
-    color: white !important;
-}
+.cat-cuarta  { background-color: #f57c00; } /* Naranja Cuarta */
+.cat-damas   { background-color: #ff69b4; } /* Rosado Damas */
+.cat-honor   { background-color: #7b1fa2; }
 
-/* Responsive */
-@media (max-width: 700px) {
+/* --- RESPONSIVE (Móvil) --- */
+
+/* Control de nombres: Completo en PC, Corto en Móvil */
+.full-name { display: inline; }
+.short-name { display: none; }
+
+@media (max-width: 767px) {
     .match-row {
-        grid-template-columns: 1fr 100px; /* En móviles priorizamos jugadores y score */
+        /* En móvil colapsamos a 2 columnas principales */
+        grid-template-columns: 1fr 100px;
+        padding: 12px;
+        gap: 5px;
     }
-    .col-info { display: none; }
+
+    .col-info { display: none; } /* Ocultamos meta info para priorizar juego */
+
+    .full-name { display: none; }
+    .short-name { display: inline; }
+
+    .col-players {
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .player { font-size: 0.95rem; }
+    .vs-text { display: none; } /* Quitamos el VS para limpiar */
+
+    .col-score {
+        font-size: 0.95rem;
+        background: #f1f3f5;
+        padding: 5px 8px;
+        border-radius: 6px;
+        text-align: center;
+    }
+
+    .controls-bar { grid-template-columns: 1fr; }
 }
