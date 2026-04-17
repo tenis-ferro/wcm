@@ -1,7 +1,7 @@
 var arrResult;
 var arrRnk;
-const url = "https://script.google.com/macros/s/AKfycbz3v-tPBGOyCqZfzsz7GejHrni6LV6zFvWyR7_V_q3uUTgZ6KICB_SWPzb8t_NHMPtI/exec?path=Partidos-Grupo&action=read";  
-//const url = "./data/resultados-02.json";
+//const url = "https://script.google.com/macros/s/AKfycbz3v-tPBGOyCqZfzsz7GejHrni6LV6zFvWyR7_V_q3uUTgZ6KICB_SWPzb8t_NHMPtI/exec?path=Partidos-Grupo&action=read";  
+const url = "./data/resultados-02.json";
 
 async function cargarResultados() {
     try {
