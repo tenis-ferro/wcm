@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Torneo Escalerilla 2026 - Fase 1</title>
+    <link rel="stylesheet" href="style.css">
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-26JLZNSPM7');
+	</script>    
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="tournament-info">
+                    <h2>Torneo Escalerrilla 2026</h2>
+                    <p>Vista de Resultados Rápidos</p>
+                </div>
+            </div>
+            
+            <div class="controls-bar">
+                <input type="text" id="searchInput" placeholder="Buscar jugador...">
+                <select id="categoryFilter">
+                    <option value="">Todas las Categorías</option>
+                    <option value="Primera">Primera</option>
+                    <option value="Segunda">Segunda</option>
+                    <option value="Tercera">Tercera</option>
+                    <option value="Cuarta">Cuarta</option>
+                    <option value="Damas">Damas</option>
+                    <option value="Honor">Honor</option>
+                </select>
+            </div>
+            
+            <div id="statsContainer" class="stats-grid"></div>               
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="matchGrid" class="match-list">
+            </div>
+    </main>
+
+    <template id="matchTemplate">
+        <div class="match-row">
+            <div class="col-info">
+                <span class="category-badge"></span>
+                <span class="match-date"></span>
+            </div>
+            <div class="col-players">
+                <div class="player p1">
+                    <span class="player-name"></span>
+                    <span class="winner-icon">🏆</span>
+                </div>
+                <span class="vs-text">vs</span>
+                <div class="player p2">
+                    <span class="player-name"></span>
+                    <span class="winner-icon">🏆</span>
+                </div>
+            </div>
+            <div class="col-score">
+                <span class="score-value"></span>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>
