@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Reservas Tenis Ferro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="tournament-info">
+                    <h2>Gestión de Reservas 2026</h2>
+                    <p>Bandeja de Solicitudes (Google Sheets)</p>
+                </div>
+            </div>
+            
+            <div class="controls-bar">
+                <input type="text" id="searchInput" placeholder="Buscar por socio...">
+                <div id="statsContainer" class="stats-pills">
+                    <span class="pill">Pendientes: <b id="countPendientes">0</b></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="solicitudesGrid" class="match-list">
+            <div class="loader">Conectando con Google Sheets...</div>
+        </div>
+    </main>
+
+    <template id="solicitudTemplate">
+        <div class="match-row solicitud-card">
+            <div class="col-info">
+                <span class="category-badge status-label"></span>
+                <span class="match-date reserva-fecha"></span>
+            </div>
+            
+            <div class="col-players">
+                <div class="player">
+                    <span class="player-name user-name" style="color: var(--primary);"></span>
+                    <div class="alumno-name" style="font-size: 0.9rem; color: #555;"></div>
+                    <div class="comentario-text" style="font-size: 0.8rem; font-style: italic; color: #777; margin-top: 5px;"></div>
+                </div>
+            </div>
+            
+            <div class="col-score actions">
+                <button class="btn-action btn-approve">✅</button>
+                <button class="btn-action btn-reject">❌</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>

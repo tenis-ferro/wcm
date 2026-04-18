@@ -1,4 +1,4 @@
-/* style.css - Diseño Final Optimizado Tenis Ferro */
+/* style.css - Optimizado para Tenis Ferro */
 
 :root {
     --gold: #ffc451;
@@ -17,7 +17,6 @@ body {
     background-color: var(--bg-body);
     color: var(--text-main);
     margin: 0;
-    -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -26,7 +25,6 @@ body {
     padding: 0 15px;
 }
 
-/* --- HEADER Y CONTROLES --- */
 .main-header {
     background: #fff;
     padding: 20px 0;
@@ -34,14 +32,21 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.02);
 }
 
-.tournament-info h2 { margin: 0; font-size: 1.4rem; color: var(--text-main); }
+.tournament-info h2 { margin: 0; font-size: 1.4rem; }
 .tournament-info p { margin: 2px 0 0 0; color: var(--gold-dark); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
 
+/* Barra de Controles y Botón */
 .controls-bar {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     gap: 12px;
     margin: 20px 0;
+}
+
+@media (min-width: 768px) {
+    .controls-bar {
+        grid-template-columns: 2fr 1fr 1.8fr;
+    }
 }
 
 input, select {
@@ -50,18 +55,37 @@ input, select {
     padding: 10px 15px;
     border-radius: 8px;
     font-size: 0.95rem;
-    width: 100%;
 }
 
-/* --- ESTADÍSTICAS (Píldoras) --- */
+.btn-informar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--gold);
+    color: #000;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--gold-dark);
+    white-space: nowrap;
+}
+
+.btn-informar:hover {
+    background-color: var(--gold-dark);
+    transform: translateY(-2px);
+}
+
+/* Estadísticas */
 .stats-pills {
     display: flex;
     gap: 8px;
     overflow-x: auto;
     padding: 5px 0;
-    scrollbar-width: none; /* Oculta scroll en Firefox */
 }
-.stats-pills::-webkit-scrollbar { display: none; } /* Oculta scroll en Chrome/Safari */
 
 .stat-card {
     background: white;
@@ -71,18 +95,17 @@ input, select {
     display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     white-space: nowrap;
 }
-.stat-card h3 { font-size: 0.65rem; color: var(--text-muted); margin: 0; text-transform: uppercase; }
-.stat-card p { font-size: 0.9rem; color: var(--text-main); margin: 0; font-weight: 700; }
 
-/* --- FILAS DE PARTIDOS (Escritorio) --- */
+.stat-card h3 { font-size: 0.65rem; color: var(--text-muted); margin: 0; text-transform: uppercase; }
+.stat-card p { font-size: 0.9rem; margin: 0; font-weight: 700; }
+
+/* Lista de Partidos */
 .match-list { margin-top: 15px; padding-bottom: 40px; }
 
 .match-row {
     display: grid;
-    /* Proporción: 20% Info | 45% Jugadores | 35% Score */
     grid-template-columns: 20% 45% 35%;
     align-items: center;
     background: var(--bg-card);
@@ -90,136 +113,43 @@ input, select {
     padding: 12px 20px;
     border-radius: 10px;
     border: 1px solid var(--border);
-    transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
-.match-row:hover {
-    border-color: var(--gold);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
+.col-info { display: flex; flex-direction: column; gap: 4px; }
+.category-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 5px; color: #fff; font-weight: 800; text-transform: uppercase; }
+.match-date { font-size: 0.75rem; color: var(--text-muted); }
 
-/* Columna Info: Categoría ARRIBA, Fecha ABAJO */
-.col-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-}
-
-.category-badge {
-    font-size: 0.65rem;
-    padding: 3px 8px;
-    border-radius: 5px;
-    color: white;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.match-date {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-weight: 400;
-}
-
-/* Columna Jugadores */
-.col-players {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    justify-content: center;
-}
-
-.player {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 1rem;
-    color: var(--text-muted);
-}
-
-.player-name { white-space: nowrap; }
-
-.is-winner {
-    color: var(--text-main);
-    font-weight: 700;
-}
-
-.winner-icon {
-    display: none;
-    color: var(--gold-dark);
-    font-size: 0.9rem;
-}
-
+.col-players { display: flex; align-items: center; gap: 12px; justify-content: center; }
+.player { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+.is-winner { color: var(--text-main); font-weight: 700; }
+.winner-icon { display: none; color: var(--gold-dark); }
 .is-winner .winner-icon { display: inline; }
 
-.vs-text { font-size: 0.8rem; color: #b2bec3; font-style: italic; }
+.col-score { text-align: right; font-weight: 800; font-size: 1.05rem; }
 
-/* Columna Score */
-.col-score {
-    text-align: right;
-    font-weight: 800;
-    color: var(--text-main);
-    font-size: 1.05rem;
-    white-space: nowrap;
-}
-
-/* --- COLORES DE CATEGORÍAS --- */
+/* Colores Categorías */
 .cat-primera { background-color: #d32f2f; }
 .cat-segunda { background-color: #1976d2; }
 .cat-tercera { background-color: #388e3c; }
-.cat-cuarta  { background-color: #f57c00; } /* Naranja Cuarta */
-.cat-damas   { background-color: #ff69b4; } /* Rosado Damas */
+.cat-cuarta  { background-color: #f57c00; }
+.cat-damas   { background-color: #ff69b4; }
 .cat-honor   { background-color: #7b1fa2; }
 
-/* --- RESPONSIVE (Móvil) --- */
-
-/* Control de nombres: Completo en PC, Corto en Móvil */
-.full-name { display: inline; }
-.short-name { display: none; }
-
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-         background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
-
-.modal-content { background: white; width: 90%; max-width: 400px; padding: 20px; 
-                 border-radius: 12px; position: relative; text-align: center; }
-
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
+.modal-content { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; position: relative; text-align: center; }
 .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
-
-.modal-players { display: flex; flex-direction: column; gap: 15px; padding: 20px 0; }
-.player-big { font-size: 1.2rem; font-weight: bold; border-bottom: 1px solid #eee; padding: 5px; }
-.score-big { font-size: 2rem; font-weight: 800; color: #d32f2f; margin: 10px 0; font-family: monospace; }
+.score-big { font-size: 2rem; font-weight: 800; color: #d32f2f; margin: 15px 0; }
 
 @media (max-width: 767px) {
-    .match-row {
-        /* En móvil colapsamos a 2 columnas principales */
-        grid-template-columns: 1fr 100px;
-        padding: 12px;
-        gap: 5px;
-    }
-
-    .col-info { display: none; } /* Ocultamos meta info para priorizar juego */
-
+    .match-row { grid-template-columns: 1fr 100px; padding: 12px; }
+    .col-info { display: none; }
+    .col-players { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .col-score { background: #f1f3f5; padding: 5px; border-radius: 6px; text-align: center; }
     .full-name { display: none; }
     .short-name { display: inline; }
-
-    .col-players {
-        justify-content: flex-start;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-    }
-
-    .player { font-size: 0.95rem; }
-    .vs-text { display: none; } /* Quitamos el VS para limpiar */
-
-    .col-score {
-        font-size: 0.95rem;
-        background: #f1f3f5;
-        padding: 5px 8px;
-        border-radius: 6px;
-        text-align: center;
-    }
-
-    .controls-bar { grid-template-columns: 1fr; }
+}
+@media (min-width: 768px) {
+    .short-name { display: none; }
 }
