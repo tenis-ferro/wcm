@@ -60,10 +60,18 @@ body {
     gap: 15px;
 }
 
-/* Tarjeta de Solicitud (Basada en tu diseño original) */
+/* Estructura base de la tarjeta (Escritorio) */
 .match-row {
-    grid-template-columns: 150px 1fr 120px; /* Ajustamos anchos */
-    min-height: 100px;
+    background: white;
+    display: grid;
+    grid-template-columns: 140px 1fr 120px; /* Tres columnas claras */
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 6px solid var(--warning);
+    gap: 15px;
 }
 
 .solicitud-card.aprobada { border-left-color: var(--success); }
@@ -145,13 +153,50 @@ body {
     transform: scale(1.1);
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Ajustes para Celulares (Pantallas menores a 768px) */
+@media (max-width: 768px) {
     .match-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Una sola columna: todo hacia abajo */
+        padding: 20px;
         text-align: center;
-        gap: 15px;
     }
-    .actions { justify-content: center; }
-    .col-players { flex-direction: column; gap: 5px; }
+
+    .col-info {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .col-players {
+        align-items: center; /* Centrar contenido en móvil */
+        margin: 15px 0;
+    }
+
+    .player {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Aquí estaba el error, ahora está corregido */
+        text-align: center;
+    }
+
+    .actions {
+        justify-content: center; /* Botones al centro */
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+        width: 100%;
+    }
+
+    .btn-action {
+        width: 60px; /* Botones un poco más grandes para que sean fáciles de tocar */
+        height: 60px;
+    }
+
+    /* Ajuste de buscador en móvil */
+    #searchInput {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
