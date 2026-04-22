@@ -13,7 +13,23 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(url);
             const json = await response.json();
-            allMatches = (json.data || []).sort((a, b) => b.Nro - a.Nro);
+// Obtenemos la data y aplicamos el filtro de integridad
+            const rawData = json.data || [];
+        
+            allMatches = rawData
+                .filter(match => {
+                    // Verificamos que todos los campos requeridos existan y no estén vacíos
+                    return match.Nro && 
+                        match["Jugador 1"] && 
+                        match["Jugador 2"] && 
+                        match.Ganador && 
+                        match.Resultado &&
+                        match["Jugador 1"].trim() !== "" &&
+                        match["Jugador 2"].trim() !== "" &&
+                        match.Resultado.trim() !== "";
+                })
+                .sort((a, b) => b.Nro - a.Nro);
+
             renderMatches(allMatches);
             updateStats(allMatches);
         } catch (error) {
