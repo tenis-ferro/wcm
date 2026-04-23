@@ -11,7 +11,7 @@
 
 <div class="container py-4">
     <header class="pb-3 mb-4 border-bottom">
-        <span class="fs-4">🎾 Sistema de Arriendos 2026</span>
+        <span class="fs-4">🎾 Informe de Arriendos</span>
     </header>
 
     <div class="accordion" id="accordionDashboard">
@@ -61,8 +61,12 @@
                                 <option value="Diciembre 2026">Diciembre</option>
                             </select>
                         </div>
-                        <div class="col-md-8 text-end">
-                            <input type="text" id="buscador-nombre" class="form-control d-inline-block search-box" placeholder="Filtrar por nombre..." onkeyup="filtrarPorNombre()">
+                        <div class="col-md-8 text-end d-flex align-items-center justify-content-end gap-3 flex-wrap">
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" id="filtro-ticket" onchange="aplicarFiltros()">
+                                <label class="form-check-label" for="filtro-ticket">Solo con Ticket</label>
+                            </div>
+                            <input type="text" id="buscador-nombre" class="form-control search-box" placeholder="Filtrar por nombre..." onkeyup="aplicarFiltros()">
                         </div>
                     </div>
 
@@ -217,6 +221,24 @@
         );
         renderizarTabla('tabla-detalle', filtrados, false);
     }
+
+    function aplicarFiltros() {
+        const busqueda = document.getElementById('buscador-nombre').value.toLowerCase();
+        const soloConTicket = document.getElementById('filtro-ticket').checked;
+
+        const filtrados = cacheDetalle.filter(fila => {
+            // Validación de Nombre
+            const cumpleNombre = fila.Nombre && fila.Nombre.toLowerCase().includes(busqueda);
+            
+            // Validación de Ticket (Mayor que 0)
+            const numTicket = parseFloat(fila.Ticket) || 0;
+            const cumpleTicket = soloConTicket ? (numTicket > 0) : true;
+
+            return cumpleNombre && cumpleTicket;
+        });
+
+        renderizarTabla('tabla-detalle', filtrados, false);
+    }    
 
     // LÓGICA DE INICIO AUTOMÁTICO
     window.onload = () => {

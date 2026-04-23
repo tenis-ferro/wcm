@@ -1,6 +1,6 @@
+/* Mejora visual para las filas cliqueables */
 #tabla-detalle tbody tr:hover {
-    background-color: #f2f2f2 !important;
-    transition: background-color 0.2s ease;
+    background-color: #f8f9fa !important;
 }
 
 /* Efecto visual de "pulsar" en móviles */
@@ -22,23 +22,28 @@
     max-width: 300px;
 }
 
+/* Ajustes para los filtros en la cabecera del detalle */
+.gap-3 {
+    gap: 1rem !important;
+}
+
 /* --- OPTIMIZACIÓN PARA MÓVIL --- */
 @media (max-width: 768px) {
-    /* Ocultamos las columnas 2 (Horario) y 4 (Tipo) en la tabla detalle */
+    .col-md-8 {
+        justify-content: flex-start !important;
+        margin-top: 15px;
+    }
+    
+    .search-box {
+        max-width: 100% !important;
+        width: 100%;
+    }
+
+    /* Ocultamos Horario (2da col) y Tipo (4ta col) como solicitaste antes */
     #tabla-detalle th:nth-child(2), 
     #tabla-detalle td:nth-child(2),
     #tabla-detalle th:nth-child(4), 
     #tabla-detalle td:nth-child(4) {
         display: none;
-    }
-
-    /* Reducimos un poco el tamaño de fuente para que nada se corte */
-    .table {
-        font-size: 0.82rem;
-    }
-
-    .container {
-        padding-left: 8px;
-        padding-right: 8px;
     }
 }
