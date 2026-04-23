@@ -79,6 +79,21 @@
         </div>
 
     </div>
+    <div class="modal fade" id="detalleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Detalle del Arriendo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>
+    </div>    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -138,43 +153,61 @@
         if (esResumen) {
             columnas = Object.keys(datos[0]).filter(k => !k.includes("Columna") && !k.includes("Dato"));
         } else {
-            // Mantenemos el orden estándar: Fecha, Horario, Nombre, Tipo, Ingreso, Ticket
             columnas = ["Fecha", "Horario", "Nombre", "Tipo", "Ingreso", "Ticket"];
         }
 
         thead.innerHTML = columnas.map(c => `<th>${c}</th>`).join('');
         
-        tbody.innerHTML = datos.map(fila => {
-            return `<tr>
+        tbody.innerHTML = datos.map((fila, i) => {
+            // Añadimos 'onclick' solo si no es resumen
+            const attrClick = !esResumen ? `onclick='mostrarModal(${JSON.stringify(fila)})' style='cursor:pointer;'` : '';
+            
+            return `<tr ${attrClick}>
                 ${columnas.map((col, index) => {
                     let valor = fila[col] || '';
                     let clase = (esResumen && index === 0) ? 'class="fw-bold-concept"' : '';
 
-                    // --- LÓGICA DE FORMATEO PARA DETALLE ---
                     if (!esResumen) {
-                        // 1. Formato Fecha: 2026-04-23 -> 23-04-26
+                        // Formato Fecha corta
                         if (col === "Fecha" && valor.includes("-")) {
-                            const partes = valor.split("-"); // yyyy-mm-dd
-                            if(partes.length === 3) {
-                                valor = `${partes[2]}-${partes[1]}-${partes[0].slice(-2)}`;
-                            }
+                            const p = valor.split("-");
+                            valor = `${p[2]}-${p[1]}-${p[0].slice(-2)}`;
                         }
-
-                        // 2. Formato Nombre: Juan Luis Orellana -> J. Orellana
+                        // Formato Nombre corto
                         if (col === "Nombre" && valor.trim().includes(" ")) {
-                            const partesNombre = valor.trim().split(/\s+/);
-                            const inicial = partesNombre[0].charAt(0).toUpperCase();
-                            const apellido = partesNombre[partesNombre.length - 1];
-                            valor = `${inicial}. ${apellido}`;
+                            const n = valor.trim().split(/\s+/);
+                            valor = `${n[0].charAt(0)}. ${n[n.length - 1]}`;
                         }
                     }
-
                     return `<td ${clase}>${valor}</td>`;
                 }).join('')}
             </tr>`;
         }).join('');
         
         tabla.style.display = 'table';
+    }
+
+    // Nueva función para mostrar el modal con TODOS los datos
+    function mostrarModal(fila) {
+        const modalBody = document.getElementById('modal-body-content');
+        
+        // Generamos una lista con todos los campos disponibles en el objeto
+        let contenido = '<ul class="list-group list-group-flush">';
+        for (const [key, value] of Object.entries(fila)) {
+            if(key.trim() !== "") {
+                contenido += `
+                    <li class="list-group-item">
+                        <strong>${key}:</strong> <span class="float-end">${value || '---'}</span>
+                    </li>`;
+            }
+        }
+        contenido += '</ul>';
+        
+        modalBody.innerHTML = contenido;
+        
+        // Abrimos el modal de Bootstrap
+        const miModal = new bootstrap.Modal(document.getElementById('detalleModal'));
+        miModal.show();
     }
 
     function filtrarPorNombre() {

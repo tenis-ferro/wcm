@@ -1,0 +1,44 @@
+#tabla-detalle tbody tr:hover {
+    background-color: #f2f2f2 !important;
+    transition: background-color 0.2s ease;
+}
+
+/* Efecto visual de "pulsar" en móviles */
+#tabla-detalle tbody tr:active {
+    background-color: #e2e2e2 !important;
+}
+/* Estilos Generales */
+.accordion-button:not(.collapsed) {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+
+.fw-bold-concept {
+    font-weight: 700;
+    background-color: #f8f9fa;
+}
+
+.search-box {
+    max-width: 300px;
+}
+
+/* --- OPTIMIZACIÓN PARA MÓVIL --- */
+@media (max-width: 768px) {
+    /* Ocultamos las columnas 2 (Horario) y 4 (Tipo) en la tabla detalle */
+    #tabla-detalle th:nth-child(2), 
+    #tabla-detalle td:nth-child(2),
+    #tabla-detalle th:nth-child(4), 
+    #tabla-detalle td:nth-child(4) {
+        display: none;
+    }
+
+    /* Reducimos un poco el tamaño de fuente para que nada se corte */
+    .table {
+        font-size: 0.82rem;
+    }
+
+    .container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
