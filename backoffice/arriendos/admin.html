@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Bandeja de Aprobaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        :root { --admin-dark: #212529; --brand-success: #198754; --brand-danger: #dc3545; }
+        body { background-color: #f1f3f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar-admin { background-color: var(--admin-dark); color: white; }
+        .card-table { border: none; border-radius: 10px; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); }
+        .badge-status { font-weight: 500; padding: 0.5em 0.75em; border-radius: 6px; }
+        .status-pendiente { background-color: #fff3cd; color: #856404; }
+        .status-aprobado { background-color: #d1e7dd; color: #0f5132; }
+        .status-rechazado { background-color: #f8d7da; color: #842029; }
+        .btn-action { padding: 0.25rem 0.5rem; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-admin mb-4">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1"><i class="bi bi-shield-lock-fill me-2"></i>Admin Dashboard - Aprobaciones</span>
+    </div>
+</nav>
+
+<div class="container-fluid px-4">
+    <div class="card card-table">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-dark fw-bold">Solicitudes Pendientes de Revisión</h5>
+            <div class="d-flex gap-2">
+                <input type="text" id="buscadorAdmin" class="form-control form-control-sm" placeholder="Buscar por alumno o profesor..." onkeyup="filtrarAdmin()">
+                <button class="btn btn-outline-secondary btn-sm" onclick="obtenerDatosAdmin()"><i class="bi bi-arrow-clockwise"></i></button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="tablaAprobaciones">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Profesor</th>
+                            <th>Alumno</th>
+                            <th>Estado</th>
+                            <th>Ticket</th>
+                            <th class="text-center">Acciones de Aprobación</th>
+                            <th class="text-end">Gestión</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyAdmin">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalGestion" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitulo">Editar Solicitud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEdicion">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Profesor</label>
+                            <input type="text" id="editProfesor" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Alumno</label>
+                            <input type="text" id="editAlumno" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Estado</label>
+                            <select id="editEstado" class="form-select">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Aprobado">Aprobado</option>
+                                <option value="Rechazado">Rechazado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ticket</label>
+                            <input type="text" id="editTicket" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Observaciones Internas</label>
+                            <textarea id="editObservaciones" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger me-auto" onclick="eliminarRegistro()">Eliminar Registro</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzGUneIMiVzI22GzGi-An8XusnKjzLs6QE6xnltxU_Nax2GAhhdMjhvw0B8lgo02iL5/exec'; // La misma que usas para el GET
+    let datosAdmin = [];
+    let filaSeleccionada = null;
+
+    async function obtenerDatosAdmin() {
+        const tbody = document.getElementById('tbodyAdmin');
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center p-5"><div class="spinner-border text-primary"></div></td></tr>';
+
+        try {
+            const response = await fetch(API_URL, { redirect: 'follow' });
+
+            console.log(result);
+
+            if (result.status === "success") {
+                datosAdmin = result.data.reverse();
+                renderizarTablaAdmin(datosAdmin);
+            }
+        } catch (e) { console.error(e); }
+    }
+
+    function renderizarTablaAdmin(lista) {
+        const tbody = document.getElementById('tbodyAdmin');
+        tbody.innerHTML = '';
+
+        lista.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            const estado = item.estado || 'Pendiente';
+            const claseEstado = `status-${estado.toLowerCase()}`;
+            
+            tr.innerHTML = `
+                <td>${item.fecha ? new Date(item.fecha).toLocaleDateString() : '---'}</td>
+                <td class="fw-bold">${item.profesor}</td>
+                <td>${item.alumno}</td>
+                <td><span class="badge-status ${claseEstado}">${estado}</span></td>
+                <td class="text-primary fw-bold">${item.ticket || '-'}</td>
+                <td class="text-center">
+                    <button class="btn btn-success btn-action me-1" onclick="cambioRapidoEstado('${item.ticket}', 'Aprobado')">
+                        <i class="bi bi-check-lg"></i>
+                    </button>
+                    <button class="btn btn-danger btn-action" onclick="cambioRapidoEstado('${item.ticket}', 'Rechazado')">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </td>
+                <td class="text-end">
+                    <button class="btn btn-outline-primary btn-sm" onclick='abrirEditor(${JSON.stringify(item)})'>
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function abrirEditor(item) {
+        filaSeleccionada = item;
+        document.getElementById('editProfesor').value = item.profesor;
+        document.getElementById('editAlumno').value = item.alumno;
+        document.getElementById('editEstado').value = item.estado || 'Pendiente';
+        document.getElementById('editTicket').value = item.ticket || '';
+        document.getElementById('editObservaciones').value = item.observaciones || '';
+        
+        new bootstrap.Modal(document.getElementById('modalGestion')).show();
+    }
+
+    // --- FUNCIONES DE ACCIÓN (Simuladas - Requieren tu endpoint POST) ---
+
+    function cambioRapidoEstado(ticket, nuevoEstado) {
+        if(confirm(`¿Deseas marcar el ticket ${ticket} como ${nuevoEstado}?`)) {
+            console.log("Enviando actualización a Google Sheets...", { ticket, nuevoEstado });
+            alert("Acción registrada (Conecta con tu doPost en Apps Script)");
+            // Aquí llamarías a fetch(API_URL, {method: 'POST', body: ...})
+        }
+    }
+
+    function guardarCambios() {
+        alert("Cambios guardados exitosamente.");
+        // Aquí implementarías la lógica para enviar el objeto actualizado al servidor
+    }
+
+    function eliminarRegistro() {
+        if(confirm("¿ESTÁS SEGURO? Esta acción no se puede deshacer en el Excel.")) {
+            alert("Registro eliminado.");
+        }
+    }
+
+    function filtrarAdmin() {
+        const t = document.getElementById('buscadorAdmin').value.toLowerCase();
+        const f = datosAdmin.filter(i => `${i.profesor} ${i.alumno} ${i.ticket}`.toLowerCase().includes(t));
+        renderizarTablaAdmin(f);
+    }
+
+    window.onload = obtenerDatosAdmin;
+</script>
+</body>
+</html>

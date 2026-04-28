@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(url);
             const json = await response.json();
-// Obtenemos la data y aplicamos el filtro de integridad
+
             const rawData = json.data || [];
-        
+                    
             allMatches = rawData
                 .filter(match => {
                     // Verificamos que todos los campos requeridos existan y no estén vacíos
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .sort((a, b) => b.Nro - a.Nro);
 
+            console.log(allMatches);
             renderMatches(allMatches);
             updateStats(allMatches);
         } catch (error) {
