@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidos Escalerilla 2026</title>
+    <link rel="stylesheet" href="style.css">
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-26JLZNSPM7');
+	</script>    
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="tournament-info">
+                    <h2>Torneo Escalerilla 2026</h2>
+                    <p>Resultados Actualizados</p>
+                </div>
+            </div>
+            
+            <div class="controls-bar">
+                <input type="text" id="searchInput" placeholder="Buscar jugador...">
+                <select id="categoryFilter">
+                    <option value="">Todas las Categorías</option>
+                    <option value="Primera">Primera</option>
+                    <option value="Segunda">Segunda</option>
+                    <option value="Tercera">Tercera</option>
+                    <option value="Cuarta">Cuarta</option>
+                    <option value="Damas">Damas</option>
+                    <option value="Honor">Honor</option>
+                </select>
+                <a href="https://forms.gle/ZGhkSuykdZBtJfcs8" target="_blank" class="btn-informar">
+                    <span>📝</span> Informar Resultado
+                </a>
+            </div>
+            <div id="statsContainer" class="stats-pills"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="matchGrid" class="match-list">
+            <div class="loader">Cargando resultados...</div>
+        </div>
+    </main>
+
+    <template id="matchTemplate">
+        <div class="match-row">
+            <div class="col-info">
+                <span class="category-badge"></span>
+                <span class="match-date"></span>
+            </div>
+            <div class="col-players">
+                <div class="player p1">
+                    <span class="player-name"></span>
+                    <span class="winner-icon">🏆</span>
+                </div>
+                <span class="vs-text">vs</span>
+                <div class="player p2">
+                    <span class="player-name"></span>
+                    <span class="winner-icon">🏆</span>
+                </div>
+            </div>
+            <div class="col-score">
+                <span class="score-value"></span>
+            </div>
+        </div>
+    </template>
+
+    <div id="matchModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalCat">Categoría</h2>
+                <p id="modalDate">Fecha</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-players">
+                    <div class="player-big"><span id="p1Name"></span></div>
+                    <div class="score-big" id="finalScore"></div>
+                    <div class="player-big"><span id="p2Name"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app-02.js"></script>
+</body>
+</html>

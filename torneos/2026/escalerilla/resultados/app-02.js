@@ -1,5 +1,4 @@
-//const url = "https://script.google.com/macros/s/AKfycbwqKfF8SWCBHTWnnUWXGRBPJc5TKXkKJvzz8qEhBZjmAfaUc_pgIUukU-LMsKWbDFHY/exec?path=Partidos-Grupo&action=read";
-const url = "./../data/resultados.json";
+const url = "https://script.google.com/macros/s/AKfycbwqKfF8SWCBHTWnnUWXGRBPJc5TKXkKJvzz8qEhBZjmAfaUc_pgIUukU-LMsKWbDFHY/exec?path=Partidos-Grupo&action=read";
 
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('matchGrid');
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allMatches = rawData
                 .filter(match => {
                     // Verificamos que todos los campos requeridos existan y no estén vacíos
-                    const faseValida = match.Fase == "RR";
+                    const faseValida = match.Fase !== "RR";
                     const camposValidos = match.Nro && 
                         match["Jugador 1"] && 
                         match["Jugador 2"] && 
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return faseValida && camposValidos;
                 })
                 .sort((a, b) => b.Nro - a.Nro);
-
 
             console.log(allMatches);
             renderMatches(allMatches);
