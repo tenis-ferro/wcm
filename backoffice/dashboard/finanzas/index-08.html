@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Dashboard Financiero</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f7f0;
+            padding: 24px 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            color: #1e3a2f;
+            font-weight: 700;
+        }
+        .title-section p {
+            color: #2d5a3f;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .badge-year {
+            background: #1e5c3a;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls-panel {
+            background: white;
+            border-radius: 28px;
+            padding: 18px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .toggle-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .toggle-btn {
+            background: #e8f0ea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            color: #1e3a2f;
+        }
+        .toggle-btn.active {
+            background: #1e5c3a;
+            color: white;
+        }
+        .toggle-btn.inactive {
+            background: #cbdcd0;
+            color: #5a6e62;
+            opacity: 0.6;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .filter-select {
+            background: #e8f0ea;
+            padding: 5px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .filter-select label {
+            font-weight: 600;
+            color: #1e3a2f;
+        }
+        select {
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px solid #bdd4c5;
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .reset-btn {
+            background: #2c3e35;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 28px;
+            padding: 22px 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            border-left: 6px solid #1e5c3a;
+        }
+        .kpi-card.hidden-card { display: none; }
+        .kpi-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #4b6b58;
+            margin-bottom: 12px;
+        }
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1e3a2f;
+        }
+        .kpi-sub {
+            font-size: 0.75rem;
+            color: #5a6e62;
+            margin-top: 8px;
+        }
+
+        .composition-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-bottom: 35px;
+        }
+        .composition-card {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+        }
+        .composition-card h3 {
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #1e3a2f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #e8f0ea;
+            padding-bottom: 12px;
+        }
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comp-table th, .comp-table td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e8f0ea;
+        }
+        .comp-table th {
+            font-weight: 700;
+            color: #1e5c3a;
+            background: #f8fcf9;
+        }
+        .number-cell {
+            text-align: right;
+            font-weight: 500;
+        }
+        .percentage-cell {
+            text-align: right;
+            font-weight: 600;
+            color: #1e5c3a;
+        }
+
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-bottom: 35px;
+        }
+        .chart-box {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            flex: 1;
+            min-width: 280px;
+        }
+        .full-width {
+            flex: 100%;
+        }
+        .table-box {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            margin-top: 0;
+        }
+        .hidden-component { display: none; }
+        h3 i { width: 28px; }
+        canvas { max-height: 260px; width: 100%; }
+        
+        /* Pestañas */
+        .tabs-container {
+            margin-top: 10px;
+        }
+        .tabs-header {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #e8f0ea;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px 30px 0 0;
+            transition: all 0.2s;
+            color: #5a6e62;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tab-btn.active {
+            color: #1e5c3a;
+            background: #e8f0ea;
+            border-bottom: 3px solid #1e5c3a;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Barra de búsqueda */
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-bar input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 1px solid #bdd4c5;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-bar input:focus {
+            border-color: #1e5c3a;
+            box-shadow: 0 0 0 2px #1e5c3a20;
+        }
+        .search-bar button {
+            background: #e8f0ea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .search-bar button:hover {
+            background: #cbdcd0;
+        }
+        .clear-search {
+            background: #f0e0d0;
+        }
+        .clear-search:hover {
+            background: #e0ccb8;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .data-table th, .data-table td {
+            padding: 10px 6px;
+            text-align: left;
+            border-bottom: 1px solid #dde5e0;
+        }
+        .data-table th {
+            font-weight: 700;
+            color: #1e5c3a;
+            background: #f8fcf9;
+            position: sticky;
+            top: 0;
+        }
+        .table-wrapper {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 16px;
+        }
+        
+        /* Tarjeta específica para descomposición de cuota mensual */
+        .quota-card {
+            background: linear-gradient(135deg, #1e5c3a10, #ffffff);
+            border: 1px solid #1e5c3a30;
+        }
+        .quota-card h3 i {
+            color: #1e5c3a;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: #5a6e62;
+            border-top: 1px solid #cbdcd0;
+            padding-top: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .composition-row { flex-direction: column; }
+            .charts-row { flex-direction: column; }
+            .tab-btn { padding: 8px 16px; font-size: 0.85rem; }
+            .data-table { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-table-tennis"></i> Club de Tenis - Dashboard Financiero</h1>
+            <p>Análisis de composición | Ingresos y Egresos 2024</p>
+        </div>
+        <div class="badge-year">
+            <i class="fas fa-calendar-alt"></i> Año 2024 · Datos reales
+        </div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="toggle-group">
+            <button id="toggleKpiBtn" class="toggle-btn active"><i class="fas fa-chart-simple"></i> KPIs</button>
+            <button id="toggleCompositionBtn" class="toggle-btn active"><i class="fas fa-table-list"></i> Tablas Composición</button>
+            <button id="toggleQuotaBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Cuota Mensual</button>
+            <button id="toggleChartsBtn" class="toggle-btn active"><i class="fas fa-chart-pie"></i> Gráficos</button>
+            <button id="toggleDetailTableBtn" class="toggle-btn active"><i class="fas fa-receipt"></i> Detalle</button>
+        </div>
+        <div class="filter-group">
+            <div class="filter-select">
+                <label><i class="fas fa-calendar-month"></i> Mes:</label>
+                <select id="monthFilter">
+                    <option value="all">📊 Todos (2024)</option>
+                    <option value="1">Enero</option><option value="2">Febrero</option>
+                    <option value="3">Marzo</option><option value="4">Abril</option>
+                    <option value="5">Mayo</option><option value="6">Junio</option>
+                    <option value="7">Julio</option><option value="8">Agosto</option>
+                    <option value="9">Septiembre</option><option value="10">Octubre</option>
+                    <option value="11">Noviembre</option><option value="12">Diciembre</option>
+                </select>
+            </div>
+            <button id="resetAllBtn" class="reset-btn"><i class="fas fa-undo-alt"></i> Resetear</button>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div id="kpiSection" class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-dollar-sign"></i> Balance Neto</div><div class="kpi-value" id="balanceValue">$0</div><div class="kpi-sub" id="balanceSub">-</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-arrow-up"></i> Total Ingresos</div><div class="kpi-value" id="totalIngresos">$0</div><div class="kpi-sub" id="ingresosSub">-</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-arrow-down"></i> Total Egresos</div><div class="kpi-value" id="totalEgresos">$0</div><div class="kpi-sub" id="egresosSub">-</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-chart-pie"></i> Margen %</div><div class="kpi-value" id="margenValue">0%</div><div class="kpi-sub" id="margenSub">sobre ingresos</div></div>
+    </div>
+
+    <!-- Tablas de composición -->
+    <div id="compositionSection" class="composition-row">
+        <div class="composition-card">
+            <h3><i class="fas fa-chart-simple" style="color:#15803d;"></i> Composición de Ingresos</h3>
+            <table class="comp-table" id="ingresosCompositionTable">
+                <thead><tr><th>Categoría</th><th>Monto</th><th>% Peso</th></tr></thead>
+                <tbody id="ingresosCompositionBody"></tbody>
+            </table>
+        </div>
+        <div class="composition-card">
+            <h3><i class="fas fa-chart-simple" style="color:#b91c1c;"></i> Composición de Egresos</h3>
+            <table class="comp-table" id="egresosCompositionTable">
+                <thead><tr><th>Categoría</th><th>Monto</th><th>% Peso</th></tr></thead>
+                <tbody id="egresosCompositionBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Descomposición de Cuota Mensual -->
+    <div id="quotaSection" class="composition-row">
+        <div class="composition-card quota-card">
+            <h3><i class="fas fa-chart-line"></i> Descomposición de CUOTA MENSUAL</h3>
+            <table class="comp-table" id="quotaCompositionTable">
+                <thead>
+                    <tr>
+                        <th>Tipo de Socio</th>
+                        <th>Monto Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>% Peso</th>
+                    </tr>
+                </thead>
+                <tbody id="quotaCompositionBody"></tbody>
+                <tfoot id="quotaCompositionFoot"></tfoot>
+            </table>
+        </div>
+        <div class="composition-card">
+            <h3><i class="fas fa-chart-pie"></i> Distribución Cuota Mensual</h3>
+            <canvas id="quotaChart" style="max-height: 250px;"></canvas>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="charts-row">
+        <div id="chartIngresos" class="chart-box">
+            <h3><i class="fas fa-chart-pie"></i> Distribución Ingresos</h3>
+            <canvas id="ingresosChart"></canvas>
+        </div>
+        <div id="chartEgresos" class="chart-box">
+            <h3><i class="fas fa-chart-pie"></i> Distribución Egresos</h3>
+            <canvas id="egresosChart"></canvas>
+        </div>
+    </div>
+
+    <div class="charts-row">
+        <div id="comparisonChart" class="chart-box full-width">
+            <h3><i class="fas fa-chart-bar"></i> Evolución Mensual</h3>
+            <canvas id="monthlyComparisonChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Detalle de movimientos -->
+    <div id="detailTableSection" class="table-box">
+        <h3><i class="fas fa-list-ul"></i> Detalle de Movimientos <span id="tablePeriodLabel"></span></h3>
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="ingresos-tab">
+                    <i class="fas fa-arrow-up" style="color:#15803d;"></i> Ingresos
+                </button>
+                <button class="tab-btn" data-tab="egresos-tab">
+                    <i class="fas fa-arrow-down" style="color:#b91c1c;"></i> Egresos
+                </button>
+            </div>
+            
+            <div id="ingresos-tab" class="tab-content active">
+                <div class="search-bar">
+                    <input type="text" id="searchIngresos" placeholder="🔍 Buscar por socio, categoría o ticket...">
+                    <button id="clearSearchIngresos" class="clear-search">Limpiar</button>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead><tr><th>ID</th><th>Ticket</th><th>Fecha</th><th>Socio</th><th>Categoría</th><th>Subcategoría</th><th>Monto</th></tr></thead>
+                        <tbody id="ingresosTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="egresos-tab" class="tab-content">
+                <div class="search-bar">
+                    <input type="text" id="searchEgresos" placeholder="🔍 Buscar por proveedor, concepto, motivo o categoría...">
+                    <button id="clearSearchEgresos" class="clear-search">Limpiar</button>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead><tr><th>Fecha</th><th>Categoría</th><th>Subcategoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th></tr></thead>
+                        <tbody id="egresosTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><i class="fas fa-mouse-pointer"></i> Nueva vista: Descomposición de CUOTA MENSUAL por tipo de socio (REGULAR $43.500 | DAMAS/ESTUDIANTE $21.750 | PASIVO $13.050)</div>
+</div>
+
+<script>
+    let ingresosData = [];
+    let egresosData = [];
+    let currentMonth = "all";
+    let ingresosChart, egresosChart, monthlyChart, quotaChart;
+    
+    let ingresosSearchTerm = "";
+    let egresosSearchTerm = "";
+    
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    // Montos de cuota mensual por tipo
+    const QUOTA_TIPOS = {
+        "REGULAR": 43500,
+        "DAMAS": 21750,
+        "ESTUDIANTE": 21750,
+        "PASIVO": 13050
+    };
+    
+    // Categorías principales
+    const INGRESOS_CATEGORIAS_PRINCIPALES = ["CUOTA MENSUAL", "ARRIENDO", "CUOTA INCORPORACION", "TORNEO"];
+    const EGRESOS_CATEGORIAS_PRINCIPALES = ["REMUNERACIONES", "CANCHAS", "SERVICIOS BÁSICOS", "MANTENCION", "PROYECTOS"];
+    
+    function groupByFixedCategories(categoryMap, categoriasPrincipales) {
+        const result = new Map();
+        for (const cat of categoriasPrincipales) result.set(cat, 0);
+        let otrosMonto = 0;
+        for (const [cat, monto] of categoryMap.entries()) {
+            const upperCat = cat.toUpperCase().trim();
+            let encontrada = false;
+            for (const principal of categoriasPrincipales) {
+                if (upperCat === principal || upperCat.includes(principal)) {
+                    result.set(principal, (result.get(principal) || 0) + monto);
+                    encontrada = true;
+                    break;
+                }
+            }
+            if (!encontrada) otrosMonto += monto;
+        }
+        const items = [];
+        for (const [cat, monto] of result.entries()) if (monto > 0) items.push({ categoria: cat, monto });
+        if (otrosMonto > 0) items.push({ categoria: "📦 OTROS", monto: otrosMonto });
+        const total = items.reduce((sum, item) => sum + item.monto, 0);
+        items.forEach(item => item.porcentaje = (item.monto / total) * 100);
+        items.sort((a, b) => b.monto - a.monto);
+        return items;
+    }
+    
+    // Función para descomponer cuota mensual
+    // Función corregida para descomponer cuota mensual SOLO POR MONTO
+    function analyzeQuotaMensual(filteredIngresos) {
+        // Filtrar solo los registros con categoría "CUOTA MENSUAL"
+        const cuotaMensualItems = filteredIngresos.filter(ing => 
+            ing.categoria && ing.categoria.toUpperCase().trim() === "CUOTA MENSUAL"
+        );
+        
+        // Inicializar contadores
+        let regular = { cantidad: 0, total: 0 };
+        let damaEstudiante = { cantidad: 0, total: 0 };
+        let pasivo = { cantidad: 0, total: 0 };
+        let otros = { cantidad: 0, total: 0 };
+        
+        // Clasificar SOLO por monto
+        cuotaMensualItems.forEach(item => {
+            const monto = item.importe;
+            
+            if (monto === 43500) {
+                regular.cantidad++;
+                regular.total += monto;
+            } else if (monto === 21750) {
+                damaEstudiante.cantidad++;
+                damaEstudiante.total += monto;
+            } else if (monto === 13050) {
+                pasivo.cantidad++;
+                pasivo.total += monto;
+            } else {
+                otros.cantidad++;
+                otros.total += monto;
+            }
+        });
+        
+        // Construir resultado solo si hay datos
+        const quotaData = [];
+        
+        if (regular.cantidad > 0) {
+            quotaData.push({
+                tipo: "REGULAR",
+                montoUnitario: 43500,
+                cantidad: regular.cantidad,
+                total: regular.total
+            });
+        }
+        
+        if (damaEstudiante.cantidad > 0) {
+            quotaData.push({
+                tipo: "DAMA / ESTUDIANTE",
+                montoUnitario: 21750,
+                cantidad: damaEstudiante.cantidad,
+                total: damaEstudiante.total
+            });
+        }
+        
+        if (pasivo.cantidad > 0) {
+            quotaData.push({
+                tipo: "PASIVO",
+                montoUnitario: 13050,
+                cantidad: pasivo.cantidad,
+                total: pasivo.total
+            });
+        }
+        
+        if (otros.cantidad > 0) {
+            quotaData.push({
+                tipo: "📦 OTROS",
+                montoUnitario: null,
+                cantidad: otros.cantidad,
+                total: otros.total
+            });
+        }
+        
+        // Calcular totales y porcentajes
+        const totalCuotas = regular.total + damaEstudiante.total + pasivo.total + otros.total;
+        const cantidadRegistros = cuotaMensualItems.length;
+        
+        quotaData.forEach(item => {
+            item.porcentaje = totalCuotas > 0 ? (item.total / totalCuotas) * 100 : 0;
+        });
+        
+        return { quotaData, totalCuotas, cantidadRegistros };
+    }
+    
+    function renderQuotaAnalysis(filteredIngresos) {
+        const { quotaData, totalCuotas, cantidadRegistros } = analyzeQuotaMensual(filteredIngresos);
+        const tbody = document.getElementById('quotaCompositionBody');
+        tbody.innerHTML = '';
+        
+        quotaData.forEach(item => {
+            const montoUnitarioStr = item.montoUnitario ? `$${item.montoUnitario.toLocaleString('es-CL')}` : '---';
+            tbody.insertAdjacentHTML('beforeend', `</tr>
+                <td><strong>${item.tipo}</strong></td>
+                <td>${montoUnitarioStr}</td>
+                <td class="number-cell">${item.cantidad}</td>
+                <td class="number-cell">$${item.total.toLocaleString('es-CL')}</td>
+                <td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td>
+            </tr>`);
+        });
+        
+        const tfoot = document.getElementById('quotaCompositionFoot');
+        tfoot.innerHTML = `<tr class="total-row"><td><strong>TOTAL</strong></td><td></td><td class="number-cell"><strong>${cantidadRegistros}</strong></td><td class="number-cell"><strong>$${totalCuotas.toLocaleString('es-CL')}</strong></td><td class="percentage-cell"><strong>100%</strong></td></tr>`;
+        
+        // Gráfico de cuota mensual
+        const ctx = document.getElementById('quotaChart').getContext('2d');
+        if (quotaChart) quotaChart.destroy();
+        const labels = quotaData.map(d => `${d.tipo} (${d.porcentaje.toFixed(0)}%)`);
+        const data = quotaData.map(d => d.total);
+        const colors = ['#1e7554', '#2e9e73', '#45c48b', '#a8e0c2', '#caf0df'];
+        quotaChart = new Chart(ctx, {
+            type: 'pie',
+            data: { labels: labels, datasets: [{ data: data, backgroundColor: colors }] },
+            options: { responsive: true, plugins: { legend: { position: 'right' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: $${ctx.raw.toLocaleString('es-CL')}` } } } }
+        });
+    }
+    
+    async function loadData() {
+        try {
+            const ingresosResp = await fetch('./../data/ingresos-2024.json');
+            const egresosResp = await fetch('./../data/egresos-2024.json');
+            if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON');
+            const ingresosJson = await ingresosResp.json();
+            const egresosJson = await egresosResp.json();
+            ingresosData = ingresosJson.Ingresos || ingresosJson;
+            egresosData = egresosJson.Egresos || egresosJson;
+            ingresosData = ingresosData.filter(item => item.anno === 2024);
+            egresosData = egresosData.filter(item => item.anno === 2024);
+            
+            document.getElementById('monthFilter').addEventListener('change', (e) => {
+                currentMonth = e.target.value;
+                renderDashboard();
+            });
+            
+            setupTabs();
+            setupSearchHandlers();
+            renderDashboard();
+        } catch (error) {
+            document.body.innerHTML = `<div style="padding:40px;text-align:center;color:red;"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}<br>Verifica data/ingresos.json y data/egresos.json</div>`;
+        }
+    }
+    
+    function setupTabs() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    }
+    
+    function setupSearchHandlers() {
+        document.getElementById('searchIngresos').addEventListener('input', (e) => {
+            ingresosSearchTerm = e.target.value.toLowerCase();
+            renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData));
+        });
+        document.getElementById('clearSearchIngresos').addEventListener('click', () => {
+            document.getElementById('searchIngresos').value = '';
+            ingresosSearchTerm = '';
+            renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData));
+        });
+        document.getElementById('searchEgresos').addEventListener('input', (e) => {
+            egresosSearchTerm = e.target.value.toLowerCase();
+            renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData));
+        });
+        document.getElementById('clearSearchEgresos').addEventListener('click', () => {
+            document.getElementById('searchEgresos').value = '';
+            egresosSearchTerm = '';
+            renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData));
+        });
+    }
+    
+    function filterByMonth(data) {
+        if (currentMonth === "all") return data;
+        return data.filter(item => item.mes === parseInt(currentMonth));
+    }
+    
+    function filterIngresosBySearch(data) {
+        if (!ingresosSearchTerm) return data;
+        return data.filter(item => {
+            const socio = (item.nomsocio || "").toLowerCase();
+            const categoria = (item.categoria || "").toLowerCase();
+            const ticket = (item.ticket || "").toString().toLowerCase();
+            return socio.includes(ingresosSearchTerm) || categoria.includes(ingresosSearchTerm) || ticket.includes(ingresosSearchTerm);
+        });
+    }
+    
+    function filterEgresosBySearch(data) {
+        if (!egresosSearchTerm) return data;
+        return data.filter(item => {
+            const proveedor = (item.nomproveedor || "").toLowerCase();
+            const concepto = (item.nomconcepto || "").toLowerCase();
+            const motivo = (item.motivo || "").toLowerCase();
+            const categoria = (item.categoria || "").toLowerCase();
+            return proveedor.includes(egresosSearchTerm) || concepto.includes(egresosSearchTerm) || motivo.includes(egresosSearchTerm) || categoria.includes(egresosSearchTerm);
+        });
+    }
+    
+    function getPeriodText() {
+        if (currentMonth === "all") return "Acumulado 2024";
+        return monthNames[parseInt(currentMonth)-1];
+    }
+    
+    function renderCompositionTables(filteredIngresos, filteredEgresos) {
+        const ingresosCatMap = new Map();
+        filteredIngresos.forEach(ing => ingresosCatMap.set((ing.categoria || "Sin categoría").toUpperCase().trim(), (ingresosCatMap.get((ing.categoria || "Sin categoría").toUpperCase().trim()) || 0) + ing.importe));
+        const ingresosGrouped = groupByFixedCategories(ingresosCatMap, INGRESOS_CATEGORIAS_PRINCIPALES);
+        const ingresosBody = document.getElementById('ingresosCompositionBody');
+        ingresosBody.innerHTML = '';
+        ingresosGrouped.forEach(item => {
+            ingresosBody.insertAdjacentHTML('beforeend', `<tr><td>${item.categoria}</td><td class="number-cell">$${item.monto.toLocaleString('es-CL')}</td><td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td></tr>`);
+        });
+        
+        const egresosCatMap = new Map();
+        filteredEgresos.forEach(eg => egresosCatMap.set((eg.categoria || "Sin categoría").toUpperCase().trim(), (egresosCatMap.get((eg.categoria || "Sin categoría").toUpperCase().trim()) || 0) + eg.importe));
+        const egresosGrouped = groupByFixedCategories(egresosCatMap, EGRESOS_CATEGORIAS_PRINCIPALES);
+        const egresosBody = document.getElementById('egresosCompositionBody');
+        egresosBody.innerHTML = '';
+        egresosGrouped.forEach(item => {
+            egresosBody.insertAdjacentHTML('beforeend', `<tr><td>${item.categoria}</td><td class="number-cell">$${item.monto.toLocaleString('es-CL')}</td><td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td></tr>`);
+        });
+        return { ingresosGrouped, egresosGrouped };
+    }
+    
+    function renderDetailTables(filteredIngresos, filteredEgresos) {
+        let ingresosToShow = filterIngresosBySearch(filteredIngresos);
+        ingresosToShow = [...ingresosToShow].sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        const ingresosBody = document.getElementById('ingresosTableBody');
+        ingresosBody.innerHTML = '';
+        ingresosToShow.forEach(ing => {
+            ingresosBody.insertAdjacentHTML('beforeend', `<tr><td>${ing.iding || '-'}</td><td>${ing.ticket || '-'}</td><td>${ing.fecha ? ing.fecha.slice(0,10) : `${ing.anno}-${String(ing.mes).padStart(2,'0')}`}</td><td>${ing.nomsocio || ing.tiping || '-'}</td><td>${ing.categoria || '-'}</td><td>${ing.subcategoria || '-'}</td><td class="number-cell">$${ing.importe.toLocaleString('es-CL')}</td>`);
+        });
+        if (ingresosToShow.length === 0) ingresosBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px;">📭 No hay ingresos</td></tr>';
+        
+        let egresosToShow = filterEgresosBySearch(filteredEgresos);
+        egresosToShow = [...egresosToShow].sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        const egresosBody = document.getElementById('egresosTableBody');
+        egresosBody.innerHTML = '';
+        egresosToShow.forEach(eg => {
+            egresosBody.insertAdjacentHTML('beforeend', `<tr><td>${eg.fecha ? eg.fecha.slice(0,10) : `${eg.anno}-${String(eg.mes).padStart(2,'0')}`}</td><td>${eg.categoria || '-'}</td><td>${eg.subcategoria || '-'}</td><td>${eg.nomproveedor || '-'}</td><td>${eg.nomconcepto || '-'}</td><td>${eg.motivo || '-'}</td><td class="number-cell">$${eg.importe.toLocaleString('es-CL')}</td>`);
+        });
+        if (egresosToShow.length === 0) egresosBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px;">📭 No hay egresos</td></tr>';
+    }
+    
+    function updateUIAndCharts() {
+        const filteredIngresos = filterByMonth(ingresosData);
+        const filteredEgresos = filterByMonth(egresosData);
+        const totalIng = filteredIngresos.reduce((s,i) => s + (i.importe||0), 0);
+        const totalEgr = filteredEgresos.reduce((s,e) => s + (e.importe||0), 0);
+        const balance = totalIng - totalEgr;
+        const margen = totalIng > 0 ? ((balance / totalIng) * 100).toFixed(1) : 0;
+        
+        document.getElementById('balanceValue').innerHTML = `$${balance.toLocaleString('es-CL')}`;
+        document.getElementById('totalIngresos').innerHTML = `$${totalIng.toLocaleString('es-CL')}`;
+        document.getElementById('totalEgresos').innerHTML = `$${totalEgr.toLocaleString('es-CL')}`;
+        document.getElementById('margenValue').innerHTML = `${margen}%`;
+        const periodText = getPeriodText();
+        document.getElementById('balanceSub').innerHTML = periodText;
+        document.getElementById('ingresosSub').innerHTML = periodText;
+        document.getElementById('egresosSub').innerHTML = periodText;
+        document.getElementById('tablePeriodLabel').innerHTML = `(${periodText})`;
+        
+        renderCompositionTables(filteredIngresos, filteredEgresos);
+        renderQuotaAnalysis(filteredIngresos);
+        renderDetailTables(filteredIngresos, filteredEgresos);
+        
+        const monthlyIng = [], monthlyEgr = [];
+        for (let m = 1; m <= 12; m++) {
+            monthlyIng.push(ingresosData.filter(i => i.mes === m).reduce((s,i) => s + (i.importe||0), 0));
+            monthlyEgr.push(egresosData.filter(e => e.mes === m).reduce((s,e) => s + (e.importe||0), 0));
+        }
+        
+        // Gráficos generales
+        const ingresosCatMap = new Map();
+        filteredIngresos.forEach(ing => ingresosCatMap.set((ing.categoria || "Sin categoría").toUpperCase().trim(), (ingresosCatMap.get((ing.categoria || "Sin categoría").toUpperCase().trim()) || 0) + ing.importe));
+        const ingresosGrouped = groupByFixedCategories(ingresosCatMap, INGRESOS_CATEGORIAS_PRINCIPALES);
+        
+        const ctxIng = document.getElementById('ingresosChart').getContext('2d');
+        if (ingresosChart) ingresosChart.destroy();
+        ingresosChart = new Chart(ctxIng, { type: 'doughnut', data: { labels: ingresosGrouped.map(c => `${c.categoria} (${c.porcentaje.toFixed(1)}%)`), datasets: [{ data: ingresosGrouped.map(c => c.monto), backgroundColor: ['#1e7554','#2e9e73','#45c48b','#7ad0a6','#a8e0c2'] }] }, options: { responsive: true, plugins: { legend: { position: 'right' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: $${ctx.raw.toLocaleString('es-CL')}` } } } } });
+        
+        const egresosCatMap = new Map();
+        filteredEgresos.forEach(eg => egresosCatMap.set((eg.categoria || "Sin categoría").toUpperCase().trim(), (egresosCatMap.get((eg.categoria || "Sin categoría").toUpperCase().trim()) || 0) + eg.importe));
+        const egresosGrouped = groupByFixedCategories(egresosCatMap, EGRESOS_CATEGORIAS_PRINCIPALES);
+        
+        const ctxEgr = document.getElementById('egresosChart').getContext('2d');
+        if (egresosChart) egresosChart.destroy();
+        egresosChart = new Chart(ctxEgr, { type: 'doughnut', data: { labels: egresosGrouped.map(c => `${c.categoria} (${c.porcentaje.toFixed(1)}%)`), datasets: [{ data: egresosGrouped.map(c => c.monto), backgroundColor: ['#c96b4a','#d98963','#e5a782','#f0c2a8','#f5d9c8'] }] }, options: { responsive: true, plugins: { legend: { position: 'right' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: $${ctx.raw.toLocaleString('es-CL')}` } } } } });
+        
+        const ctxMonth = document.getElementById('monthlyComparisonChart').getContext('2d');
+        if (monthlyChart) monthlyChart.destroy();
+        monthlyChart = new Chart(ctxMonth, { type: 'bar', data: { labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'], datasets: [{ label: 'Ingresos', data: monthlyIng, backgroundColor: '#2e7d64' }, { label: 'Egresos', data: monthlyEgr, backgroundColor: '#c96b4a' }] }, options: { responsive: true, plugins: { tooltip: { callbacks: { label: (ctx) => `$${ctx.raw.toLocaleString('es-CL')}` } } } } });
+    }
+    
+    // Interactividad secciones
+    let kpiVisible = true, compositionVisible = true, quotaVisible = true, chartsVisible = true, detailTableVisible = true;
+    const kpiSection = document.getElementById('kpiSection');
+    const compositionSection = document.getElementById('compositionSection');
+    const quotaSection = document.getElementById('quotaSection');
+    const chartIngresosDiv = document.getElementById('chartIngresos');
+    const chartEgresosDiv = document.getElementById('chartEgresos');
+    const comparisonChartDiv = document.getElementById('comparisonChart');
+    const detailTableSection = document.getElementById('detailTableSection');
+    const toggleKpi = document.getElementById('toggleKpiBtn');
+    const toggleComposition = document.getElementById('toggleCompositionBtn');
+    const toggleQuota = document.getElementById('toggleQuotaBtn');
+    const toggleCharts = document.getElementById('toggleChartsBtn');
+    const toggleDetailTable = document.getElementById('toggleDetailTableBtn');
+    const resetBtn = document.getElementById('resetAllBtn');
+    
+    function updateUIVisibility() {
+        kpiSection.classList.toggle('hidden-component', !kpiVisible);
+        compositionSection.classList.toggle('hidden-component', !compositionVisible);
+        quotaSection.classList.toggle('hidden-component', !quotaVisible);
+        chartIngresosDiv.classList.toggle('hidden-component', !chartsVisible);
+        chartEgresosDiv.classList.toggle('hidden-component', !chartsVisible);
+        comparisonChartDiv.classList.toggle('hidden-component', !chartsVisible);
+        detailTableSection.classList.toggle('hidden-component', !detailTableVisible);
+        toggleKpi.classList.toggle('active', kpiVisible);
+        toggleKpi.classList.toggle('inactive', !kpiVisible);
+        toggleComposition.classList.toggle('active', compositionVisible);
+        toggleComposition.classList.toggle('inactive', !compositionVisible);
+        toggleQuota.classList.toggle('active', quotaVisible);
+        toggleQuota.classList.toggle('inactive', !quotaVisible);
+        toggleCharts.classList.toggle('active', chartsVisible);
+        toggleCharts.classList.toggle('inactive', !chartsVisible);
+        toggleDetailTable.classList.toggle('active', detailTableVisible);
+        toggleDetailTable.classList.toggle('inactive', !detailTableVisible);
+        if (chartsVisible || quotaVisible) setTimeout(() => { if(ingresosChart) ingresosChart.resize(); if(egresosChart) egresosChart.resize(); if(monthlyChart) monthlyChart.resize(); if(quotaChart) quotaChart.resize(); }, 100);
+    }
+    
+    toggleKpi.addEventListener('click', () => { kpiVisible = !kpiVisible; updateUIVisibility(); });
+    toggleComposition.addEventListener('click', () => { compositionVisible = !compositionVisible; updateUIVisibility(); });
+    toggleQuota.addEventListener('click', () => { quotaVisible = !quotaVisible; updateUIVisibility(); });
+    toggleCharts.addEventListener('click', () => { chartsVisible = !chartsVisible; updateUIVisibility(); });
+    toggleDetailTable.addEventListener('click', () => { detailTableVisible = !detailTableVisible; updateUIVisibility(); });
+    resetBtn.addEventListener('click', () => { 
+        kpiVisible = true; compositionVisible = true; quotaVisible = true; chartsVisible = true; detailTableVisible = true;
+        document.getElementById('monthFilter').value = 'all';
+        currentMonth = 'all';
+        document.getElementById('searchIngresos').value = '';
+        document.getElementById('searchEgresos').value = '';
+        ingresosSearchTerm = '';
+        egresosSearchTerm = '';
+        updateUIVisibility();
+        renderDashboard();
+    });
+    
+    function renderDashboard() {
+        updateUIAndCharts();
+        updateUIVisibility();
+    }
+    
+    loadData();
+</script>
+</body>
+</html>
