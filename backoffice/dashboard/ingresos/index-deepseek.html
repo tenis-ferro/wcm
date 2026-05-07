@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Dashboard Interactivo - Ventas Trimestrales | Empresa NexGen</title>
+    <!-- Chart.js CDN (ligero, sin necesidad de instalación) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Font Awesome 6 (iconos gratuitos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            padding: 24px 20px;
+        }
+
+        /* Contenedor principal */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+        .header {
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            color: #1e293b;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .title-section p {
+            color: #475569;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .badge-quarter {
+            background: #0f3b5c;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .badge-quarter i {
+            font-size: 1.1rem;
+        }
+
+        /* Panel de controles (interactivo: activar/desactivar elementos) */
+        .controls-panel {
+            background: white;
+            border-radius: 28px;
+            padding: 18px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .toggle-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .toggle-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #1e293b;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .toggle-btn i {
+            font-size: 1rem;
+        }
+        .toggle-btn.active {
+            background: #2c6e9e;
+            color: white;
+            box-shadow: 0 4px 10px rgba(44,110,158,0.3);
+        }
+        .toggle-btn.inactive {
+            background: #e2e8f0;
+            color: #64748b;
+            opacity: 0.7;
+        }
+        .reset-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .reset-btn:hover {
+            background: #1e293b;
+            transform: scale(0.97);
+        }
+
+        /* Grid de tarjetas KPI */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 22px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .kpi-card.hidden-card {
+            display: none;
+        }
+        .kpi-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #5b6e8c;
+            margin-bottom: 12px;
+        }
+        .kpi-value {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #0f2b3d;
+            margin-bottom: 8px;
+        }
+        .kpi-trend {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .trend-up { color: #15803d; }
+        .trend-down { color: #b91c1c; }
+
+        /* Sección: gráfico principal + tabla (ambos pueden ocultarse) */
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-bottom: 35px;
+        }
+        .chart-box {
+            flex: 2;
+            min-width: 280px;
+            background: white;
+            border-radius: 28px;
+            padding: 18px 18px 20px 18px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+        .table-box {
+            flex: 1.2;
+            min-width: 260px;
+            background: white;
+            border-radius: 28px;
+            padding: 18px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+        .hidden-component {
+            display: none;
+        }
+        h3 {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e2f41;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        canvas {
+            max-height: 320px;
+            width: 100%;
+        }
+        /* tabla mensual */
+        .sales-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .sales-table th, .sales-table td {
+            padding: 12px 6px;
+            text-align: left;
+            border-bottom: 1px solid #e9edf2;
+        }
+        .sales-table th {
+            font-weight: 700;
+            color: #2c3e58;
+        }
+        .month-highlight {
+            font-weight: 700;
+            color: #0f3b5c;
+        }
+        .total-row {
+            background-color: #f8fafc;
+            font-weight: 700;
+        }
+
+        /* Footer info */
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: #6c7a91;
+            border-top: 1px solid #dce3ec;
+            padding-top: 20px;
+        }
+        @media (max-width: 700px) {
+            body { padding: 16px; }
+            .kpi-value { font-size: 1.8rem; }
+            .toggle-btn { padding: 6px 14px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-chart-line" style="color: #2c6e9e;"></i> Dashboard NexusSales</h1>
+            <p>Rendimiento comercial · Último trimestre (Enero - Marzo) · Datos interactivos</p>
+        </div>
+        <div class="badge-quarter">
+            <i class="fas fa-calendar-alt"></i> Q1 2025 · Enero / Febrero / Marzo
+        </div>
+    </div>
+
+    <!-- Panel de controles: activar/desactivar secciones -->
+    <div class="controls-panel">
+        <div class="toggle-group">
+            <button id="toggleKpiBtn" class="toggle-btn active"><i class="fas fa-chart-simple"></i> KPIs</button>
+            <button id="toggleChartBtn" class="toggle-btn active"><i class="fas fa-chart-column"></i> Gráfico de Barras</button>
+            <button id="toggleTableBtn" class="toggle-btn active"><i class="fas fa-table"></i> Tabla Mensual</button>
+        </div>
+        <button id="resetAllBtn" class="reset-btn"><i class="fas fa-undo-alt"></i> Restaurar todo</button>
+    </div>
+
+    <!-- Sección de KPIs (3 tarjetas) -->
+    <div id="kpiSection" class="kpi-grid">
+        <div class="kpi-card" data-kpi="ventas">
+            <div class="kpi-title"><i class="fas fa-dollar-sign"></i> VENTAS TOTALES (Trimestre)</div>
+            <div class="kpi-value" id="totalSalesValue">$0</div>
+            <div class="kpi-trend"><i class="fas fa-arrow-up trend-up"></i> <span class="trend-up">+18.3% vs trimestre anterior</span></div>
+        </div>
+        <div class="kpi-card" data-kpi="tickets">
+            <div class="kpi-title"><i class="fas fa-receipt"></i> TICKET PROMEDIO</div>
+            <div class="kpi-value" id="avgTicketValue">$0</div>
+            <div class="kpi-trend"><i class="fas fa-chart-line"></i> Mejora en conversión</div>
+        </div>
+        <div class="kpi-card" data-kpi="clientes">
+            <div class="kpi-title"><i class="fas fa-users"></i> CLIENTES ACTIVOS</div>
+            <div class="kpi-value" id="customersValue">0</div>
+            <div class="kpi-trend"><i class="fas fa-arrow-up trend-up"></i> <span>+242 nuevos en Q1</span></div>
+        </div>
+    </div>
+
+    <!-- Fila del gráfico + tabla -->
+    <div class="charts-row">
+        <div id="chartContainer" class="chart-box">
+            <h3><i class="fas fa-chart-bar"></i> Ventas mensuales (USD)</h3>
+            <canvas id="salesChart" width="400" height="280" style="max-width:100%; height:auto;"></canvas>
+        </div>
+        <div id="tableContainer" class="table-box">
+            <h3><i class="fas fa-list-ul"></i> Detalle por mes</h3>
+            <table class="sales-table" id="monthlyTable">
+                <thead>
+                    <tr><th>Mes</th><th>Ventas (USD)</th><th>% Contrib.</th></tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- dinámico con JS -->
+                </tbody>
+                <tfoot id="tableFoot"></tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="footer-note">
+        <i class="fas fa-mouse-pointer"></i> Interactividad: haz clic en los botones para mostrar/ocultar secciones · Datos del último trimestre (simulados)
+    </div>
+</div>
+
+<script>
+    // ======================== DATOS FICTICIOS DEL ÚLTIMO TRIMESTRE ========================
+    // Ventas en miles de USD para mayor claridad (valores realistas)
+    const months = ["Enero", "Febrero", "Marzo"];
+    // Ventas mensuales en USD (Inventados): Enero $124,500 | Febrero $142,800 | Marzo $168,300 -> tendencia creciente
+    const salesData = [124500, 142800, 168300];
+    
+    // Cálculo de totales y métricas adicionales
+    const totalSales = salesData.reduce((acc, val) => acc + val, 0);
+    const avgTicket = 247;   // ticket promedio en USD (inventado)
+    const activeCustomers = 1842;   // clientes activos totales en Q1
+    
+    // Para ticket promedio, calculamos un valor total de transacciones implícito (miles) solo estético
+    // pero queda fijo como inventado.
+    const totalTransactions = Math.round(totalSales / avgTicket);  // aproximado (número de pedidos)
+    
+    // Datos para tendencias en KPIs
+    // Usaremos formateador
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('es-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+    }
+    
+    function formatNumber(value) {
+        return new Intl.NumberFormat('es-ES').format(value);
+    }
+    
+    // Insertar valores KPI
+    document.getElementById('totalSalesValue').innerText = formatCurrency(totalSales);
+    document.getElementById('avgTicketValue').innerText = formatCurrency(avgTicket);
+    document.getElementById('customersValue').innerText = formatNumber(activeCustomers);
+    
+    // Construir tabla dinámica
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        let total = totalSales;
+        salesData.forEach((value, idx) => {
+            const percentage = ((value / total) * 100).toFixed(1);
+            const row = `<tr>
+                            <td class="month-highlight"><i class="fas fa-calendar-week"></i> ${months[idx]}</td>
+                            <td>${formatCurrency(value)}</td>
+                            <td>${percentage}%</td>
+                         </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+        // pie de resumen
+        const footRow = `<tr class="total-row"><td><strong>TOTAL TRIMESTRE</strong></td><td><strong>${formatCurrency(total)}</strong></td><td>100%</td></tr>`;
+        const tfoot = document.getElementById('tableFoot');
+        tfoot.innerHTML = footRow;
+    }
+    
+    renderTable();
+    
+    // ---------- Configuración del gráfico con Chart.js ----------
+    let chartInstance = null;
+    function initChart() {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Ingresos (USD)',
+                    data: salesData,
+                    backgroundColor: ['#3b82f6', '#38bdf8', '#0f5b9c'],
+                    borderRadius: 12,
+                    barPercentage: 0.65,
+                    categoryPercentage: 0.8,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let value = context.raw;
+                                return ` Ventas: ${formatCurrency(value)}`;
+                            }
+                        }
+                    },
+                    legend: { position: 'top', labels: { font: { size: 12 } } }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString('es-US');
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Monto en USD',
+                            color: '#4b5563'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Mes',
+                            color: '#4b5563'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    initChart();
+    
+    // ---------- LOGICA DE INTERACTIVIDAD: Activar/Desactivar elementos del Dashboard ----------
+    // Elementos que se pueden ocultar: 
+    // 1. Sección de KPIs (3 tarjetas)  -> contenedor #kpiSection (ocultar todo el grid)
+    // 2. Contenedor del gráfico -> #chartContainer
+    // 3. Contenedor de la tabla -> #tableContainer
+    
+    const kpiSection = document.getElementById('kpiSection');
+    const chartContainer = document.getElementById('chartContainer');
+    const tableContainer = document.getElementById('tableContainer');
+    
+    // Botones
+    const toggleKpiBtn = document.getElementById('toggleKpiBtn');
+    const toggleChartBtn = document.getElementById('toggleChartBtn');
+    const toggleTableBtn = document.getElementById('toggleTableBtn');
+    const resetBtn = document.getElementById('resetAllBtn');
+    
+    // Estados (booleanos)
+    let kpiVisible = true;
+    let chartVisible = true;
+    let tableVisible = true;
+    
+    // Función para actualizar clases de botones (active/inactive) y visibilidad
+    function updateUI() {
+        // KPIs
+        if (kpiVisible) {
+            kpiSection.classList.remove('hidden-component');
+            toggleKpiBtn.classList.add('active');
+            toggleKpiBtn.classList.remove('inactive');
+        } else {
+            kpiSection.classList.add('hidden-component');
+            toggleKpiBtn.classList.remove('active');
+            toggleKpiBtn.classList.add('inactive');
+        }
+        
+        // Gráfico
+        if (chartVisible) {
+            chartContainer.classList.remove('hidden-component');
+            toggleChartBtn.classList.add('active');
+            toggleChartBtn.classList.remove('inactive');
+            // cuando se muestra nuevamente, a veces chart.js necesita que el canvas tenga tamaño correcto,
+            // pero el redraw ya existe. Solo aseguramos que si estaba oculto y se muestra, llamamos actualización ligera
+            if (chartInstance) {
+                setTimeout(() => { chartInstance.update(); }, 10);
+            }
+        } else {
+            chartContainer.classList.add('hidden-component');
+            toggleChartBtn.classList.remove('active');
+            toggleChartBtn.classList.add('inactive');
+        }
+        
+        // Tabla
+        if (tableVisible) {
+            tableContainer.classList.remove('hidden-component');
+            toggleTableBtn.classList.add('active');
+            toggleTableBtn.classList.remove('inactive');
+        } else {
+            tableContainer.classList.add('hidden-component');
+            toggleTableBtn.classList.remove('active');
+            toggleTableBtn.classList.add('inactive');
+        }
+    }
+    
+    // Eventos de toggle
+    toggleKpiBtn.addEventListener('click', () => {
+        kpiVisible = !kpiVisible;
+        updateUI();
+    });
+    toggleChartBtn.addEventListener('click', () => {
+        chartVisible = !chartVisible;
+        updateUI();
+        // forzar resize del gráfico si se hizo visible (pequeño ajuste)
+        if (chartVisible && chartInstance) {
+            setTimeout(() => {
+                chartInstance.resize();
+                chartInstance.update();
+            }, 80);
+        }
+    });
+    toggleTableBtn.addEventListener('click', () => {
+        tableVisible = !tableVisible;
+        updateUI();
+    });
+    
+    // Reset: activar todos los elementos visibles (mostrar todo)
+    resetBtn.addEventListener('click', () => {
+        kpiVisible = true;
+        chartVisible = true;
+        tableVisible = true;
+        updateUI();
+        // si el gráfico estaba dañado por algún resize previo, aseguramos
+        if (chartInstance) {
+            setTimeout(() => {
+                chartInstance.resize();
+                chartInstance.update();
+            }, 60);
+        }
+    });
+    
+    // Inicializar clases hidden-component en CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        .hidden-component {
+            display: none !important;
+        }
+        .toggle-btn.inactive {
+            background: #e2e8f0 !important;
+            color: #64748b !important;
+            opacity: 0.7;
+        }
+        .toggle-btn.active {
+            background: #2c6e9e !important;
+            color: white !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // efecto adicional: tooltip interactivo, asegurar que el gráfico se actualice si cambia tamaño de ventana
+    window.addEventListener('resize', () => {
+        if (chartInstance && chartVisible) {
+            chartInstance.resize();
+        }
+    });
+    
+    // Actualizar la tabla mensual de nuevo en caso de que algún elemento dinámico se cambie (no es necesario pero consistencia)
+    // Simular que el Dashboard también actualiza el total de ventas en KPI? ya está
+    
+    // Agregar pequeña anotación: calculo de ventas y reseteo de leyendas
+    // inline additional: mostrar total de transacciones en algún KPI? Podría agregarse un tooltip,
+    // pero mejor mostramos ya todo.
+    
+    // Podemos agregar un pequeño badge en el dashboard con el total de transacciones estimadas? solo para más riqueza
+    // Pero el enunciado requería "inventa los valores y qué gráfico va a tener, importante que sea interactivo activar/desactivar".
+    // todo está cumplido.
+    
+    // Por si se desea que los botones tengan estilo hover suave
+    const allToggleBtns = [toggleKpiBtn, toggleChartBtn, toggleTableBtn];
+    allToggleBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            if (!btn.classList.contains('active')) {
+                btn.style.opacity = '0.9';
+            }
+        });
+        btn.addEventListener('mouseleave', () => {
+            if (!btn.classList.contains('active')) {
+                btn.style.opacity = '1';
+            }
+        });
+    });
+    
+    // Mejora: agregar también animación de carga o tooltip informativo con detalles
+    console.log('Dashboard interactivo cargado - Ventas Trimestre: Enero, Febrero, Marzo');
+    
+    // Añadir un pequeño dato de tendencia extra en las tarjetas KPI según invento
+    // Generar una segunda línea de información (adicional)
+    const kpiCards = document.querySelectorAll('.kpi-card');
+    // Insertar subtexto en la tarjeta de clientes, etc.
+    const customersCard = kpiCards[2];
+    const extraSpan = document.createElement('div');
+    extraSpan.className = 'kpi-trend';
+    extraSpan.style.marginTop = '8px';
+    extraSpan.innerHTML = '<i class="fas fa-chart-line"></i> Crecimiento mensual promedio: +16%';
+    customersCard.appendChild(extraSpan);
+    
+    const ventasCard = kpiCards[0];
+    const ventasExtra = document.createElement('div');
+    ventasExtra.className = 'kpi-trend';
+    ventasExtra.style.marginTop = '6px';
+    ventasExtra.innerHTML = '<i class="fas fa-chart-line"></i> Marzo récord: +18% vs Febrero';
+    ventasCard.appendChild(ventasExtra);
+    
+    const ticketCard = kpiCards[1];
+    const ticketExtra = document.createElement('div');
+    ticketExtra.className = 'kpi-trend';
+    ticketExtra.innerHTML = '<i class="fas fa-shopping-cart"></i> ≈ ' + formatNumber(totalTransactions) + ' pedidos en el trimestre';
+    ticketCard.appendChild(ticketExtra);
+    
+    // Opcional: pequeña función para recalcular si se actualiza el gráfico con datos (sin cambios)
+    // Todo OK
+    // También en caso de que ocultemos y mostremos, la tabla sigue con los mismos valores
+    // El gráfico permanece con datos correctos
+    // Todo cumple el requisito de "interactivo, que pueda activar y desactivar elementos del Dashboard".
+    
+    // añadir manejo de botón reset adicional para resincronizar texto y evitar glitch gráfico
+    // Finalmente garantizar que al resetear se vean todos los elementos.
+    // Extras: Estilo responsive y mobile first listo.
+    
+    // Para mayor realce, si se desactiva el gráfico y se activa de nuevo, se redimensiona/actualiza correctamente.
+    // También se aplica cuando se cambia el estado a visible mediante reset.
+    // Funcionalidad completa.
+    
+    // Mini-interacción: los botones activos/inactivos cambian el cursor
+    document.querySelectorAll('.toggle-btn, .reset-btn').forEach(btn => {
+        btn.style.cursor = 'pointer';
+    });
+    
+    // información extra: el gráfico de barras muestra claramente la evolución mes a mes.
+    // Todo inventado fiel a lo solicitado: empresa ficticia, trimestre enero, febrero, marzo.
+</script>
+</body>
+</html>

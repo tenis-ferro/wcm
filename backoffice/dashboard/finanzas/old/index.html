@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Dashboard Club de Tenis - Gestión Financiera 2024</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f7f0;
+            padding: 24px 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            color: #1e3a2f;
+            font-weight: 700;
+        }
+        .title-section p {
+            color: #2d5a3f;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .badge-year {
+            background: #1e5c3a;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Panel de controles */
+        .controls-panel {
+            background: white;
+            border-radius: 28px;
+            padding: 18px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .toggle-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .toggle-btn {
+            background: #e8f0ea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            color: #1e3a2f;
+        }
+        .toggle-btn.active {
+            background: #1e5c3a;
+            color: white;
+        }
+        .toggle-btn.inactive {
+            background: #cbdcd0;
+            color: #5a6e62;
+            opacity: 0.6;
+        }
+        .reset-btn {
+            background: #2c3e35;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* KPIs */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 28px;
+            padding: 22px 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            border-left: 6px solid #1e5c3a;
+        }
+        .kpi-card.hidden-card { display: none; }
+        .kpi-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #4b6b58;
+            margin-bottom: 12px;
+        }
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1e3a2f;
+        }
+
+        /* Gráficos y tablas */
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-bottom: 35px;
+        }
+        .chart-box, .table-box {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+        .chart-box { flex: 2; min-width: 300px; }
+        .table-box { flex: 1.5; min-width: 320px; }
+        .hidden-component { display: none; }
+        h3 {
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #1e3a2f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        canvas { max-height: 300px; width: 100%; }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .data-table th, .data-table td {
+            padding: 10px 6px;
+            text-align: left;
+            border-bottom: 1px solid #dde5e0;
+        }
+        .data-table th { font-weight: 700; color: #1e5c3a; }
+        .badge-ingreso { color: #15803d; font-weight: bold; }
+        .badge-egreso { color: #b91c1c; font-weight: bold; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: #5a6e62;
+            border-top: 1px solid #cbdcd0;
+            padding-top: 20px;
+        }
+        @media (max-width: 700px) {
+            body { padding: 16px; }
+            .kpi-value { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-table-tennis"></i> Club de Tenis - Finanzas 2024</h1>
+            <p>Ingresos vs Egresos | Gestión interactiva</p>
+        </div>
+        <div class="badge-year">
+            <i class="fas fa-calendar-alt"></i> Año 2024 · Datos reales
+        </div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="toggle-group">
+            <button id="toggleKpiBtn" class="toggle-btn active"><i class="fas fa-chart-simple"></i> KPIs</button>
+            <button id="toggleChartsBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Gráficos</button>
+            <button id="toggleTableBtn" class="toggle-btn active"><i class="fas fa-table"></i> Tabla detalle</button>
+        </div>
+        <button id="resetAllBtn" class="reset-btn"><i class="fas fa-undo-alt"></i> Mostrar todo</button>
+    </div>
+
+    <div id="kpiSection" class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-dollar-sign"></i> Balance Neto</div><div class="kpi-value" id="balanceValue">$0</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-arrow-up"></i> Total Ingresos</div><div class="kpi-value" id="totalIngresos">$0</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-arrow-down"></i> Total Egresos</div><div class="kpi-value" id="totalEgresos">$0</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-chart-pie"></i> Margen %</div><div class="kpi-value" id="margenValue">0%</div></div>
+    </div>
+
+    <div class="charts-row">
+        <div id="chartContainer" class="chart-box">
+            <h3><i class="fas fa-chart-line"></i> Evolución Mensual (Ingresos vs Egresos)</h3>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div id="secondaryCharts" class="chart-box">
+            <h3><i class="fas fa-chart-pie"></i> Top 5 Categorías Ingresos</h3>
+            <canvas id="topIngresosChart"></canvas>
+        </div>
+    </div>
+
+    <div id="tableContainer" class="table-box">
+        <h3><i class="fas fa-list-ul"></i> Últimos movimientos (Ingresos + Egresos)</h3>
+        <div style="overflow-x: auto;">
+            <table class="data-table" id="movementsTable">
+                <thead><tr><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>Concepto/Proveedor</th><th>Monto</th></tr></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footer"><i class="fas fa-mouse-pointer"></i> Haz clic en botones para activar/desactivar secciones · Datos cargados desde JSON (2024)</div>
+</div>
+
+<script>
+    // ----- CARGAR DATOS DESDE JSON -----
+    let ingresosData = [];
+    let egresosData = [];
+
+    async function loadData() {
+        try {
+            const ingresosResp = await fetch('./../data/ingresos-2024.json');
+            const egresosResp = await fetch('./../data/egresos-2024.json');
+            if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON. Verifica que estén en data/');
+            const ingresosJson = await ingresosResp.json();
+            const egresosJson = await egresosResp.json();
+            ingresosData = ingresosJson.Ingresos || ingresosJson;
+            egresosData = egresosJson.Egresos || egresosJson;
+            // Filtrar solo año 2024 por si acaso
+            ingresosData = ingresosData.filter(item => item.anno === 2024);
+            egresosData = egresosData.filter(item => item.anno === 2024);
+            renderDashboard();
+        } catch (error) {
+            console.error(error);
+            document.body.innerHTML = `<div style="padding:40px; text-align:center; color:red;"><i class="fas fa-exclamation-triangle"></i> Error: No se encontraron los archivos JSON.<br>Debes tener la carpeta 'data' con 'ingresos.json' y 'egresos.json' en el mismo nivel que index.html.<br><br>Detalle: ${error.message}</div>`;
+        }
+    }
+
+    // Procesar totales
+    let totalIngresos = 0, totalEgresos = 0;
+    let monthlyData = {}; // { mes: { ingresos, egresos } }
+    let categoriasIngresos = {}; // acumular por categoria
+    let movimientosCombinados = [];
+
+    function processData() {
+        totalIngresos = ingresosData.reduce((sum, i) => sum + (i.importe || 0), 0);
+        totalEgresos = egresosData.reduce((sum, e) => sum + (e.importe || 0), 0);
+        
+        // Inicializar meses 1 a 12
+        monthlyData = {};
+        for (let m = 1; m <= 12; m++) monthlyData[m] = { ingresos: 0, egresos: 0 };
+        
+        categoriasIngresos = {};
+        ingresosData.forEach(ing => {
+            const mes = ing.mes;
+            if (mes >= 1 && mes <= 12) monthlyData[mes].ingresos += ing.importe;
+            const cat = ing.categoria || "Sin categoría";
+            categoriasIngresos[cat] = (categoriasIngresos[cat] || 0) + ing.importe;
+        });
+        
+        egresosData.forEach(eg => {
+            const mes = eg.mes;
+            if (mes >= 1 && mes <= 12) monthlyData[mes].egresos += eg.importe;
+        });
+        
+        // Combinar movimientos para tabla
+        movimientosCombinados = [];
+        ingresosData.forEach(ing => {
+            movimientosCombinados.push({
+                fecha: ing.fecha ? ing.fecha.slice(0,10) : `${ing.anno}-${ing.mes}`,
+                tipo: "Ingreso",
+                categoria: ing.categoria,
+                nombre: ing.nomsocio || ing.tiping || "Ingreso",
+                monto: ing.importe
+            });
+        });
+        egresosData.forEach(eg => {
+            movimientosCombinados.push({
+                fecha: eg.fecha ? eg.fecha.slice(0,10) : `${eg.anno}-${eg.mes}`,
+                tipo: "Egreso",
+                categoria: eg.categoria,
+                nombre: eg.nomproveedor || eg.nomconcepto || "Egreso",
+                monto: eg.importe
+            });
+        });
+        movimientosCombinados.sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+    }
+
+    // Renderizar KPIs
+    function updateKPI() {
+        const balance = totalIngresos - totalEgresos;
+        document.getElementById('balanceValue').innerHTML = `$${balance.toLocaleString('es-CL')}`;
+        document.getElementById('totalIngresos').innerHTML = `$${totalIngresos.toLocaleString('es-CL')}`;
+        document.getElementById('totalEgresos').innerHTML = `$${totalEgresos.toLocaleString('es-CL')}`;
+        const margen = totalIngresos > 0 ? ((balance / totalIngresos) * 100).toFixed(1) : 0;
+        document.getElementById('margenValue').innerHTML = `${margen}%`;
+    }
+    
+    let monthlyChart, topCatChart;
+    
+    function initCharts() {
+        const ctx1 = document.getElementById('monthlyChart').getContext('2d');
+        const mesesNombres = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const ingresosMensual = [];
+        const egresosMensual = [];
+        for (let m = 1; m <= 12; m++) {
+            ingresosMensual.push(monthlyData[m].ingresos);
+            egresosMensual.push(monthlyData[m].egresos);
+        }
+        if (monthlyChart) monthlyChart.destroy();
+        monthlyChart = new Chart(ctx1, {
+            type: 'bar',
+            data: { labels: mesesNombres, datasets: [
+                { label: 'Ingresos (CLP)', data: ingresosMensual, backgroundColor: '#2e7d64', borderRadius: 8 },
+                { label: 'Egresos (CLP)', data: egresosMensual, backgroundColor: '#c96b4a', borderRadius: 8 }
+            ]},
+            options: { responsive: true, maintainAspectRatio: true, plugins: { tooltip: { callbacks: { label: (ctx) => `$${ctx.raw.toLocaleString('es-CL')}` } } } }
+        });
+        
+        // Top 5 categorías ingresos
+        const sorted = Object.entries(categoriasIngresos).sort((a,b) => b[1] - a[1]).slice(0,5);
+        const labelsCat = sorted.map(s => s[0]);
+        const dataCat = sorted.map(s => s[1]);
+        const ctx2 = document.getElementById('topIngresosChart').getContext('2d');
+        if (topCatChart) topCatChart.destroy();
+        topCatChart = new Chart(ctx2, { type: 'doughnut', data: { labels: labelsCat, datasets: [{ data: dataCat, backgroundColor: ['#1e7554','#389e79','#5ecf9b','#9ad9b9','#c1e6cf'] }] }, options: { plugins: { legend: { position: 'bottom' } } } });
+    }
+    
+    function updateTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        const topMovements = movimientosCombinados.slice(0, 20);
+        topMovements.forEach(mov => {
+            const row = `<tr>
+                <td>${mov.fecha || ''}</td>
+                <td class="${mov.tipo === 'Ingreso' ? 'badge-ingreso' : 'badge-egreso'}">${mov.tipo}</td>
+                <td>${mov.categoria || '-'}</td>
+                <td>${mov.nombre.substring(0, 35)}</td>
+                <td>$${mov.monto.toLocaleString('es-CL')}</td>
+            </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+    
+    // ----- INTERACTIVIDAD -----
+    let kpiVisible = true, chartsVisible = true, tableVisible = true;
+    const kpiSection = document.getElementById('kpiSection');
+    const chartContainer = document.getElementById('chartContainer');
+    const secondaryCharts = document.getElementById('secondaryCharts');
+    const tableContainer = document.getElementById('tableContainer');
+    const toggleKpi = document.getElementById('toggleKpiBtn');
+    const toggleCharts = document.getElementById('toggleChartsBtn');
+    const toggleTable = document.getElementById('toggleTableBtn');
+    const resetBtn = document.getElementById('resetAllBtn');
+    
+    function updateUIVisibility() {
+        kpiSection.classList.toggle('hidden-component', !kpiVisible);
+        chartContainer.classList.toggle('hidden-component', !chartsVisible);
+        secondaryCharts.classList.toggle('hidden-component', !chartsVisible);
+        tableContainer.classList.toggle('hidden-component', !tableVisible);
+        toggleKpi.classList.toggle('active', kpiVisible);
+        toggleKpi.classList.toggle('inactive', !kpiVisible);
+        toggleCharts.classList.toggle('active', chartsVisible);
+        toggleCharts.classList.toggle('inactive', !chartsVisible);
+        toggleTable.classList.toggle('active', tableVisible);
+        toggleTable.classList.toggle('inactive', !tableVisible);
+        if (chartsVisible && monthlyChart) { setTimeout(() => { monthlyChart.resize(); topCatChart.resize(); }, 100); }
+    }
+    
+    toggleKpi.addEventListener('click', () => { kpiVisible = !kpiVisible; updateUIVisibility(); });
+    toggleCharts.addEventListener('click', () => { chartsVisible = !chartsVisible; updateUIVisibility(); });
+    toggleTable.addEventListener('click', () => { tableVisible = !tableVisible; updateUIVisibility(); });
+    resetBtn.addEventListener('click', () => { kpiVisible = true; chartsVisible = true; tableVisible = true; updateUIVisibility(); });
+    
+    function renderDashboard() {
+        processData();
+        updateKPI();
+        initCharts();
+        updateTable();
+        updateUIVisibility();
+    }
+    
+    loadData();
+</script>
+</body>
+</html>
