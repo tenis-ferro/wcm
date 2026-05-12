@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Mallas | Sistema Central</title>
+
+    <script type="text/javascript" src="/js/config.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --malla-blue-dark: #357abd;
+            --malla-blue-light: #4a90e2;
+            --malla-border: #c4d7ed;
+            --malla-header-bg: #e3efff;
+            --malla-selected: #f0f7ff;
+        }
+
+        body {
+            background-color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        .navbar {
+            background: linear-gradient(to bottom, var(--malla-blue-light) 0%, var(--malla-blue-dark) 100%) !important;
+            padding: 4px 10px;
+        }
+
+        /* Tarjetas de Métricas (KPIs) */
+        .kpi-card {
+            border-left: 4px solid var(--malla-blue-dark) !important;
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--malla-blue-dark);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .card {
+            border: 1px solid var(--malla-border);
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: var(--malla-header-bg) !important;
+            color: #003366;
+            font-weight: bold;
+            padding: 6px 12px;
+        }
+
+        .table thead th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            font-size: 11px;
+        }
+
+        .table-hover tbody tr:hover {
+            cursor: pointer;
+            background-color: var(--malla-selected);
+        }
+
+        .row-selected {
+            background-color: #d1e7ff !important;
+            font-weight: bold;
+        }
+
+        .metric-badge {
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .duration-pill {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark mb-3 shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+                <span>MONITOR DE MALLAS MENSUAL <small class="text-white-50 fw-light">v2.1</small></span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+
+        <div class="row mb-3 align-items-end">
+            <div class="col-md-4">
+                <div class="card p-3 shadow-sm mb-0">
+                    <label class="form-label fw-bold small text-muted"><i class="bi bi-funnel-fill me-1"></i> Filtros de Búsqueda</label>
+                    <div class="d-flex gap-2">
+                        <select id="filter-year" class="form-select form-select-sm" onchange="cargarMallas()">
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                        </select>
+                        <select id="filter-month" class="form-select form-select-sm" onchange="cargarMallas()">
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3" selected>Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card kpi-card p-2 shadow-sm mb-0">
+                    <div id="kpi-mallas" class="kpi-value">0</div>
+                    <div class="kpi-label">Mallas</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card kpi-card p-2 shadow-sm mb-0">
+                    <div id="kpi-ejecuciones" class="kpi-value">0</div>
+                    <div class="kpi-label">Ejecuciones</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-list-check me-2"></i>Resumen Mensual de Mallas</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 300px;">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre de Malla</th>
+                                <th class="text-center">Ejec.</th>
+                                <th class="text-center">MIN (s)</th>
+                                <th class="text-center">AVG (s)</th>
+                                <th class="text-center">MAX (s)</th>
+                                <th class="text-center">DESV</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mallas-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="detalle-container" class="card shadow-sm d-none">
+            <div class="card-header bg-info-subtle d-flex justify-content-between align-items-center">
+                <span>
+                    <i class="bi bi-terminal me-2"></i>Detalle de Ejecuciones:
+                    <span id="selected-malla-name" class="text-primary text-uppercase"></span>
+                </span>
+                <button class="btn btn-sm btn-outline-secondary border-0" onclick="cerrarDetalle()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-striped table-sm mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID Ejec</th>
+                                <th>Proceso / Tarea</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th class="text-center">Duración (s)</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalle-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Simulación de datos globales
+        let rawMallas = [
+            { id: 1, nombre: "Denuncio de Siniestros", ejec: 184, min: 17, avg: 44.55, max: 492, desv: 42.53 },
+            { id: 4, nombre: "Alta recaudación", ejec: 47, min: 9, avg: 706.06, max: 11581, desv: 2105.21 },
+            { id: 5, nombre: "Vigentes Mus", ejec: 23, min: 76, avg: 426.48, max: 2837, desv: 543.16 }
+        ];
+
+        async function cargarMallas() {
+            const anio = document.getElementById('filter-year').value;
+            const mes = document.getElementById('filter-month').value;
+
+            // En producción:
+            // const response = await fetch(`${BASE_URL}Mallas/ObtenerResumen?mes=${mes}&anio=${anio}`);
+            // rawMallas = await response.json();
+
+            renderMallas(rawMallas);
+            actualizarIndicadores(rawMallas);
+            cerrarDetalle(); // Limpiar detalle al cambiar filtros
+        }
+
+        function actualizarIndicadores(data) {
+            const totalMallas = data.length;
+            const totalEjecuciones = data.reduce((sum, item) => sum + item.ejec, 0);
+
+            document.getElementById('kpi-mallas').innerText = totalMallas;
+            document.getElementById('kpi-ejecuciones').innerText = totalEjecuciones;
+        }
+
+        function renderMallas(data) {
+            const body = document.getElementById('mallas-body');
+            body.innerHTML = data.map(m => `
+                <tr onclick="verDetalle(this, ${m.id}, '${m.nombre}')">
+                    <td>${m.id}</td>
+                    <td class="fw-bold text-secondary text-uppercase">${m.nombre}</td>
+                    <td class="text-center">${m.ejec}</td>
+                    <td class="text-center metric-badge">${m.min}</td>
+                    <td class="text-center metric-badge text-primary">${m.avg}</td>
+                    <td class="text-center metric-badge">${m.max}</td>
+                    <td class="text-center text-muted">${m.desv}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function verDetalle(row, idMalla, nombreMalla) {
+            // UI: Marcar fila seleccionada
+            document.querySelectorAll('#mallas-body tr').forEach(r => r.classList.remove('row-selected'));
+            row.classList.add('row-selected');
+
+            // UI: Mostrar contenedor
+            const container = document.getElementById('detalle-container');
+            container.classList.remove('d-none');
+            document.getElementById('selected-malla-name').innerText = nombreMalla;
+
+            // Simulación de llamada a Detalle
+            // const res = await fetch(`${BASE_URL}Mallas/ObtenerDetalle?id=${idMalla}`);
+            const mockDetalle = [
+                { id: '14985', proceso: 'P-API-IMPUTACION-MASIVOS-V2', inicio: '31-03-26 22:09:46', fin: '01-04-26 02:19:31', duracion: 14985 },
+                { id: '14986', proceso: 'P-CARGA-MUS-HDI-PRC', inicio: '31-03-26 22:07:58', fin: '31-03-26 22:08:01', duracion: 3 },
+                { id: '14987', proceso: 'P-CARGA-MUS-HDI', inicio: '31-03-26 22:07:55', fin: '31-03-26 22:07:58', duracion: 3 }
+            ];
+
+            const detailBody = document.getElementById('detalle-body');
+            detailBody.innerHTML = mockDetalle.map(d => `
+                <tr>
+                    <td class="text-muted small">${d.id}</td>
+                    <td><span class="fw-semibold">${d.proceso}</span></td>
+                    <td>${d.inicio}</td>
+                    <td>${d.fin}</td>
+                    <td class="text-center"><span class="duration-pill fw-bold">${d.duracion}s</span></td>
+                    <td class="text-center"><i class="bi bi-check-circle-fill text-success"></i></td>
+                </tr>
+            `).join('');
+
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function cerrarDetalle() {
+            document.getElementById('detalle-container').classList.add('d-none');
+            document.querySelectorAll('#mallas-body tr').forEach(r => r.classList.remove('row-selected'));
+        }
+
+        document.addEventListener('DOMContentLoaded', cargarMallas);
+    </script>
+</body>
+</html>
