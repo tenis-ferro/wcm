@@ -571,7 +571,7 @@
 <script>
     // ======================== VARIABLE GLOBAL ========================
     // CAMBIA ESTE VALOR SEGÚN EL AÑO QUE QUIERAS ANALIZAR
-    const YEAR = 2025;  // Cambiar a 2025 para analizar otro año
+    const YEAR = 2023;  // Cambiar a 2025 para analizar otro año
     
     // ======================== FIN VARIABLE GLOBAL ========================
     
@@ -773,7 +773,7 @@
 
     async function loadData() {
         try {
-            const [ingresosResp, egresosResp] = await Promise.all([fetch('./../data/ingresos-2025.json'), fetch('./../data/egresos-2025.json')]);
+            const [ingresosResp, egresosResp] = await Promise.all([fetch('./../data/ingresos-2023.json'), fetch('./../data/egresos-2023.json')]);
             if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON');
             const ingresosJson = await ingresosResp.json(), egresosJson = await egresosResp.json();
             ingresosData = (ingresosJson.Ingresos || ingresosJson).filter(item => item.anno === YEAR);
