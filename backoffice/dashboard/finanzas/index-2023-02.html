@@ -506,7 +506,7 @@
     <!-- Evolución REGULAR -->
     <div id="regularEvolutionSection" class="composition-row">
         <div class="composition-card regular-card full-width">
-            <h3><i class="fas fa-chart-line" style="color:#1e7554;"></i> Evolución Mensual - CUOTA MENSUAL REGULAR ($43.500)</h3>
+            <h3><i class="fas fa-chart-line" style="color:#1e7554;"></i> Evolución Mensual - CUOTA MENSUAL REGULAR ($43.500 / $35.000)</h3>
             <div class="metric-cards">
                 <div class="metric-card"><div class="label">Total Recaudado</div><div class="value" id="totalRegularAnual">$0</div></div>
                 <div class="metric-card"><div class="label">Promedio Socios</div><div class="value" id="promedioSociosRegular">0</div></div>
@@ -681,7 +681,8 @@
         
         ingresosData.forEach(ing => {
             const categoria = (ing.categoria || "").toUpperCase().trim();
-            if (categoria === "CUOTA MENSUAL" && ing.importe === 43500 && ing.mes >= 1 && ing.mes <= 12) {
+            // Incluir AMBOS montos: 43500 (después del alza) y 35000 (antes del alza)
+            if (categoria === "CUOTA MENSUAL" && (ing.importe === 43500 || ing.importe === 35000) && ing.mes >= 1 && ing.mes <= 12) {
                 regularMensualCantidad[ing.mes - 1]++;
                 regularMensualMonto[ing.mes - 1] += ing.importe;
             }
@@ -888,7 +889,6 @@
         
         const ctx = document.getElementById('regularEvolutionChart').getContext('2d');
         if (regularEvolutionChart) regularEvolutionChart.destroy();
-        
         regularEvolutionChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -899,9 +899,21 @@
                 ]
             },
             options: {
-                responsive: true, maintainAspectRatio: true,
-                plugins: { tooltip: { callbacks: { label: (ctx) => ctx.dataset.label === 'Monto Recaudado ($)' ? `$${formatCLP(ctx.raw)}` : `${ctx.raw} socios` } }, legend: { position: 'top', labels: { font: { size: 10 } } } },
-                scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } }, y1: { beginAtZero: true, position: 'right', ticks: { callback: (v) => `${v} socios` }, title: { display: true, text: 'Cantidad de Socios', font: { size: 10 } }, grid: { drawOnChartArea: false } }, x: { title: { display: true, text: 'Mes', font: { size: 10 } } } }
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    tooltip: { 
+                        callbacks: { 
+                            label: (ctx) => ctx.dataset.label === 'Monto Recaudado ($)' ? `$${formatCLP(ctx.raw)}` : `${ctx.raw} socios` 
+                        } 
+                    },
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP' } },
+                    y1: { beginAtZero: true, position: 'right', ticks: { callback: (v) => `${v} socios` }, title: { display: true, text: 'Cantidad de Socios' }, grid: { drawOnChartArea: false } },
+                    x: { title: { display: true, text: 'Mes' } }
+                }
             }
         });
     }
