@@ -616,24 +616,39 @@
 
     function analyzeQuotaMensual(filteredIngresos) {
         const cuotaMensualItems = filteredIngresos.filter(ing => ing.categoria && ing.categoria.toUpperCase().trim() === "CUOTA MENSUAL");
-        let regular = { cantidad: 0, total: 0 };
-        let damaEstudiante = { cantidad: 0, total: 0 };
-        let pasivo = { cantidad: 0, total: 0 };
+        let regular = { cantidad: 0, total: 0 };      // para 43500 O 35000
+        let damaEstudiante = { cantidad: 0, total: 0 }; // para 21750 O 20000
+        let pasivo = { cantidad: 0, total: 0 };         // para 13050 O 10500
         let otros = { cantidad: 0, total: 0 };
         
         cuotaMensualItems.forEach(item => {
             const monto = item.importe;
-            if (monto === 43500) { regular.cantidad++; regular.total += monto; }
-            else if (monto === 21750) { damaEstudiante.cantidad++; damaEstudiante.total += monto; }
-            else if (monto === 13050) { pasivo.cantidad++; pasivo.total += monto; }
-            else { otros.cantidad++; otros.total += monto; }
+            // REGULAR: 43500 (después del alza) o 35000 (antes del alza)
+            if (monto === 43500 || monto === 35000) {
+                regular.cantidad++;
+                regular.total += monto;
+            }
+            // DAMA / ESTUDIANTE: 21750 (2024) o 20000 (2023)
+            else if (monto === 21750 || monto === 20000) {
+                damaEstudiante.cantidad++;
+                damaEstudiante.total += monto;
+            }
+            // PASIVO: 13050 (2024) o 10500 (2023)
+            else if (monto === 13050 || monto === 10500) {
+                pasivo.cantidad++;
+                pasivo.total += monto;
+            }
+            else {
+                otros.cantidad++;
+                otros.total += monto;
+            }
         });
         
         const quotaData = [];
-        if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: 43500, cantidad: regular.cantidad, total: regular.total });
-        if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: 21750, cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
-        if (pasivo.cantidad > 0) quotaData.push({ tipo: "PASIVO", montoUnitario: 13050, cantidad: pasivo.cantidad, total: pasivo.total });
-        if (otros.cantidad > 0) quotaData.push({ tipo: "📦 OTROS", montoUnitario: null, cantidad: otros.cantidad, total: otros.total });
+        if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: "$43.500 / $35.000", cantidad: regular.cantidad, total: regular.total });
+        if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: "$21.750 / $20.000", cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
+        if (pasivo.cantidad > 0) quotaData.push({ tipo: "PASIVO", montoUnitario: "$13.050 / $10.500", cantidad: pasivo.cantidad, total: pasivo.total });
+        if (otros.cantidad > 0) quotaData.push({ tipo: "📦 OTROS", montoUnitario: "---", cantidad: otros.cantidad, total: otros.total });
         
         const totalCuotas = regular.total + damaEstudiante.total + pasivo.total + otros.total;
         quotaData.forEach(item => { item.porcentaje = totalCuotas > 0 ? (item.total / totalCuotas) * 100 : 0; });
