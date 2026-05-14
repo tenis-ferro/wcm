@@ -645,10 +645,30 @@
         });
         
         const quotaData = [];
-        if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: "$43.500 / $35.000", cantidad: regular.cantidad, total: regular.total });
-        if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: "$21.750 / $20.000", cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
-        if (pasivo.cantidad > 0) quotaData.push({ tipo: "PASIVO", montoUnitario: "$13.050 / $10.500", cantidad: pasivo.cantidad, total: pasivo.total });
-        if (otros.cantidad > 0) quotaData.push({ tipo: "📦 OTROS", montoUnitario: "---", cantidad: otros.cantidad, total: otros.total });
+        if (regular.cantidad > 0) quotaData.push({ 
+            tipo: "REGULAR", 
+            montoUnitario: "$43.500 / $35.000", // String, no número
+            cantidad: regular.cantidad, 
+            total: regular.total 
+        });
+        if (damaEstudiante.cantidad > 0) quotaData.push({ 
+            tipo: "DAMA / ESTUDIANTE", 
+            montoUnitario: "$21.750 / $20.000", // String
+            cantidad: damaEstudiante.cantidad, 
+            total: damaEstudiante.total 
+        });
+        if (pasivo.cantidad > 0) quotaData.push({ 
+            tipo: "PASIVO", 
+            montoUnitario: "$13.050 / $10.500", // String
+            cantidad: pasivo.cantidad, 
+            total: pasivo.total 
+        });
+        if (otros.cantidad > 0) quotaData.push({ 
+            tipo: "📦 OTROS", 
+            montoUnitario: "---", 
+            cantidad: otros.cantidad, 
+            total: otros.total 
+        });
         
         const totalCuotas = regular.total + damaEstudiante.total + pasivo.total + otros.total;
         quotaData.forEach(item => { item.porcentaje = totalCuotas > 0 ? (item.total / totalCuotas) * 100 : 0; });
@@ -840,13 +860,21 @@
     function renderQuotaAnalysis(filteredIngresos) {
         const { quotaData, totalCuotas, cantidadRegistros } = analyzeQuotaMensual(filteredIngresos);
         const tbody = document.getElementById('quotaCompositionBody');
-        tbody.innerHTML = quotaData.map(item => `<tr>
-            <td><strong>${item.tipo}</strong></td>
-            <td>${item.montoUnitario ? `$${formatCLP(item.montoUnitario)}` : '---'}</td>
-            <td class="number-cell">${item.cantidad}</td>
-            <td class="number-cell">$${formatCLP(item.total)}</td>
-            <td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td>
-        </tr>`).join('');
+        tbody.innerHTML = quotaData.map(item => {
+            // Para la columna "Monto Unitario", mostrar el string directamente sin formato CLP
+            let montoUnitarioDisplay = item.montoUnitario;
+            // Si por algún motivo es un número, formatearlo; si no, mostrarlo como está
+            if (typeof item.montoUnitario === 'number') {
+                montoUnitarioDisplay = `$${formatCLP(item.montoUnitario)}`;
+            }
+            return `<tr>
+                <td><strong>${item.tipo}</strong></td>
+                <td>${montoUnitarioDisplay}</td>
+                <td class="number-cell">${item.cantidad}</td>
+                <td class="number-cell">$${formatCLP(item.total)}</td>
+                <td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td>
+            </tr>`;
+        }).join('');
         document.getElementById('quotaCompositionFoot').innerHTML = `<tr class="total-row"><tr><strong>TOTAL</strong></td><td colspan="2"></td><td class="number-cell"><strong>${cantidadRegistros}</strong></td><td class="number-cell"><strong>$${formatCLP(totalCuotas)}</strong></td><td class="percentage-cell"><strong>100%</strong></td></tr>`;
     }
 
