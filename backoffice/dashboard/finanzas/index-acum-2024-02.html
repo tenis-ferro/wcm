@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Club de Tenis - Dashboard Financiero</title>
+    <title>Club de Tenis - Dashboard Financiero 2024 (Acumulado)</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -223,7 +223,6 @@
             font-style: italic;
         }
 
-        /* CORREGIDO: composición en dos columnas lado a lado */
         .composition-row {
             display: flex;
             flex-wrap: wrap;
@@ -404,11 +403,11 @@
 <div class="dashboard-container">
     <div class="header">
         <div class="title-section">
-            <h1><i class="fas fa-table-tennis"></i> Club de Tenis - Dashboard Financiero</h1>
-            <p>Análisis de composición | Ingresos y Egresos <span id="yearDisplay"></span></p>
+            <h1><i class="fas fa-table-tennis"></i> Club de Tenis - Dashboard Financiero 2024</h1>
+            <p>Análisis de composición | Ingresos y Egresos 2024 | <strong>Vista Acumulada</strong></p>
         </div>
-        <div class="badge-year" id="badgeYear">
-            <i class="fas fa-calendar-alt"></i> Año <span id="yearBadge"></span>
+        <div class="badge-year">
+            <i class="fas fa-calendar-alt"></i> Año 2024
         </div>
     </div>
 
@@ -424,7 +423,22 @@
             <button id="toggleDetailTableBtn" class="toggle-btn active"><i class="fas fa-receipt"></i> Detalle</button>
         </div>
         <div class="filter-group">
-            <div class="filter-select"><label><i class="fas fa-calendar-month"></i> Mes:</label><select id="monthFilter"><option value="all">📊 Todos</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
+            <div class="filter-select">
+                <label><i class="fas fa-calendar-month"></i> Ver:</label>
+                <select id="viewType">
+                    <option value="accumulated">📊 Acumulado hasta el mes</option>
+                    <option value="single">📅 Solo el mes</option>
+                </select>
+            </div>
+            <div class="filter-select">
+                <label><i class="fas fa-calendar-alt"></i> Mes:</label>
+                <select id="monthFilter">
+                    <option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option>
+                    <option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option>
+                    <option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option>
+                    <option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+                </select>
+            </div>
             <button id="resetAllBtn" class="reset-btn"><i class="fas fa-undo-alt"></i> Resetear</button>
         </div>
     </div>
@@ -442,24 +456,24 @@
         <div class="projection-card">
             <h3><i class="fas fa-chart-line" style="color:#15803d;"></i> Proyección de Ingresos</h3>
             <div class="projection-stats">
-                <div class="stat-row"><span class="stat-label">📊 Real (meses con datos)</span><span class="stat-value ingreso" id="realIngresos">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📊 Real (acumulado)</span><span class="stat-value ingreso" id="realIngresos">$0</span></div>
                 <div class="stat-row"><span class="stat-label">📈 Promedio mensual</span><span class="stat-value ingreso" id="promedioIngresosMensual">$0</span></div>
                 <div class="stat-row"><span class="stat-label">🎯 Proyección Anual</span><span class="stat-value ingreso" id="proyeccionIngresosPromedio">$0</span></div>
                 <div class="stat-row"><span class="stat-label">📈 Proyección optimista (+10%)</span><span class="stat-value ingreso" id="proyeccionIngresosOptimista">$0</span></div>
                 <div class="stat-row"><span class="stat-label">📉 Proyección conservadora (-10%)</span><span class="stat-value" id="proyeccionIngresosConservador" style="color:#d97706;">$0</span></div>
             </div>
-            <div class="projection-note"><i class="fas fa-info-circle"></i> Basado en meses con datos disponibles</div>
+            <div class="projection-note"><i class="fas fa-info-circle"></i> Proyección basada en el promedio del período acumulado</div>
         </div>
         <div class="projection-card">
             <h3><i class="fas fa-chart-line" style="color:#b91c1c;"></i> Proyección de Egresos</h3>
             <div class="projection-stats">
-                <div class="stat-row"><span class="stat-label">📊 Real (meses con datos)</span><span class="stat-value egreso" id="realEgresos">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📊 Real (acumulado)</span><span class="stat-value egreso" id="realEgresos">$0</span></div>
                 <div class="stat-row"><span class="stat-label">📈 Promedio mensual</span><span class="stat-value egreso" id="promedioEgresosMensual">$0</span></div>
                 <div class="stat-row"><span class="stat-label">🎯 Proyección Anual</span><span class="stat-value egreso" id="proyeccionEgresosPromedio">$0</span></div>
                 <div class="stat-row"><span class="stat-label">📈 Proyección optimista (+10%)</span><span class="stat-value egreso" id="proyeccionEgresosOptimista">$0</span></div>
                 <div class="stat-row"><span class="stat-label">📉 Proyección conservadora (-10%)</span><span class="stat-value" id="proyeccionEgresosConservador" style="color:#d97706;">$0</span></div>
             </div>
-            <div class="projection-note"><i class="fas fa-info-circle"></i> Basado en meses con datos disponibles</div>
+            <div class="projection-note"><i class="fas fa-info-circle"></i> Proyección basada en el promedio del período acumulado</div>
         </div>
         <div class="projection-card">
             <h3><i class="fas fa-chart-line" style="color:#1e5c3a;"></i> Balance Neto Proyectado</h3>
@@ -473,21 +487,15 @@
         </div>
     </div>
 
-    <!-- CORREGIDO: Tablas de composición - dos tarjetas lado a lado -->
+    <!-- Tablas de composición -->
     <div id="compositionSection" class="composition-row">
         <div class="composition-card">
             <h3><i class="fas fa-chart-simple" style="color:#15803d;"></i> Composición de Ingresos</h3>
-            <table class="comp-table">
-                <thead><tr><th>Categoría</th><th>Monto</th><th>% Peso</th></tr></thead>
-                <tbody id="ingresosCompositionBody"></tbody>
-            </table>
+            <table class="comp-table"><thead><tr><th>Categoría</th><th>Monto</th><th>% Peso</th></tr></thead><tbody id="ingresosCompositionBody"></tbody></table>
         </div>
         <div class="composition-card">
             <h3><i class="fas fa-chart-simple" style="color:#b91c1c;"></i> Composición de Egresos</h3>
-            <table class="comp-table">
-                <thead><tr><th>Categoría</th><th>Monto</th><th>% Peso</th></tr></thead>
-                <tbody id="egresosCompositionBody"></tbody>
-            </table>
+            <table class="comp-table"><thead><tr><th>Categoría</th><th>Monto</th><th>% Peso</th></tr></thead><tbody id="egresosCompositionBody"></tbody></table>
         </div>
     </div>
 
@@ -495,11 +503,7 @@
     <div id="quotaSection" class="composition-row">
         <div class="composition-card quota-card full-width">
             <h3><i class="fas fa-chart-line"></i> Descomposición de CUOTA MENSUAL</h3>
-            <table class="comp-table">
-                <thead><tr><th>Tipo de Socio</th><th>Monto Unitario</th><th>Cantidad</th><th>Total</th><th>% Peso</th></tr></thead>
-                <tbody id="quotaCompositionBody"></tbody>
-                <tfoot id="quotaCompositionFoot"></tfoot>
-            </table>
+            <table class="comp-table"><thead><tr><th>Tipo de Socio</th><th>Monto Unitario</th><th>Cantidad</th><th>Total</th><th>% Peso</th></tr></thead><tbody id="quotaCompositionBody"></tbody><tfoot id="quotaCompositionFoot"></tfoot></table>
         </div>
     </div>
 
@@ -507,12 +511,7 @@
     <div id="regularEvolutionSection" class="composition-row">
         <div class="composition-card regular-card full-width">
             <h3><i class="fas fa-chart-line" style="color:#1e7554;"></i> Evolución Mensual - CUOTA MENSUAL REGULAR ($43.500)</h3>
-            <div class="metric-cards">
-                <div class="metric-card"><div class="label">Total Recaudado</div><div class="value" id="totalRegularAnual">$0</div></div>
-                <div class="metric-card"><div class="label">Promedio Socios</div><div class="value" id="promedioSociosRegular">0</div></div>
-                <div class="metric-card"><div class="label">Mínimo Socios</div><div class="value" id="minSociosRegular">0</div></div>
-                <div class="metric-card"><div class="label">Máximo Socios</div><div class="value" id="maxSociosRegular">0</div></div>
-            </div>
+            <div class="metric-cards"><div class="metric-card"><div class="label">Total Recaudado</div><div class="value" id="totalRegularAnual">$0</div></div><div class="metric-card"><div class="label">Promedio Socios</div><div class="value" id="promedioSociosRegular">0</div></div><div class="metric-card"><div class="label">Mínimo Socios</div><div class="value" id="minSociosRegular">0</div></div><div class="metric-card"><div class="label">Máximo Socios</div><div class="value" id="maxSociosRegular">0</div></div></div>
             <canvas id="regularEvolutionChart" style="max-height: 300px;"></canvas>
         </div>
     </div>
@@ -521,11 +520,7 @@
     <div id="remuneracionesSection" class="composition-row">
         <div class="composition-card remuneraciones-card full-width">
             <h3><i class="fas fa-chart-line" style="color:#b91c1c;"></i> Evolución Mensual de REMUNERACIONES</h3>
-            <div class="metric-cards">
-                <div class="metric-card"><div class="label">Total Anual</div><div class="value" id="totalRemuneracionesAnual">$0</div></div>
-                <div class="metric-card"><div class="label">Promedio Mensual</div><div class="value" id="promedioRemuneracionesMensual">$0</div></div>
-                <div class="metric-card"><div class="label">Máximo Mensual</div><div class="value" id="maxRemuneracionesMensual">$0</div></div>
-            </div>
+            <div class="metric-cards"><div class="metric-card"><div class="label">Total Anual</div><div class="value" id="totalRemuneracionesAnual">$0</div></div><div class="metric-card"><div class="label">Promedio Mensual</div><div class="value" id="promedioRemuneracionesMensual">$0</div></div><div class="metric-card"><div class="label">Máximo Mensual</div><div class="value" id="maxRemuneracionesMensual">$0</div></div></div>
             <canvas id="remuneracionesChart" style="max-height: 300px;"></canvas>
         </div>
     </div>
@@ -534,24 +529,7 @@
     <div id="monthlyChartSection" class="charts-row">
         <div class="chart-box full-width">
             <h3><i class="fas fa-chart-bar"></i> Evolución Mensual (Ingresos vs Egresos)</h3>
-            <div class="stats-row">
-                <div class="stats-card">
-                    <h4><i class="fas fa-chart-line" style="color:#15803d;"></i> INGRESOS</h4>
-                    <div class="stats-grid">
-                        <div class="stat-item"><div class="stat-label-sm">📊 Promedio</div><div class="stat-number ingreso" id="promedioIngresosAnual">$0</div></div>
-                        <div class="stat-item"><div class="stat-label-sm">📉 Mínimo</div><div class="stat-number ingreso" id="minIngresosMensual">$0</div><div class="stat-label-sm" id="minIngresosMes" style="font-size:0.6rem;"></div></div>
-                        <div class="stat-item"><div class="stat-label-sm">📈 Máximo</div><div class="stat-number ingreso" id="maxIngresosMensual">$0</div><div class="stat-label-sm" id="maxIngresosMes" style="font-size:0.6rem;"></div></div>
-                    </div>
-                </div>
-                <div class="stats-card">
-                    <h4><i class="fas fa-chart-line" style="color:#b91c1c;"></i> EGRESOS</h4>
-                    <div class="stats-grid">
-                        <div class="stat-item"><div class="stat-label-sm">📊 Promedio</div><div class="stat-number egreso" id="promedioEgresosAnual">$0</div></div>
-                        <div class="stat-item"><div class="stat-label-sm">📉 Mínimo</div><div class="stat-number egreso" id="minEgresosMensual">$0</div><div class="stat-label-sm" id="minEgresosMes" style="font-size:0.6rem;"></div></div>
-                        <div class="stat-item"><div class="stat-label-sm">📈 Máximo</div><div class="stat-number egreso" id="maxEgresosMensual">$0</div><div class="stat-label-sm" id="maxEgresosMes" style="font-size:0.6rem;"></div></div>
-                    </div>
-                </div>
-            </div>
+            <div class="stats-row"><div class="stats-card"><h4><i class="fas fa-chart-line" style="color:#15803d;"></i> INGRESOS</h4><div class="stats-grid"><div class="stat-item"><div class="stat-label-sm">📊 Promedio</div><div class="stat-number ingreso" id="promedioIngresosAnual">$0</div></div><div class="stat-item"><div class="stat-label-sm">📉 Mínimo</div><div class="stat-number ingreso" id="minIngresosMensual">$0</div><div class="stat-label-sm" id="minIngresosMes" style="font-size:0.6rem;"></div></div><div class="stat-item"><div class="stat-label-sm">📈 Máximo</div><div class="stat-number ingreso" id="maxIngresosMensual">$0</div><div class="stat-label-sm" id="maxIngresosMes" style="font-size:0.6rem;"></div></div></div></div><div class="stats-card"><h4><i class="fas fa-chart-line" style="color:#b91c1c;"></i> EGRESOS</h4><div class="stats-grid"><div class="stat-item"><div class="stat-label-sm">📊 Promedio</div><div class="stat-number egreso" id="promedioEgresosAnual">$0</div></div><div class="stat-item"><div class="stat-label-sm">📉 Mínimo</div><div class="stat-number egreso" id="minEgresosMensual">$0</div><div class="stat-label-sm" id="minEgresosMes" style="font-size:0.6rem;"></div></div><div class="stat-item"><div class="stat-label-sm">📈 Máximo</div><div class="stat-number egreso" id="maxEgresosMensual">$0</div><div class="stat-label-sm" id="maxEgresosMes" style="font-size:0.6rem;"></div></div></div></div></div>
             <canvas id="monthlyComparisonChart"></canvas>
         </div>
     </div>
@@ -565,40 +543,61 @@
             <div id="egresos-tab" class="tab-content"><div class="search-bar"><input type="text" id="searchEgresos" placeholder="🔍 Buscar por proveedor, concepto, motivo o categoría..."><button id="clearSearchEgresos" class="clear-search">Limpiar</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Fecha</th><th>Categoría</th><th>Subcategoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th></tr></thead><tbody id="egresosTableBody"></tbody></table></div></div>
         </div>
     </div>
-    <div class="footer"><i class="fas fa-mouse-pointer"></i> Montos en Pesos Chilenos (CLP) sin decimales · Proyección automática cuando hay datos parciales</div>
+    <div class="footer"><i class="fas fa-mouse-pointer"></i> Nuevo selector: "Acumulado hasta el mes" vs "Solo el mes" · Todos los KPIs se recalcularán automáticamente.</div>
 </div>
 
 <script>
-    // ======================== VARIABLE GLOBAL ========================
-    // CAMBIA ESTE VALOR SEGÚN EL AÑO QUE QUIERAS ANALIZAR
-    const YEAR = 2024;  // Cambiar a 2025 para analizar otro año
+    // ======================== CONFIGURACIÓN GLOBAL ========================
+    const YEAR = 2024;
+    let ingresosData = [], egresosData = [];
+    let currentView = "accumulated";
+    let currentMonth = 12;
     
-    // ======================== FIN VARIABLE GLOBAL ========================
-    
-    document.getElementById('yearDisplay').innerText = YEAR;
-    document.getElementById('yearBadge').innerText = YEAR;
-    
+    let monthlyChart, regularEvolutionChart, remuneracionesChart;
+    let ingresosSearchTerm = "", egresosSearchTerm = "";
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const mesesCortos = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const INGRESOS_CATEGORIAS_PRINCIPALES = ["CUOTA MENSUAL", "ARRIENDO", "CUOTA INCORPORACION", "TORNEO"];
+    const EGRESOS_CATEGORIAS_PRINCIPALES = ["REMUNERACIONES", "CANCHAS", "SERVICIOS BÁSICOS", "MANTENCION", "PROYECTOS"];
+
+    // ======================== FUNCIONES DE FILTRADO ========================
+    function getActiveFilters() {
+        const viewSelect = document.getElementById('viewType');
+        const monthSelect = document.getElementById('monthFilter');
+        const isAccumulated = viewSelect.value === 'accumulated';
+        const month = parseInt(monthSelect.value);
+        return { isAccumulated, month };
+    }
+
+    function filterDataByMonthRange(data, targetMonth, isAccumulated) {
+        if (isAccumulated) {
+            return data.filter(item => item.mes <= targetMonth);
+        } else {
+            return data.filter(item => item.mes === targetMonth);
+        }
+    }
+
+    function getDataByActiveFilters() {
+        const { isAccumulated, month } = getActiveFilters();
+        const filteredIngresos = filterDataByMonthRange(ingresosData, month, isAccumulated);
+        const filteredEgresos = filterDataByMonthRange(egresosData, month, isAccumulated);
+        return { filteredIngresos, filteredEgresos, isAccumulated, month };
+    }
+
+    // ======================== FUNCIONES DE AYUDA ========================
     function formatCLP(value) {
         return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
 
-    let ingresosData = [], egresosData = [], currentMonth = "all";
-    let monthlyChart, quotaChart, remuneracionesChart, regularEvolutionChart;
-    let ingresosSearchTerm = "", egresosSearchTerm = "";
-    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const mesesCortos = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    const INGRESOS_CATEGORIAS_PRINCIPALES = ["CUOTA MENSUAL", "ARRIENDO", "ARRIENDO TIENDA", "CASILLEROS", "CENA ANIVERSARIO", "CUOTA INCORPORACION", "TORNEO"];
-    const EGRESOS_CATEGORIAS_PRINCIPALES = ["REMUNERACIONES", "CANCHAS", "SERVICIOS BÁSICOS", "MANTENCION", "PROYECTOS"];
-
     function groupByFixedCategories(categoryMap, categoriasPrincipales) {
-        const result = new Map(); for (const cat of categoriasPrincipales) result.set(cat, 0);
+        const result = new Map();
+        for (const cat of categoriasPrincipales) result.set(cat, 0);
         let otrosMonto = 0;
         for (const [cat, monto] of categoryMap.entries()) {
             const upperCat = cat.toUpperCase().trim();
             let encontrada = false;
             for (const principal of categoriasPrincipales) {
-                // Si la categoría real contiene "ARRIENDO" y la categoría principal también es "ARRIENDO", las agrupa.
-                if (upperCat === principal || (principal === "ARRIENDO" && upperCat.includes("ARRIENDO"))) {
+                if (upperCat === principal || upperCat.includes(principal)) {
                     result.set(principal, (result.get(principal) || 0) + monto);
                     encontrada = true;
                     break;
@@ -606,7 +605,8 @@
             }
             if (!encontrada) otrosMonto += monto;
         }
-        const items = []; for (const [cat, monto] of result.entries()) if (monto > 0) items.push({ categoria: cat, monto });
+        const items = [];
+        for (const [cat, monto] of result.entries()) if (monto > 0) items.push({ categoria: cat, monto });
         if (otrosMonto > 0) items.push({ categoria: "📦 OTROS", monto: otrosMonto });
         const total = items.reduce((sum, item) => sum + item.monto, 0);
         items.forEach(item => item.porcentaje = total > 0 ? (item.monto / total) * 100 : 0);
@@ -630,10 +630,10 @@
         });
         
         const quotaData = [];
-        if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: 43500, cantidad: regular.cantidad, total: regular.total });
-        if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: 21750, cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
-        if (pasivo.cantidad > 0) quotaData.push({ tipo: "PASIVO", montoUnitario: 13050, cantidad: pasivo.cantidad, total: pasivo.total });
-        if (otros.cantidad > 0) quotaData.push({ tipo: "📦 OTROS", montoUnitario: null, cantidad: otros.cantidad, total: otros.total });
+        if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: "$43.500", cantidad: regular.cantidad, total: regular.total });
+        if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: "$21.750", cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
+        if (pasivo.cantidad > 0) quotaData.push({ tipo: "PASIVO", montoUnitario: "$13.050", cantidad: pasivo.cantidad, total: pasivo.total });
+        if (otros.cantidad > 0) quotaData.push({ tipo: "📦 OTROS", montoUnitario: "---", cantidad: otros.cantidad, total: otros.total });
         
         const totalCuotas = regular.total + damaEstudiante.total + pasivo.total + otros.total;
         quotaData.forEach(item => { item.porcentaje = totalCuotas > 0 ? (item.total / totalCuotas) * 100 : 0; });
@@ -688,15 +688,12 @@
         
         const ingresosConDatos = ingresosMensual.filter(v => v > 0);
         const egresosConDatos = egresosMensual.filter(v => v > 0);
-        
         const promedioIngresos = ingresosConDatos.length > 0 ? ingresosConDatos.reduce((a,b) => a + b, 0) / ingresosConDatos.length : 0;
         const promedioEgresos = egresosConDatos.length > 0 ? egresosConDatos.reduce((a,b) => a + b, 0) / egresosConDatos.length : 0;
-        
         const minIngresos = Math.min(...ingresosMensual);
         const maxIngresos = Math.max(...ingresosMensual);
         const minEgresos = Math.min(...egresosMensual);
         const maxEgresos = Math.max(...egresosMensual);
-        
         const minIngresosMes = ingresosMensual.indexOf(minIngresos) + 1;
         const maxIngresosMes = ingresosMensual.indexOf(maxIngresos) + 1;
         const minEgresosMes = egresosMensual.indexOf(minEgresos) + 1;
@@ -711,33 +708,20 @@
     }
 
     function calcularProyecciones() {
-        let ingresosReales = 0;
-        let egresosReales = 0;
-        let mesesConDatosIngresos = 0;
-        let mesesConDatosEgresos = 0;
+        const { filteredIngresos, filteredEgresos, isAccumulated, month } = getDataByActiveFilters();
+        let ingresosReales = filteredIngresos.reduce((s,i) => s + (i.importe||0), 0);
+        let egresosReales = filteredEgresos.reduce((s,e) => s + (e.importe||0), 0);
+        let mesesConDatos = isAccumulated ? month : 1;
         
-        for (let m = 1; m <= 12; m++) {
-            const ingresosMes = ingresosData.filter(i => i.mes === m).reduce((s,i) => s + (i.importe||0), 0);
-            const egresosMes = egresosData.filter(e => e.mes === m).reduce((s,e) => s + (e.importe||0), 0);
-            if (ingresosMes > 0 || egresosMes > 0) {
-                ingresosReales += ingresosMes;
-                egresosReales += egresosMes;
-                if (ingresosMes > 0) mesesConDatosIngresos++;
-                if (egresosMes > 0) mesesConDatosEgresos++;
-            }
-        }
-        
-        const promedioIngresosMensual = mesesConDatosIngresos > 0 ? ingresosReales / mesesConDatosIngresos : 0;
-        const promedioEgresosMensual = mesesConDatosEgresos > 0 ? egresosReales / mesesConDatosEgresos : 0;
+        const promedioIngresosMensual = mesesConDatos > 0 ? ingresosReales / mesesConDatos : 0;
+        const promedioEgresosMensual = mesesConDatos > 0 ? egresosReales / mesesConDatos : 0;
         
         const proyeccionIngresosPromedio = promedioIngresosMensual * 12;
         const proyeccionEgresosPromedio = promedioEgresosMensual * 12;
-        
         const proyeccionIngresosOptimista = proyeccionIngresosPromedio * 1.1;
         const proyeccionEgresosOptimista = proyeccionEgresosPromedio * 1.1;
         const proyeccionIngresosConservador = proyeccionIngresosPromedio * 0.9;
         const proyeccionEgresosConservador = proyeccionEgresosPromedio * 0.9;
-        
         const balanceProyectado = proyeccionIngresosPromedio - proyeccionEgresosPromedio;
         const balanceOptimista = proyeccionIngresosOptimista - proyeccionEgresosOptimista;
         const balanceConservador = proyeccionIngresosConservador - proyeccionEgresosConservador;
@@ -753,6 +737,7 @@
         };
     }
 
+    // ======================== RENDERIZADO PRINCIPAL ========================
     function renderProjections() {
         const p = calcularProyecciones();
         document.getElementById('realIngresos').innerHTML = `$${formatCLP(p.ingresosReales)}`;
@@ -771,68 +756,23 @@
         document.getElementById('margenProyectado').innerHTML = `${p.margenProyectado.toFixed(1)}%`;
     }
 
-    async function loadData() {
-        try {
-            const [ingresosResp, egresosResp] = await Promise.all([fetch('./../data/ingresos-2024.json'), fetch('./../data/egresos-2024.json')]);
-            if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON');
-            const ingresosJson = await ingresosResp.json(), egresosJson = await egresosResp.json();
-            ingresosData = (ingresosJson.Ingresos || ingresosJson).filter(item => item.anno === YEAR);
-            egresosData = (egresosJson.Egresos || egresosJson).filter(item => item.anno === YEAR);
-            document.getElementById('monthFilter').addEventListener('change', (e) => { currentMonth = e.target.value; renderDashboard(); });
-            setupTabs(); setupSearchHandlers(); renderDashboard();
-        } catch (error) { document.body.innerHTML = `<div style="padding:40px;text-align:center;color:red;">Error: ${error.message}<br>Verifica que los JSON tengan datos con anno=${YEAR}</div>`; }
-    }
-
-    function setupTabs() {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
-            const tabId = btn.getAttribute('data-tab');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active'); document.getElementById(tabId).classList.add('active');
-        }));
-    }
-
-    function setupSearchHandlers() {
-        document.getElementById('searchIngresos').addEventListener('input', (e) => { ingresosSearchTerm = e.target.value.toLowerCase(); renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData)); });
-        document.getElementById('clearSearchIngresos').addEventListener('click', () => { document.getElementById('searchIngresos').value = ''; ingresosSearchTerm = ''; renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData)); });
-        document.getElementById('searchEgresos').addEventListener('input', (e) => { egresosSearchTerm = e.target.value.toLowerCase(); renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData)); });
-        document.getElementById('clearSearchEgresos').addEventListener('click', () => { document.getElementById('searchEgresos').value = ''; egresosSearchTerm = ''; renderDetailTables(filterByMonth(ingresosData), filterByMonth(egresosData)); });
-    }
-
-    function filterByMonth(data) { return currentMonth === "all" ? data : data.filter(item => item.mes === parseInt(currentMonth)); }
-    function getPeriodText() { return currentMonth === "all" ? `Acumulado ${YEAR}` : monthNames[parseInt(currentMonth)-1]; }
-    function filterIngresosBySearch(data) { if (!ingresosSearchTerm) return data; return data.filter(item => (item.nomsocio || "").toLowerCase().includes(ingresosSearchTerm) || (item.categoria || "").toLowerCase().includes(ingresosSearchTerm) || (item.ticket || "").toString().includes(ingresosSearchTerm)); }
-    function filterEgresosBySearch(data) { if (!egresosSearchTerm) return data; return data.filter(item => (item.nomproveedor || "").toLowerCase().includes(egresosSearchTerm) || (item.nomconcepto || "").toLowerCase().includes(egresosSearchTerm) || (item.motivo || "").toLowerCase().includes(egresosSearchTerm) || (item.categoria || "").toLowerCase().includes(egresosSearchTerm)); }
-
     function renderCompositionTables(fIng, fEgr) {
-        const ingMap = new Map(); fIng.forEach(ing => ingMap.set((ing.categoria || "Sin categoría").toUpperCase().trim(), (ingMap.get((ing.categoria || "Sin categoría").toUpperCase().trim()) || 0) + ing.importe));
+        const ingMap = new Map(); 
+        fIng.forEach(ing => ingMap.set((ing.categoria || "Sin categoría").toUpperCase().trim(), (ingMap.get((ing.categoria || "Sin categoría").toUpperCase().trim()) || 0) + ing.importe));
         const ingGroup = groupByFixedCategories(ingMap, INGRESOS_CATEGORIAS_PRINCIPALES);
-        document.getElementById('ingresosCompositionBody').innerHTML = ingGroup.map(i => `<table>
-            <td>${i.categoria}</td>
-            <td class="number-cell">$${formatCLP(i.monto)}</td>
-            <td class="percentage-cell">${i.porcentaje.toFixed(1)}%</td>
-        </tr>`).join('');
+        document.getElementById('ingresosCompositionBody').innerHTML = ingGroup.map(i => `<tr><td>${i.categoria}</td><td class="number-cell">$${formatCLP(i.monto)}</td><td class="percentage-cell">${i.porcentaje.toFixed(1)}%</td></tr>`).join('');
         
-        const egrMap = new Map(); fEgr.forEach(eg => egrMap.set((eg.categoria || "Sin categoría").toUpperCase().trim(), (egrMap.get((eg.categoria || "Sin categoría").toUpperCase().trim()) || 0) + eg.importe));
+        const egrMap = new Map(); 
+        fEgr.forEach(eg => egrMap.set((eg.categoria || "Sin categoría").toUpperCase().trim(), (egrMap.get((eg.categoria || "Sin categoría").toUpperCase().trim()) || 0) + eg.importe));
         const egrGroup = groupByFixedCategories(egrMap, EGRESOS_CATEGORIAS_PRINCIPALES);
-        document.getElementById('egresosCompositionBody').innerHTML = egrGroup.map(e => `<tr>
-            <td>${e.categoria}</td>
-            <td class="number-cell">$${formatCLP(e.monto)}</td>
-            <td class="percentage-cell">${e.porcentaje.toFixed(1)}%</td>
-        </tr>`).join('');
+        document.getElementById('egresosCompositionBody').innerHTML = egrGroup.map(e => `<tr><td>${e.categoria}</td><td class="number-cell">$${formatCLP(e.monto)}</td><td class="percentage-cell">${e.porcentaje.toFixed(1)}%</td></tr>`).join('');
     }
 
     function renderQuotaAnalysis(filteredIngresos) {
         const { quotaData, totalCuotas, cantidadRegistros } = analyzeQuotaMensual(filteredIngresos);
         const tbody = document.getElementById('quotaCompositionBody');
-        tbody.innerHTML = quotaData.map(item => `<tr>
-            <td><strong>${item.tipo}</strong></td>
-            <td>${item.montoUnitario ? `$${formatCLP(item.montoUnitario)}` : '---'}</td>
-            <td class="number-cell">${item.cantidad}</td>
-            <td class="number-cell">$${formatCLP(item.total)}</td>
-            <td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td>
-        </tr>`).join('');
-        document.getElementById('quotaCompositionFoot').innerHTML = `<tr class="total-row"><tr><strong>TOTAL</strong></td><td colspan="2"></td><td class="number-cell"><strong>${cantidadRegistros}</strong></td><td class="number-cell"><strong>$${formatCLP(totalCuotas)}</strong></td><td class="percentage-cell"><strong>100%</strong></td></tr>`;
+        tbody.innerHTML = quotaData.map(item => `<tr><td><strong>${item.tipo}</strong></td><td>${item.montoUnitario}</td><td class="number-cell">${item.cantidad}</td><td class="number-cell">$${formatCLP(item.total)}</td><td class="percentage-cell">${item.porcentaje.toFixed(1)}%</td></tr>`).join('');
+        document.getElementById('quotaCompositionFoot').innerHTML = `<tr class="total-row"><td><strong>TOTAL</strong></td><td colspan="2"></td><td class="number-cell"><strong>${cantidadRegistros}</strong></td><td class="number-cell"><strong>$${formatCLP(totalCuotas)}</strong></td><td class="percentage-cell"><strong>100%</strong></td></tr>`;
     }
 
     function renderRegularEvolutionChart() {
@@ -845,21 +785,10 @@
         
         const ctx = document.getElementById('regularEvolutionChart').getContext('2d');
         if (regularEvolutionChart) regularEvolutionChart.destroy();
-        
         regularEvolutionChart = new Chart(ctx, {
             type: 'bar',
-            data: {
-                labels: mesesCortos,
-                datasets: [
-                    { label: 'Monto Recaudado ($)', data: regularMensualMonto, type: 'bar', backgroundColor: '#2e9e73', borderRadius: 8, yAxisID: 'y', order: 2 },
-                    { label: 'Cantidad de Socios', data: regularMensualCantidad, type: 'line', borderColor: '#1e5c3a', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointBackgroundColor: '#1e5c3a', pointBorderColor: '#fff', pointRadius: 4, fill: false, yAxisID: 'y1', order: 1 }
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: true,
-                plugins: { tooltip: { callbacks: { label: (ctx) => ctx.dataset.label === 'Monto Recaudado ($)' ? `$${formatCLP(ctx.raw)}` : `${ctx.raw} socios` } }, legend: { position: 'top', labels: { font: { size: 10 } } } },
-                scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } }, y1: { beginAtZero: true, position: 'right', ticks: { callback: (v) => `${v} socios` }, title: { display: true, text: 'Cantidad de Socios', font: { size: 10 } }, grid: { drawOnChartArea: false } }, x: { title: { display: true, text: 'Mes', font: { size: 10 } } } }
-            }
+            data: { labels: mesesCortos, datasets: [{ label: 'Monto Recaudado ($)', data: regularMensualMonto, type: 'bar', backgroundColor: '#2e9e73', borderRadius: 8, yAxisID: 'y', order: 2 }, { label: 'Cantidad de Socios', data: regularMensualCantidad, type: 'line', borderColor: '#1e5c3a', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointBackgroundColor: '#1e5c3a', pointBorderColor: '#fff', pointRadius: 4, fill: false, yAxisID: 'y1', order: 1 }] },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { tooltip: { callbacks: { label: (ctx) => ctx.dataset.label === 'Monto Recaudado ($)' ? `$${formatCLP(ctx.raw)}` : `${ctx.raw} socios` } }, legend: { position: 'top', labels: { font: { size: 10 } } } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } }, y1: { beginAtZero: true, position: 'right', ticks: { callback: (v) => `${v} socios` }, title: { display: true, text: 'Cantidad de Socios', font: { size: 10 } }, grid: { drawOnChartArea: false } }, x: { title: { display: true, text: 'Mes', font: { size: 10 } } } } }
         });
     }
 
@@ -873,8 +802,22 @@
         if (remuneracionesChart) remuneracionesChart.destroy();
         remuneracionesChart = new Chart(ctx, {
             type: 'bar',
-            data: { labels: mesesCortos, datasets: [{ label: 'REMUNERACIONES (CLP)', data: remuneracionesMensual, backgroundColor: '#b91c1c', borderRadius: 8 }] },
-            options: { responsive: true, maintainAspectRatio: true, plugins: { tooltip: { callbacks: { label: (ctx) => `$${formatCLP(ctx.raw)}` } }, legend: { position: 'top', labels: { font: { size: 10 } } } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } }, x: { title: { display: true, text: 'Mes', font: { size: 10 } } } } }
+            data: {
+                labels: mesesCortos,
+                datasets: [{ label: 'REMUNERACIONES (CLP)', data: remuneracionesMensual, backgroundColor: '#b91c1c', borderRadius: 8 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    tooltip: { callbacks: { label: (ctx) => `$${formatCLP(ctx.raw)}` } },
+                    legend: { position: 'top', labels: { font: { size: 10 } } }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } },
+                    x: { title: { display: true, text: 'Mes', font: { size: 10 } } }
+                }
+            }
         });
     }
 
@@ -894,57 +837,65 @@
         
         const ctx = document.getElementById('monthlyComparisonChart').getContext('2d');
         if (monthlyChart) monthlyChart.destroy();
-        monthlyChart = new Chart(ctx, { 
-            type: 'bar', 
-            data: { labels: mesesCortos, datasets: [
-                { label: 'Ingresos', data: stats.ingresosMensual, backgroundColor: '#2e7d64', borderRadius: 6 },
-                { label: 'Egresos', data: stats.egresosMensual, backgroundColor: '#c96b4a', borderRadius: 6 }
-            ]},
-            options: { responsive: true, maintainAspectRatio: true, plugins: { tooltip: { callbacks: { label: (ctx) => `$${formatCLP(ctx.raw)}` } }, legend: { position: 'top', labels: { font: { size: 10 } } } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } }, x: { title: { display: true, text: 'Mes', font: { size: 10 } } } } }
+        monthlyChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: mesesCortos,
+                datasets: [
+                    { label: 'Ingresos', data: stats.ingresosMensual, backgroundColor: '#2e7d64', borderRadius: 6 },
+                    { label: 'Egresos', data: stats.egresosMensual, backgroundColor: '#c96b4a', borderRadius: 6 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    tooltip: { callbacks: { label: (ctx) => `$${formatCLP(ctx.raw)}` } },
+                    legend: { position: 'top', labels: { font: { size: 10 } } }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } },
+                    x: { title: { display: true, text: 'Mes', font: { size: 10 } } }
+                }
+            }
         });
     }
 
-    function renderDetailTables(fIng, fEgr) {
-        let ingresos = filterIngresosBySearch(fIng).sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
-        document.getElementById('ingresosTableBody').innerHTML = ingresos.length ? ingresos.slice(0, 100).map(ing => `<tr>
-            <td>${ing.iding || '-'}</td>
-            <td>${ing.ticket || '-'}</td>
-            <td>${ing.fecha ? ing.fecha.slice(0,10) : `${ing.anno}-${String(ing.mes).padStart(2,'0')}`}</td>
-            <td>${ing.nomsocio || ing.tiping || '-'}</td>
-            <td>${ing.categoria || '-'}</td>
-            <td>${ing.subcategoria || '-'}</td>
-            <td class="number-cell">$${formatCLP(ing.importe)}</td>
-        </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;">📭 No hay ingresos</td></tr>';
+    function renderDetailTables() {
+        const { filteredIngresos, filteredEgresos, isAccumulated, month } = getDataByActiveFilters();
+        const periodText = isAccumulated ? `Acumulado hasta ${monthNames[month-1]}` : `Mes de ${monthNames[month-1]}`;
+        document.getElementById('tablePeriodLabel').innerHTML = `(${periodText})`;
         
-        let egresos = filterEgresosBySearch(fEgr).sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
-        document.getElementById('egresosTableBody').innerHTML = egresos.length ? egresos.slice(0, 100).map(eg => `<tr>
-            <td>${eg.fecha ? eg.fecha.slice(0,10) : `${eg.anno}-${String(eg.mes).padStart(2,'0')}`}</td>
-            <td>${eg.categoria || '-'}</td>
-            <td>${eg.subcategoria || '-'}</td>
-            <td>${eg.nomproveedor || '-'}</td>
-            <td>${eg.nomconcepto || '-'}</td>
-            <td>${eg.motivo || '-'}</td>
-            <td class="number-cell">$${formatCLP(eg.importe)}</td>
-        </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;">📭 No hay egresos</td></tr>';
+        let ingresosFiltrados = filteredIngresos;
+        if (ingresosSearchTerm) {
+            ingresosFiltrados = ingresosFiltrados.filter(item => (item.nomsocio || "").toLowerCase().includes(ingresosSearchTerm) || (item.categoria || "").toLowerCase().includes(ingresosSearchTerm) || (item.ticket || "").toString().includes(ingresosSearchTerm));
+        }
+        let ingresosToShow = [...ingresosFiltrados].sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        document.getElementById('ingresosTableBody').innerHTML = ingresosToShow.length ? ingresosToShow.slice(0, 100).map(ing => `<tr><td>${ing.iding || '-'}</td><td>${ing.ticket || '-'}</td><td>${ing.fecha ? ing.fecha.slice(0,10) : `${ing.anno}-${String(ing.mes).padStart(2,'0')}`}</td><td>${ing.nomsocio || ing.tiping || '-'}</td><td>${ing.categoria || '-'}</td><td>${ing.subcategoria || '-'}</td><td class="number-cell">$${formatCLP(ing.importe)}</td></tr>`).join('') : '<tr><td colspan="7" style="text-align:center;">📭 No hay ingresos</td></tr>';
+        
+        let egresosFiltrados = filteredEgresos;
+        if (egresosSearchTerm) {
+            egresosFiltrados = egresosFiltrados.filter(item => (item.nomproveedor || "").toLowerCase().includes(egresosSearchTerm) || (item.nomconcepto || "").toLowerCase().includes(egresosSearchTerm) || (item.motivo || "").toLowerCase().includes(egresosSearchTerm) || (item.categoria || "").toLowerCase().includes(egresosSearchTerm));
+        }
+        let egresosToShow = [...egresosFiltrados].sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        document.getElementById('egresosTableBody').innerHTML = egresosToShow.length ? egresosToShow.slice(0, 100).map(eg => `<tr><td>${eg.fecha ? eg.fecha.slice(0,10) : `${eg.anno}-${String(eg.mes).padStart(2,'0')}`}</td><td>${eg.categoria || '-'}</td><td>${eg.subcategoria || '-'}</td><td>${eg.nomproveedor || '-'}</td><td>${eg.nomconcepto || '-'}</td><td>${eg.motivo || '-'}</td><td class="number-cell">$${formatCLP(eg.importe)}</td></tr>`).join('') : '<tr><td colspan="7" style="text-align:center;">📭 No hay egresos</td></tr>';
     }
 
     function updateUIAndCharts() {
-        const filteredIngresos = filterByMonth(ingresosData);
-        const filteredEgresos = filterByMonth(egresosData);
+        const { filteredIngresos, filteredEgresos, isAccumulated, month } = getDataByActiveFilters();
         const totalIng = filteredIngresos.reduce((s,i) => s + (i.importe||0), 0);
         const totalEgr = filteredEgresos.reduce((s,e) => s + (e.importe||0), 0);
         const balance = totalIng - totalEgr;
         const margen = totalIng > 0 ? ((balance / totalIng) * 100).toFixed(1) : 0;
         
+        const periodText = isAccumulated ? `Acumulado hasta ${monthNames[month-1]}` : `Mes de ${monthNames[month-1]}`;
         document.getElementById('balanceValue').innerHTML = `$${formatCLP(balance)}`;
         document.getElementById('totalIngresos').innerHTML = `$${formatCLP(totalIng)}`;
         document.getElementById('totalEgresos').innerHTML = `$${formatCLP(totalEgr)}`;
         document.getElementById('margenValue').innerHTML = `${margen}%`;
-        const periodText = getPeriodText();
         document.getElementById('balanceSub').innerHTML = periodText;
         document.getElementById('ingresosSub').innerHTML = periodText;
         document.getElementById('egresosSub').innerHTML = periodText;
-        document.getElementById('tablePeriodLabel').innerHTML = `(${periodText})`;
         
         renderProjections();
         renderCompositionTables(filteredIngresos, filteredEgresos);
@@ -952,7 +903,37 @@
         renderRegularEvolutionChart();
         renderRemuneracionesChart();
         renderMonthlyStatsAndChart();
-        renderDetailTables(filteredIngresos, filteredEgresos);
+        renderDetailTables();
+    }
+    
+    // ======================== CARGA DE DATOS E INTERACTIVIDAD ========================
+    async function loadData() {
+        try {
+            const [ingresosResp, egresosResp] = await Promise.all([fetch('./../data/ingresos-2024.json'), fetch('./../data/egresos-2024.json')]);
+            if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON');
+            const ingresosJson = await ingresosResp.json(), egresosJson = await egresosResp.json();
+            ingresosData = (ingresosJson.Ingresos || ingresosJson).filter(item => item.anno === YEAR);
+            egresosData = (egresosJson.Egresos || egresosJson).filter(item => item.anno === YEAR);
+            
+            document.getElementById('monthFilter').addEventListener('change', () => renderDashboard());
+            document.getElementById('viewType').addEventListener('change', () => renderDashboard());
+            document.getElementById('searchIngresos').addEventListener('input', (e) => { ingresosSearchTerm = e.target.value.toLowerCase(); renderDetailTables(); });
+            document.getElementById('clearSearchIngresos').addEventListener('click', () => { document.getElementById('searchIngresos').value = ''; ingresosSearchTerm = ''; renderDetailTables(); });
+            document.getElementById('searchEgresos').addEventListener('input', (e) => { egresosSearchTerm = e.target.value.toLowerCase(); renderDetailTables(); });
+            document.getElementById('clearSearchEgresos').addEventListener('click', () => { document.getElementById('searchEgresos').value = ''; egresosSearchTerm = ''; renderDetailTables(); });
+            
+            setupTabs();
+            renderDashboard();
+        } catch (error) { document.body.innerHTML = `<div style="padding:40px;text-align:center;color:red;">Error: ${error.message}<br>Verifica que los JSON tengan datos con anno=${YEAR}</div>`; }
+    }
+
+    function setupTabs() {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active'); document.getElementById(tabId).classList.add('active');
+        }));
     }
     
     // Interactividad secciones
@@ -985,28 +966,16 @@
         monthlyChartSection.classList.toggle('hidden-component', !monthlyChartVisible);
         detailTableSection.classList.toggle('hidden-component', !detailTableVisible);
         
-        toggleKpi.classList.toggle('active', kpiVisible);
-        toggleKpi.classList.toggle('inactive', !kpiVisible);
-        toggleProjection.classList.toggle('active', projectionVisible);
-        toggleProjection.classList.toggle('inactive', !projectionVisible);
-        toggleComposition.classList.toggle('active', compositionVisible);
-        toggleComposition.classList.toggle('inactive', !compositionVisible);
-        toggleQuota.classList.toggle('active', quotaVisible);
-        toggleQuota.classList.toggle('inactive', !quotaVisible);
-        toggleRegularEvolution.classList.toggle('active', regularEvolutionVisible);
-        toggleRegularEvolution.classList.toggle('inactive', !regularEvolutionVisible);
-        toggleRemuneraciones.classList.toggle('active', remuneracionesVisible);
-        toggleRemuneraciones.classList.toggle('inactive', !remuneracionesVisible);
-        toggleMonthlyChart.classList.toggle('active', monthlyChartVisible);
-        toggleMonthlyChart.classList.toggle('inactive', !monthlyChartVisible);
-        toggleDetailTable.classList.toggle('active', detailTableVisible);
-        toggleDetailTable.classList.toggle('inactive', !detailTableVisible);
+        toggleKpi.classList.toggle('active', kpiVisible); toggleKpi.classList.toggle('inactive', !kpiVisible);
+        toggleProjection.classList.toggle('active', projectionVisible); toggleProjection.classList.toggle('inactive', !projectionVisible);
+        toggleComposition.classList.toggle('active', compositionVisible); toggleComposition.classList.toggle('inactive', !compositionVisible);
+        toggleQuota.classList.toggle('active', quotaVisible); toggleQuota.classList.toggle('inactive', !quotaVisible);
+        toggleRegularEvolution.classList.toggle('active', regularEvolutionVisible); toggleRegularEvolution.classList.toggle('inactive', !regularEvolutionVisible);
+        toggleRemuneraciones.classList.toggle('active', remuneracionesVisible); toggleRemuneraciones.classList.toggle('inactive', !remuneracionesVisible);
+        toggleMonthlyChart.classList.toggle('active', monthlyChartVisible); toggleMonthlyChart.classList.toggle('inactive', !monthlyChartVisible);
+        toggleDetailTable.classList.toggle('active', detailTableVisible); toggleDetailTable.classList.toggle('inactive', !detailTableVisible);
         
-        setTimeout(() => { 
-            if(monthlyChart) monthlyChart.resize(); 
-            if(regularEvolutionChart) regularEvolutionChart.resize(); 
-            if(remuneracionesChart) remuneracionesChart.resize(); 
-        }, 100);
+        setTimeout(() => { if(monthlyChart) monthlyChart.resize(); if(regularEvolutionChart) regularEvolutionChart.resize(); if(remuneracionesChart) remuneracionesChart.resize(); }, 100);
     }
     
     toggleKpi.addEventListener('click', () => { kpiVisible = !kpiVisible; updateUIVisibility(); });
@@ -1020,12 +989,11 @@
     resetBtn.addEventListener('click', () => { 
         kpiVisible = true; projectionVisible = true; compositionVisible = true; quotaVisible = true; 
         regularEvolutionVisible = true; remuneracionesVisible = true; monthlyChartVisible = true; detailTableVisible = true;
-        document.getElementById('monthFilter').value = 'all';
-        currentMonth = 'all';
+        document.getElementById('monthFilter').value = '12';
+        document.getElementById('viewType').value = 'accumulated';
         document.getElementById('searchIngresos').value = '';
         document.getElementById('searchEgresos').value = '';
-        ingresosSearchTerm = '';
-        egresosSearchTerm = '';
+        ingresosSearchTerm = ''; egresosSearchTerm = '';
         updateUIVisibility();
         renderDashboard();
     });

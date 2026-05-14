@@ -1,0 +1,124 @@
+{
+    "Mallas": [
+        {
+            "ID": 1,
+            "Nombre_Malla": "Denuncio de Siniestros",
+            "Total_Ejecuciones_Historicas": 163,
+            "Duracion_Promedio_Segundos": 38,
+            "X_m": 0.63,
+            "Duracion_P95_Segundos": 85,
+            "XP95_m": 1.00,
+            "Duracion_Maxima_Segundos": 110,
+            "MAX_m": 1.833333,
+            "Duracion_Minima_Segundos": 16
+        },
+        {
+            "ID": 4,
+            "Nombre_Malla": "Alta recaudación",
+            "Total_Ejecuciones_Historicas": 61,
+            "Duracion_Promedio_Segundos": 383,
+            "X_m": 6.38,
+            "Duracion_P95_Segundos": 886,
+            "XP95_m": 14.00,
+            "Duracion_Maxima_Segundos": 8456,
+            "MAX_m": 140.933333,
+            "Duracion_Minima_Segundos": 6
+        },
+        {
+            "ID": 5,
+            "Nombre_Malla": "Vigentes Mus",
+            "Total_Ejecuciones_Historicas": 19,
+            "Duracion_Promedio_Segundos": 435,
+            "X_m": 7.25,
+            "Duracion_P95_Segundos": 942,
+            "XP95_m": 15.00,
+            "Duracion_Maxima_Segundos": 2511,
+            "MAX_m": 41.850000,
+            "Duracion_Minima_Segundos": 100
+        },
+        {
+            "ID": 6,
+            "Nombre_Malla": "Leasing",
+            "Total_Ejecuciones_Historicas": 7,
+            "Duracion_Promedio_Segundos": 20,
+            "X_m": 0.33,
+            "Duracion_P95_Segundos": 41,
+            "XP95_m": 0.00,
+            "Duracion_Maxima_Segundos": 44,
+            "MAX_m": 0.733333,
+            "Duracion_Minima_Segundos": 7
+        },
+        {
+            "ID": 8,
+            "Nombre_Malla": "Dictamen Sinestro",
+            "Total_Ejecuciones_Historicas": 23,
+            "Duracion_Promedio_Segundos": 281,
+            "X_m": 4.68,
+            "Duracion_P95_Segundos": 213,
+            "XP95_m": 3.00,
+            "Duracion_Maxima_Segundos": 5462,
+            "MAX_m": 91.033333,
+            "Duracion_Minima_Segundos": 11
+        },
+        {
+            "ID": 11,
+            "Nombre_Malla": "Garantia",
+            "Total_Ejecuciones_Historicas": 15,
+            "Duracion_Promedio_Segundos": 16,
+            "X_m": 0.27,
+            "Duracion_P95_Segundos": 26,
+            "XP95_m": 0.00,
+            "Duracion_Maxima_Segundos": 30,
+            "MAX_m": 0.500000,
+            "Duracion_Minima_Segundos": 4
+        },
+        {
+            "ID": 12,
+            "Nombre_Malla": "Malla Seguro Sin Tramite AFC Envio",
+            "Total_Ejecuciones_Historicas": 19,
+            "Duracion_Promedio_Segundos": 15,
+            "X_m": 0.25,
+            "Duracion_P95_Segundos": 28,
+            "XP95_m": 0.00,
+            "Duracion_Maxima_Segundos": 30,
+            "MAX_m": 0.500000,
+            "Duracion_Minima_Segundos": 7
+        },
+        {
+            "ID": 13,
+            "Nombre_Malla": "Malla Seguro Sin Tramite AFC Recepcion",
+            "Total_Ejecuciones_Historicas": 19,
+            "Duracion_Promedio_Segundos": 8,
+            "X_m": 0.13,
+            "Duracion_P95_Segundos": 22,
+            "XP95_m": 0.00,
+            "Duracion_Maxima_Segundos": 23,
+            "MAX_m": 0.383333,
+            "Duracion_Minima_Segundos": 4
+        },
+        {
+            "ID": 15,
+            "Nombre_Malla": "Carga Masiva Polizas Colectivas Minvu",
+            "Total_Ejecuciones_Historicas": 4,
+            "Duracion_Promedio_Segundos": 491,
+            "X_m": 8.18,
+            "Duracion_P95_Segundos": 1152,
+            "XP95_m": 19.00,
+            "Duracion_Maxima_Segundos": 1282,
+            "MAX_m": 21.366666,
+            "Duracion_Minima_Segundos": 10
+        },
+        {
+            "ID": 17,
+            "Nombre_Malla": "Carga Clausulas y Leyendas",
+            "Total_Ejecuciones_Historicas": 8,
+            "Duracion_Promedio_Segundos": 23,
+            "X_m": 0.38,
+            "Duracion_P95_Segundos": 40,
+            "XP95_m": 0.00,
+            "Duracion_Maxima_Segundos": 47,
+            "MAX_m": 0.783333,
+            "Duracion_Minima_Segundos": 9
+        }
+    ]
+}

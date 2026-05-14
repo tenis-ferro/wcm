@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Monitor de Mallas | Control de Procesos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            padding: 2rem 2rem;
+            color: #0f172a;
+        }
+
+        .monitor-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* Cabecera */
+        .app-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+        }
+
+        .title-section h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #2d3a4f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .title-section p {
+            color: #475569;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .stats-badge {
+            background: white;
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        /* KPIs */
+        .kpi-ribbon {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-mini-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem 1.8rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e9edf2;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .kpi-mini-card h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #5b6e8c;
+            margin-bottom: 0.4rem;
+        }
+
+        .kpi-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f3b5c;
+            line-height: 1.1;
+        }
+
+        .kpi-unit {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4b6e8a;
+            margin-left: 4px;
+        }
+
+        /* Filtros: búsqueda + año/mes */
+        .filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-wrapper {
+            flex: 2;
+            min-width: 200px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 0.85rem;
+        }
+
+        .date-filters {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            background: white;
+            padding: 0.3rem 1rem 0.3rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .date-filters label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b5e7e;
+        }
+
+        .date-select {
+            padding: 0.4rem 0.6rem;
+            border-radius: 30px;
+            border: 1px solid #cbd5e6;
+            background: #fefefe;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .reset-filters-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 0.45rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+        }
+
+        .reset-filters-btn:hover {
+            background: #e6edf4;
+        }
+
+        /* Tabla principal */
+        .table-panel {
+            background: white;
+            border-radius: 24px;
+            border: 1px solid #eef2f8;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            margin-bottom: 1.8rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 1rem 1.2rem;
+            background-color: #fafcff;
+            font-weight: 600;
+            color: #234f6e;
+            border-bottom: 1px solid #e9edf2;
+            font-size: 0.8rem;
+        }
+
+        .data-table td {
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid #f0f4fa;
+            color: #1f2a44;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f8fafd;
+            cursor: pointer;
+        }
+
+        .data-table tr.active-malla {
+            background-color: #eef4ff;
+            border-left: 3px solid #2c7da0;
+            box-shadow: inset 0 0 0 1px #d9e6f5;
+        }
+
+        .metric-highlight {
+            font-weight: 600;
+            color: #1e4668;
+        }
+
+        /* Panel de detalle */
+        .detail-panel {
+            background: white;
+            border-radius: 24px;
+            border: 1px solid #eef2f8;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .detail-header {
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9edf2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .detail-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0c4e6e;
+        }
+
+        .detail-badge {
+            background: #eef2ff;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1f5e8c;
+        }
+
+        .exec-table-wrapper {
+            overflow-x: auto;
+            padding: 0;
+        }
+
+        .exec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .exec-table th {
+            background: #ffffff;
+            padding: 0.9rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2c5a7a;
+            border-bottom: 1px solid #eef2f8;
+        }
+
+        .exec-table td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #2d3a4a;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #15803d;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .empty-detail {
+            padding: 2rem;
+            text-align: center;
+            color: #6c86a3;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #7e8aa2;
+        }
+
+        @media (max-width: 750px) {
+            body { padding: 1rem; }
+            .data-table th, .data-table td { padding: 0.7rem 0.8rem; }
+            .date-filters { flex-wrap: wrap; padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="monitor-container">
+    <div class="app-header">
+        <div class="title-section">
+            <h1>📋 Control de Mallas</h1>
+            <p>Ejecuciones de procesos · métricas y detalle histórico con filtro temporal</p>
+        </div>
+        <div class="stats-badge">
+            ⚡ Datos en tiempo real
+        </div>
+    </div>
+
+    <!-- KPIs resumen -->
+    <div class="kpi-ribbon" id="kpiRibbon"></div>
+
+    <!-- Filtros avanzados: búsqueda + año/mes -->
+    <div class="filters-bar">
+        <div class="search-wrapper">
+            <input type="text" id="filterMallaInput" class="search-input" placeholder="🔍 Buscar por nombre de malla..." autocomplete="off">
+        </div>
+        <div class="date-filters">
+            <span>📅 Filtrar ejecuciones por:</span>
+            <select id="yearFilter" class="date-select"></select>
+            <select id="monthFilter" class="date-select">
+                <option value="all">Todos los meses</option>
+                <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
+                <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
+                <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
+                <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
+            </select>
+        </div>
+        <button id="resetAllFiltersBtn" class="reset-filters-btn">⟳ Restablecer filtros</button>
+    </div>
+
+    <!-- Tabla de mallas -->
+    <div class="table-panel">
+        <table class="data-table" id="mainMallasTable">
+            <thead>
+                <tr><th>ID</th><th>Nombre de Malla</th><th>Ejec.</th><th>MIN (s)</th><th>AVG (s)</th><th>MAX (s)</th><th>DESV (s)</th><th>P95 (s)</th></tr>
+            </thead>
+            <tbody id="mallasTableBody">
+                <tr><td colspan="8" class="empty-detail">Cargando mallas...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Panel detalle ejecuciones (con filtro año/mes aplicado) -->
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-header">
+            <h3 id="detailTitle">📌 Detalle de ejecuciones</h3>
+            <span class="detail-badge" id="detailSubBadge">Selecciona una malla</span>
+        </div>
+        <div class="exec-table-wrapper" id="executionsDetailContainer">
+            <div class="empty-detail">🔍 Haz clic en cualquier fila de la tabla para ver las ejecuciones individuales</div>
+        </div>
+    </div>
+    <footer>Monitor interactivo · Las ejecuciones simuladas incluyen fechas de los últimos meses para demostrar el filtro temporal.</footer>
+</div>
+
+<script>
+    // ======================== DATOS ORIGINALES ========================
+    const rawMallas = [
+        { "ID": 1, "Nombre_Malla": "Denuncio de Siniestros", "Total_Ejecuciones_Historicas": 163, "Duracion_Promedio_Segundos": 38, "X_m": 0.63, "Duracion_P95_Segundos": 85, "XP95_m": 1.00, "Duracion_Maxima_Segundos": 110, "MAX_m": 1.833333, "Duracion_Minima_Segundos": 16 },
+        { "ID": 4, "Nombre_Malla": "Alta recaudación", "Total_Ejecuciones_Historicas": 61, "Duracion_Promedio_Segundos": 383, "X_m": 6.38, "Duracion_P95_Segundos": 886, "XP95_m": 14.00, "Duracion_Maxima_Segundos": 8456, "MAX_m": 140.933333, "Duracion_Minima_Segundos": 6 },
+        { "ID": 5, "Nombre_Malla": "Vigentes Mus", "Total_Ejecuciones_Historicas": 19, "Duracion_Promedio_Segundos": 435, "X_m": 7.25, "Duracion_P95_Segundos": 942, "XP95_m": 15.00, "Duracion_Maxima_Segundos": 2511, "MAX_m": 41.850000, "Duracion_Minima_Segundos": 100 },
+        { "ID": 6, "Nombre_Malla": "Leasing", "Total_Ejecuciones_Historicas": 7, "Duracion_Promedio_Segundos": 20, "X_m": 0.33, "Duracion_P95_Segundos": 41, "XP95_m": 0.00, "Duracion_Maxima_Segundos": 44, "MAX_m": 0.733333, "Duracion_Minima_Segundos": 7 },
+        { "ID": 8, "Nombre_Malla": "Dictamen Sinestro", "Total_Ejecuciones_Historicas": 23, "Duracion_Promedio_Segundos": 281, "X_m": 4.68, "Duracion_P95_Segundos": 213, "XP95_m": 3.00, "Duracion_Maxima_Segundos": 5462, "MAX_m": 91.033333, "Duracion_Minima_Segundos": 11 },
+        { "ID": 11, "Nombre_Malla": "Garantia", "Total_Ejecuciones_Historicas": 15, "Duracion_Promedio_Segundos": 16, "X_m": 0.27, "Duracion_P95_Segundos": 26, "XP95_m": 0.00, "Duracion_Maxima_Segundos": 30, "MAX_m": 0.500000, "Duracion_Minima_Segundos": 4 },
+        { "ID": 12, "Nombre_Malla": "Malla Seguro Sin Tramite AFC Envio", "Total_Ejecuciones_Historicas": 19, "Duracion_Promedio_Segundos": 15, "X_m": 0.25, "Duracion_P95_Segundos": 28, "XP95_m": 0.00, "Duracion_Maxima_Segundos": 30, "MAX_m": 0.500000, "Duracion_Minima_Segundos": 7 },
+        { "ID": 13, "Nombre_Malla": "Malla Seguro Sin Tramite AFC Recepcion", "Total_Ejecuciones_Historicas": 19, "Duracion_Promedio_Segundos": 8, "X_m": 0.13, "Duracion_P95_Segundos": 22, "XP95_m": 0.00, "Duracion_Maxima_Segundos": 23, "MAX_m": 0.383333, "Duracion_Minima_Segundos": 4 },
+        { "ID": 15, "Nombre_Malla": "Carga Masiva Polizas Colectivas Minvu", "Total_Ejecuciones_Historicas": 4, "Duracion_Promedio_Segundos": 491, "X_m": 8.18, "Duracion_P95_Segundos": 1152, "XP95_m": 19.00, "Duracion_Maxima_Segundos": 1282, "MAX_m": 21.366666, "Duracion_Minima_Segundos": 10 },
+        { "ID": 17, "Nombre_Malla": "Carga Clausulas y Leyendas", "Total_Ejecuciones_Historicas": 8, "Duracion_Promedio_Segundos": 23, "X_m": 0.38, "Duracion_P95_Segundos": 40, "XP95_m": 0.00, "Duracion_Maxima_Segundos": 47, "MAX_m": 0.783333, "Duracion_Minima_Segundos": 9 }
+    ];
+
+    // ========== SIMULACIÓN DE FECHAS REALISTAS EN EJECUCIONES ==========
+    // Genera ejecuciones con fechas distribuidas en los últimos 24 meses para que el filtro año/mes funcione.
+    function generateExecutionsForMalla(malla, count) {
+        const minDur = malla.Duracion_Minima_Segundos;
+        const maxDur = malla.Duracion_Maxima_Segundos;
+        const avgDur = malla.Duracion_Promedio_Segundos;
+        const stdEst = computeEstimatedStdDev(malla);
+        
+        let executions = [];
+        const now = new Date();
+        const startDateRef = new Date(now.getFullYear() - 2, now.getMonth(), 1);
+        
+        for (let i = 0; i < count; i++) {
+            // duración simulada
+            let simDur = avgDur + (Math.random() - 0.5) * stdEst * 2.2;
+            simDur = Math.min(maxDur, Math.max(minDur, simDur));
+            simDur = Math.round(simDur * 10) / 10;
+            
+            // fecha aleatoria en los últimos 24 meses
+            const randomOffsetDays = Math.random() * 730; // ~2 años
+            const execDate = new Date(startDateRef.getTime() + randomOffsetDays * 86400000);
+            const endDate = new Date(execDate.getTime() + simDur * 1000);
+            
+            const state = simDur > malla.Duracion_P95_Segundos * 1.1 ? "⚠️ Lento" : (simDur < avgDur * 0.7 ? "⚡ Rápido" : "✅ Normal");
+            executions.push({
+                idEjec: i + 1,
+                proceso: `Ejecución #${i+1}`,
+                fechaInicio: execDate,
+                fechaFin: endDate,
+                duracionSeg: simDur,
+                estado: state,
+                año: execDate.getFullYear(),
+                mes: execDate.getMonth()
+            });
+        }
+        // ordenar por fecha descendente (más recientes primero)
+        executions.sort((a,b) => b.fechaInicio - a.fechaInicio);
+        return executions;
+    }
+
+    function computeEstimatedStdDev(malla) {
+        const maxSec = malla.Duracion_Maxima_Segundos;
+        const minSec = malla.Duracion_Minima_Segundos;
+        let roughStd = (maxSec - minSec) / 4.2;
+        if (roughStd < 2) roughStd = malla.Duracion_Promedio_Segundos * 0.2;
+        return Math.round(roughStd * 10) / 10;
+    }
+
+    // Estado global
+    let currentMallasData = [...rawMallas];
+    let filteredMallas = [...currentMallasData];
+    let selectedMallaId = null;
+    let executionsCache = new Map(); // key: mallaId, value: array ejecuciones originales con fecha
+
+    // Filtros
+    let currentTextFilter = "";
+    let currentYearFilter = "all";
+    let currentMonthFilter = "all";
+
+    // Render KPIs
+    function renderKPIs() {
+        const totalMallas = filteredMallas.length;
+        const totalEjecuciones = filteredMallas.reduce((acc, m) => acc + m.Total_Ejecuciones_Historicas, 0);
+        const avgGeneral = filteredMallas.reduce((acc, m) => acc + m.Duracion_Promedio_Segundos, 0) / (filteredMallas.length || 1);
+        const maxPeak = filteredMallas.reduce((max, m) => Math.max(max, m.Duracion_Maxima_Segundos), 0);
+        const ribbon = document.getElementById('kpiRibbon');
+        ribbon.innerHTML = `
+            <div class="kpi-mini-card"><h4>📋 Mallas</h4><div class="kpi-number">${totalMallas}</div></div>
+            <div class="kpi-mini-card"><h4>🔁 Ejecuciones históricas</h4><div class="kpi-number">${totalEjecuciones.toLocaleString()}</div></div>
+            <div class="kpi-mini-card"><h4>⏱️ Promedio general</h4><div class="kpi-number">${Math.round(avgGeneral)}<span class="kpi-unit">s</span></div></div>
+            <div class="kpi-mini-card"><h4>🔥 Pico máximo</h4><div class="kpi-number">${maxPeak.toLocaleString()}<span class="kpi-unit">s</span></div></div>
+        `;
+    }
+
+    // Tabla de mallas
+    function renderMallasTable() {
+        const tbody = document.getElementById('mallasTableBody');
+        if (!tbody) return;
+        if (filteredMallas.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-detail">📭 No hay mallas que coincidan con el filtro</td></tr>';
+            renderKPIs();
+            return;
+        }
+        const rows = filteredMallas.map(m => {
+            const stdDev = computeEstimatedStdDev(m);
+            const isSelected = (selectedMallaId === m.ID);
+            return `<tr data-id="${m.ID}" class="${isSelected ? 'active-malla' : ''}">
+                        <td>${m.ID}</td>
+                        <td><strong>${escapeHtml(m.Nombre_Malla)}</strong></td>
+                        <td>${m.Total_Ejecuciones_Historicas}</td>
+                        <td>${m.Duracion_Minima_Segundos}</td>
+                        <td class="metric-highlight">${Math.round(m.Duracion_Promedio_Segundos)}</td>
+                        <td>${m.Duracion_Maxima_Segundos}</td>
+                        <td>${stdDev.toFixed(1)}</td>
+                        <td>${m.Duracion_P95_Segundos}</td>
+                    </tr>`;
+        }).join('');
+        tbody.innerHTML = rows;
+        document.querySelectorAll('#mallasTableBody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                const id = parseInt(row.getAttribute('data-id'));
+                if (!isNaN(id)) selectMallaAndShowDetails(id);
+            });
+        });
+        renderKPIs();
+    }
+
+    // Obtener ejecuciones filtradas por año/mes
+    function getFilteredExecutions(mallaId) {
+        if (!executionsCache.has(mallaId)) return [];
+        const execs = executionsCache.get(mallaId);
+        return execs.filter(ex => {
+            if (currentYearFilter !== "all" && ex.año !== parseInt(currentYearFilter)) return false;
+            if (currentMonthFilter !== "all" && ex.mes !== parseInt(currentMonthFilter)) return false;
+            return true;
+        });
+    }
+
+    function selectMallaAndShowDetails(mallaId) {
+        selectedMallaId = mallaId;
+        const malla = filteredMallas.find(m => m.ID === mallaId);
+        if (!malla) return;
+        
+        // Generar cache si no existe
+        if (!executionsCache.has(mallaId)) {
+            const total = malla.Total_Ejecuciones_Historicas;
+            const limit = Math.min(total, 60);
+            const generated = generateExecutionsForMalla(malla, limit);
+            executionsCache.set(mallaId, generated);
+        }
+        
+        renderMallasTable(); // resaltar fila
+        
+        const filteredExecs = getFilteredExecutions(mallaId);
+        const detailTitle = document.getElementById('detailTitle');
+        const detailBadge = document.getElementById('detailSubBadge');
+        detailTitle.innerHTML = `📌 Detalle de ejecuciones: ${escapeHtml(malla.Nombre_Malla)}`;
+        let filterDesc = "";
+        if (currentYearFilter !== "all") filterDesc += ` año ${currentYearFilter}`;
+        if (currentMonthFilter !== "all") {
+            const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+            filterDesc += ` · ${monthNames[parseInt(currentMonthFilter)]}`;
+        }
+        if(filterDesc === "") filterDesc = "todas las fechas";
+        detailBadge.innerHTML = `${filteredExecs.length} ejecuciones (${filterDesc})`;
+        
+        const container = document.getElementById('executionsDetailContainer');
+        if(filteredExecs.length === 0){
+            container.innerHTML = `<div class="empty-detail">📅 No hay ejecuciones para el período seleccionado (${filterDesc}). Cambia el filtro de año/mes.</div>`;
+            return;
+        }
+        
+        const htmlTable = `
+            <table class="exec-table">
+                <thead><tr><th>ID Ejec</th><th>Proceso / Tarea</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Duración (s)</th><th>Estado</th></tr></thead>
+                <tbody>
+                    ${filteredExecs.map(ex => `
+                        <tr>
+                            <td>${ex.idEjec}</td>
+                            <td>${escapeHtml(ex.proceso)}</td>
+                            <td>${ex.fechaInicio.toLocaleString()}</td>
+                            <td>${ex.fechaFin.toLocaleString()}</td>
+                            <td class="metric-highlight">${ex.duracionSeg.toFixed(1)} s</td>
+                            <td><span class="status-badge">${ex.estado}</span></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+        container.innerHTML = htmlTable;
+    }
+
+    // Aplicar filtros combinados (nombre malla + año/mes en detalle)
+    function applyAllFilters() {
+        // Filtro por nombre de malla
+        if (!currentTextFilter.trim()) {
+            filteredMallas = [...currentMallasData];
+        } else {
+            filteredMallas = currentMallasData.filter(m => m.Nombre_Malla.toLowerCase().includes(currentTextFilter.toLowerCase()));
+        }
+        // si la malla seleccionada ya no está visible, resetear selección
+        if (selectedMallaId && !filteredMallas.some(m => m.ID === selectedMallaId)) {
+            selectedMallaId = null;
+            document.getElementById('executionsDetailContainer').innerHTML = '<div class="empty-detail">🔍 Haz clic en cualquier fila de la tabla para ver las ejecuciones individuales</div>';
+            document.getElementById('detailTitle').innerHTML = '📌 Detalle de ejecuciones';
+            document.getElementById('detailSubBadge').innerHTML = 'Selecciona una malla';
+        }
+        renderMallasTable();
+        if (selectedMallaId && filteredMallas.some(m => m.ID === selectedMallaId)) {
+            selectMallaAndShowDetails(selectedMallaId);
+        }
+    }
+
+    // Llenar selector de años dinámicamente con los años presentes en ejecuciones simuladas
+    function populateYearSelect() {
+        const yearSet = new Set();
+        // precargamos caché de ejecuciones para todas las mallas (limitado)
+        rawMallas.forEach(m => {
+            if (!executionsCache.has(m.ID)) {
+                const limit = Math.min(m.Total_Ejecuciones_Historicas, 30);
+                executionsCache.set(m.ID, generateExecutionsForMalla(m, limit));
+            }
+            const execs = executionsCache.get(m.ID);
+            execs.forEach(ex => yearSet.add(ex.año));
+        });
+        const sortedYears = Array.from(yearSet).sort((a,b)=>b-a);
+        const yearSelect = document.getElementById('yearFilter');
+        yearSelect.innerHTML = '<option value="all">Todos los años</option>' + sortedYears.map(y => `<option value="${y}">${y}</option>`).join('');
+        yearSelect.value = currentYearFilter;
+    }
+
+    // Eventos UI
+    function bindEvents() {
+        const filterInput = document.getElementById('filterMallaInput');
+        filterInput.addEventListener('input', (e) => {
+            currentTextFilter = e.target.value;
+            applyAllFilters();
+        });
+        const yearSelect = document.getElementById('yearFilter');
+        const monthSelect = document.getElementById('monthFilter');
+        yearSelect.addEventListener('change', (e) => {
+            currentYearFilter = e.target.value;
+            if (selectedMallaId) selectMallaAndShowDetails(selectedMallaId);
+            else applyAllFilters();
+        });
+        monthSelect.addEventListener('change', (e) => {
+            currentMonthFilter = e.target.value;
+            if (selectedMallaId) selectMallaAndShowDetails(selectedMallaId);
+            else applyAllFilters();
+        });
+        const resetBtn = document.getElementById('resetAllFiltersBtn');
+        resetBtn.addEventListener('click', () => {
+            currentTextFilter = ""; filterInput.value = "";
+            currentYearFilter = "all"; yearSelect.value = "all";
+            currentMonthFilter = "all"; monthSelect.value = "all";
+            selectedMallaId = null;
+            applyAllFilters();
+            document.getElementById('executionsDetailContainer').innerHTML = '<div class="empty-detail">🔍 Haz clic en cualquier fila de la tabla para ver las ejecuciones individuales</div>';
+            document.getElementById('detailTitle').innerHTML = '📌 Detalle de ejecuciones';
+            document.getElementById('detailSubBadge').innerHTML = 'Selecciona una malla';
+        });
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Inicializar
+    function init() {
+        // Pre-generar algunas cachés mínimas para años
+        rawMallas.forEach(m => {
+            if (!executionsCache.has(m.ID)) {
+                const limit = Math.min(m.Total_Ejecuciones_Historicas, 35);
+                executionsCache.set(m.ID, generateExecutionsForMalla(m, limit));
+            }
+        });
+        populateYearSelect();
+        bindEvents();
+        renderMallasTable();
+        selectedMallaId = null;
+    }
+    init();
+</script>
+</body>
+</html>
