@@ -2,271 +2,126 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Club de Tenis - Centro de Dashboards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club de Tenis - Dashboards Financieros</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
-
         body {
             background: linear-gradient(135deg, #e8f5e9 0%, #c8e6d9 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 40px 20px;
         }
-
-        .menu-container {
+        .container {
             max-width: 1200px;
-            width: 100%;
             margin: 0 auto;
         }
-
-        /* Header */
-        .menu-header {
+        .header {
             text-align: center;
-            margin-bottom: 60px;
-        }
-        .menu-header h1 {
-            font-size: 2.8rem;
-            color: #1e3a2f;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
-        }
-        .menu-header h1 i {
-            color: #2e7d64;
-            margin-right: 12px;
-        }
-        .menu-header p {
-            font-size: 1.1rem;
-            color: #2d5a3f;
-            font-weight: 500;
-        }
-        .divider {
-            width: 80px;
-            height: 4px;
-            background: #2e7d64;
-            margin: 20px auto 0;
-            border-radius: 4px;
-        }
-
-        /* Grid de tarjetas */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
             margin-bottom: 50px;
         }
-
-        /* Tarjeta individual */
-        .year-card {
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1e3a2f;
+        }
+        .header p {
+            color: #2d5a3f;
+            margin-top: 10px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .card {
             background: white;
-            border-radius: 32px;
-            padding: 32px 24px;
+            border-radius: 28px;
+            padding: 30px 20px;
             text-align: center;
             text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            border: 1px solid rgba(46, 125, 100, 0.2);
-            display: block;
+            transition: all 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .year-card:hover {
+        .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 35px rgba(0,0,0,0.12);
-            border-color: #2e7d64;
         }
-
-        /* Años específicos con colores */
-        .year-card[data-year="2023"]:hover { border-color: #8b5cf6; }
-        .year-card[data-year="2024"]:hover { border-color: #2e7d64; }
-        .year-card[data-year="2025"]:hover { border-color: #f59e0b; }
-
-        .year-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        .year-card[data-year="2023"] .year-icon { color: #8b5cf6; }
-        .year-card[data-year="2024"] .year-icon { color: #2e7d64; }
-        .year-card[data-year="2025"] .year-icon { color: #f59e0b; }
-
-        .year-number {
+        .year {
             font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 12px;
-            letter-spacing: -2px;
+            margin-bottom: 10px;
         }
-        .year-card[data-year="2023"] .year-number { color: #8b5cf6; }
-        .year-card[data-year="2024"] .year-number { color: #2e7d64; }
-        .year-card[data-year="2025"] .year-number { color: #f59e0b; }
-
-        .year-status {
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 30px;
+        .status {
             display: inline-block;
-            margin-bottom: 16px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
-        .year-card[data-year="2023"] .year-status { background: #8b5cf620; color: #6d28d9; }
-        .year-card[data-year="2024"] .year-status { background: #2e7d6420; color: #1e5c3a; }
-        .year-card[data-year="2025"] .year-status { background: #f59e0b20; color: #b45309; }
-
-        .year-description {
+        .completo { background: #2e7d6420; color: #1e5c3a; }
+        .parcial { background: #f59e0b20; color: #b45309; }
+        .desc {
             color: #5a6e62;
             font-size: 0.9rem;
             margin-bottom: 20px;
-            line-height: 1.5;
         }
-
-        .btn-dashboard {
-            background: #f0f7f0;
-            border: none;
-            padding: 12px 24px;
+        .btn {
+            background: #e8f0ea;
+            padding: 10px 20px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.2s;
-            color: #1e3a2f;
+            gap: 8px;
         }
-        .year-card:hover .btn-dashboard {
-            background: #1e5c3a;
-            color: white;
-        }
-        .year-card[data-year="2023"]:hover .btn-dashboard { background: #8b5cf6; }
-        .year-card[data-year="2025"]:hover .btn-dashboard { background: #f59e0b; }
-
-        /* Info adicional */
-        .info-footer {
-            background: white;
-            border-radius: 28px;
-            padding: 24px 32px;
+        .card:hover .btn { background: #1e5c3a; color: white; }
+        .footer {
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-top: 20px;
+            margin-top: 50px;
+            color: #5a6e62;
+            font-size: 0.8rem;
         }
-        .info-footer p {
-            color: #4b6b58;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .info-footer i {
-            color: #2e7d64;
-            margin-right: 6px;
-        }
-        .info-footer span {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .menu-header h1 { font-size: 2rem; }
-            .cards-grid { gap: 20px; }
-            .year-card { padding: 24px 16px; }
-            .year-number { font-size: 2.5rem; }
-        }
-
-        /* Efecto de carga sutil */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .year-card {
-            animation: fadeInUp 0.4s ease forwards;
-            opacity: 0;
-        }
-        .year-card:nth-child(1) { animation-delay: 0.1s; }
-        .year-card:nth-child(2) { animation-delay: 0.2s; }
-        .year-card:nth-child(3) { animation-delay: 0.3s; }
     </style>
 </head>
 <body>
-<div class="menu-container">
-    <div class="menu-header">
+<div class="container">
+    <div class="header">
         <h1><i class="fas fa-table-tennis"></i> Club de Tenis</h1>
-        <p>Centro de análisis financiero · Dashboards interactivos</p>
-        <div class="divider"></div>
+        <p>Dashboards financieros interactivos</p>
     </div>
-
-    <div class="cards-grid">
-        <!-- Dashboard 2023 -->
-        <a href="index-2023-01.html" class="year-card" data-year="2023">
-            <div class="year-icon"><i class="fas fa-chart-line"></i></div>
-            <div class="year-number">2023</div>
-            <div class="year-status"><i class="fas fa-check-circle"></i> Datos completos</div>
-            <div class="year-description">
-                Análisis completo del ejercicio 2023.<br>
-                Cuotas: $35.000 / $43.500 · $20.000 · $10.500
-            </div>
-            <div class="btn-dashboard">
-                <i class="fas fa-chart-simple"></i> Ver Dashboard 2023
-                <i class="fas fa-arrow-right"></i>
-            </div>
+    <div class="cards">
+        <a href="index-2023-02.html" class="card">
+            <div class="year">2023</div>
+            <div class="status completo">✅ Datos completos</div>
+            <div class="desc">Cuota Regular: $35.000 / $43.500<br>Dama: $20.000 · Pasivo: $10.500</div>
+            <div class="btn"><i class="fas fa-chart-line"></i> Ver Dashboard</div>
         </a>
-
-        <!-- Dashboard 2024 -->
-        <a href="index-2024-02.html" class="year-card" data-year="2024">
-            <div class="year-icon"><i class="fas fa-chart-line"></i></div>
-            <div class="year-number">2024</div>
-            <div class="year-status"><i class="fas fa-check-circle"></i> Datos completos</div>
-            <div class="year-description">
-                Análisis completo del ejercicio 2024.<br>
-                Cuotas: $43.500 · $21.750 · $13.050
-            </div>
-            <div class="btn-dashboard">
-                <i class="fas fa-chart-simple"></i> Ver Dashboard 2024
-                <i class="fas fa-arrow-right"></i>
-            </div>
+        <a href="index-2024-02.html" class="card">
+            <div class="year">2024</div>
+            <div class="status completo">✅ Datos completos</div>
+            <div class="desc">Cuota Regular: $43.500<br>Dama: $21.750 · Pasivo: $13.050</div>
+            <div class="btn"><i class="fas fa-chart-line"></i> Ver Dashboard</div>
         </a>
-
-        <!-- Dashboard 2025 -->
-        <a href="index-2025-02.html" class="year-card" data-year="2025">
-            <div class="year-icon"><i class="fas fa-chart-line"></i></div>
-            <div class="year-number">2025</div>
-            <div class="year-status"><i class="fas fa-chart-line"></i> Datos parciales (Ene-Jul)</div>
-            <div class="year-description">
-                Análisis con datos reales hasta julio.<br>
-                Proyección automática del cierre anual.
-            </div>
-            <div class="btn-dashboard">
-                <i class="fas fa-chart-simple"></i> Ver Dashboard 2025
-                <i class="fas fa-arrow-right"></i>
-            </div>
+        <a href="index-2025-02.html" class="card">
+            <div class="year">2025</div>
+            <div class="status completo">✅ Datos completos</div>
+            <div class="desc">Cuota Regular: $43.500<br>Dama: $21.750 · Pasivo: $13.050</div>
+            <div class="btn"><i class="fas fa-chart-line"></i> Ver Dashboard</div>
+        </a>
+        <a href="index-2026-02.html" class="card">
+            <div class="year">2026</div>
+            <div class="status parcial">📊 Datos parciales (Ene-May)</div>
+            <div class="desc">Actualizado a mayo 2026<br>Proyección automática</div>
+            <div class="btn"><i class="fas fa-chart-line"></i> Ver Dashboard</div>
         </a>
     </div>
-
-    <div class="info-footer">
-        <p>
-            <span><i class="fas fa-calendar-alt"></i> Datos actualizados al 31 de diciembre de cada año</span>
-            <span><i class="fas fa-chart-pie"></i> Análisis de composición de ingresos y egresos</span>
-            <span><i class="fas fa-chart-line"></i> Proyección automática para años en curso</span>
-        </p>
-        <p style="margin-top: 12px; font-size: 0.75rem;">
-            <i class="fas fa-info-circle"></i> Los dashboards requieren Live Server o servidor local para leer los archivos JSON
-        </p>
+    <div class="footer">
+        <i class="fas fa-info-circle"></i> Los dashboards requieren Live Server o servidor local
     </div>
 </div>
 </body>
