@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Consulta de Movimientos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f7f0;
+            padding: 24px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            color: #1e3a2f;
+            font-weight: 700;
+        }
+        .title-section p {
+            color: #2d5a3f;
+            margin-top: 6px;
+        }
+        .badge {
+            background: #1e5c3a;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        /* Panel de controles */
+        .controls-panel {
+            background: white;
+            border-radius: 28px;
+            padding: 18px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        .filter-box {
+            background: #e8f0ea;
+            padding: 5px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .filter-box label {
+            font-weight: 600;
+            color: #1e3a2f;
+        }
+        select, input {
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px solid #bdd4c5;
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .year-input {
+            width: 80px;
+            text-align: center;
+        }
+        .search-box {
+            background: #e8f0ea;
+            padding: 5px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            width: 200px;
+            outline: none;
+        }
+        .reset-btn {
+            background: #2c3e35;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tabla de resultados */
+        .table-container {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .data-table th, .data-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e8f0ea;
+        }
+        .data-table th {
+            background: #f8fcf9;
+            font-weight: 700;
+            color: #1e5c3a;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .data-table tr:hover {
+            background: #f8fcf9;
+        }
+        .ingreso-row td:first-child { border-left: 3px solid #15803d; }
+        .egreso-row td:first-child { border-left: 3px solid #b91c1c; }
+        .number-cell {
+            text-align: right;
+            font-weight: 500;
+        }
+        .badge-ingreso { color: #15803d; font-weight: bold; }
+        .badge-egreso { color: #b91c1c; font-weight: bold; }
+
+        /* Resumen de filtros */
+        .summary-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #4b6b58;
+        }
+        .summary-bar strong {
+            color: #1e3a2f;
+        }
+        .pagination {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .page-btn {
+            background: #e8f0ea;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .page-btn.active {
+            background: #1e5c3a;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #5a6e62;
+        }
+        @media (max-width: 768px) {
+            .filter-group { flex-direction: column; align-items: stretch; }
+            .search-box input { width: 100%; }
+            .data-table { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-search"></i> Consulta de Movimientos</h1>
+            <p>Búsqueda y filtrado avanzado de ingresos y egresos</p>
+        </div>
+        <div class="badge"><i class="fas fa-database"></i> 2023 - 2026</div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="filter-group">
+            <div class="filter-box">
+                <label><i class="fas fa-calendar-alt"></i> Año:</label>
+                <select id="yearFilter">
+                    <option value="all">Todos</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+            </div>
+            <div class="filter-box">
+                <label><i class="fas fa-calendar-month"></i> Mes:</label>
+                <select id="monthFilter">
+                    <option value="all">Todos</option>
+                    <option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option>
+                    <option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option>
+                    <option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option>
+                    <option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+                </select>
+            </div>
+            <div class="filter-box">
+                <label><i class="fas fa-tag"></i> Tipo:</label>
+                <select id="typeFilter">
+                    <option value="all">Todos</option>
+                    <option value="ingreso">Ingresos</option>
+                    <option value="egreso">Egresos</option>
+                </select>
+            </div>
+            <div class="filter-box">
+                <label><i class="fas fa-category"></i> Categoría:</label>
+                <select id="categoryFilter">
+                    <option value="all">Todas</option>
+                </select>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="textSearch" placeholder="Buscar socio, proveedor, concepto...">
+            </div>
+            <button id="resetFilters" class="reset-btn"><i class="fas fa-undo-alt"></i> Limpiar</button>
+        </div>
+    </div>
+
+    <div class="summary-bar">
+        <div><i class="fas fa-list-ul"></i> <span id="resultCount">0</span> movimientos encontrados</div>
+        <div><i class="fas fa-dollar-sign"></i> Total: <strong id="totalAmount">$0</strong></div>
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <div class="table-container">
+        <table class="data-table" id="movementsTable">
+            <thead>
+                <tr>
+                    <th>Tipo</th><th>Fecha</th><th>Año</th><th>Mes</th><th>Categoría</th><th>Subcategoría</th><th>Socio / Proveedor</th><th>Concepto / Motivo</th><th>Monto</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="9" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer"><i class="fas fa-info-circle"></i> Datos combinados de ingresos y egresos 2023-2026</div>
+</div>
+
+<script>
+    // ======================== CARGA DE DATOS ========================
+    let ingresosData = [];
+    let egresosData = [];
+    let allMovements = [];
+    let filteredMovements = [];
+    
+    // Paginación
+    let currentPage = 1;
+    const rowsPerPage = 50;
+    
+    // Elementos DOM
+    const yearFilter = document.getElementById('yearFilter');
+    const monthFilter = document.getElementById('monthFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const textSearch = document.getElementById('textSearch');
+    const resetBtn = document.getElementById('resetFilters');
+    const tableBody = document.getElementById('tableBody');
+    const resultCountSpan = document.getElementById('resultCount');
+    const totalAmountSpan = document.getElementById('totalAmount');
+    const paginationDiv = document.getElementById('pagination');
+    
+    // Formateo CLP
+    function formatCLP(value) {
+        return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    
+    // Combinar y procesar movimientos
+    function combineMovements() {
+        allMovements = [];
+        
+        // Agregar ingresos
+        ingresosData.forEach(ing => {
+            allMovements.push({
+                tipo: 'ingreso',
+                tipoClass: 'badge-ingreso',
+                fecha: ing.fecha ? ing.fecha.slice(0,10) : `${ing.anno}-${String(ing.mes).padStart(2,'0')}`,
+                anno: ing.anno,
+                mes: ing.mes,
+                categoria: ing.categoria,
+                subcategoria: ing.subcategoria || '-',
+                socioProveedor: ing.nomsocio || ing.tiping || 'Ingreso',
+                conceptoMotivo: ing.referencia || '-',
+                monto: ing.importe,
+                id: ing.iding || `ing-${Date.now()}-${Math.random()}`
+            });
+        });
+        
+        // Agregar egresos
+        egresosData.forEach(eg => {
+            allMovements.push({
+                tipo: 'egreso',
+                tipoClass: 'badge-egreso',
+                fecha: eg.fecha ? eg.fecha.slice(0,10) : `${eg.anno}-${String(eg.mes).padStart(2,'0')}`,
+                anno: eg.anno,
+                mes: eg.mes,
+                categoria: eg.categoria,
+                subcategoria: eg.subcategoria || '-',
+                socioProveedor: eg.nomproveedor || 'Egreso',
+                conceptoMotivo: eg.nomconcepto || eg.motivo || '-',
+                monto: eg.importe,
+                id: eg.idmov || `egr-${Date.now()}-${Math.random()}`
+            });
+        });
+        
+        // Ordenar por fecha descendente (más reciente primero)
+        allMovements.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        
+        // Actualizar categorías únicas en el filtro
+        updateCategoryFilter();
+    }
+    
+    function updateCategoryFilter() {
+        const categories = new Set();
+        allMovements.forEach(m => { if (m.categoria) categories.add(m.categoria); });
+        const sortedCats = Array.from(categories).sort();
+        
+        categoryFilter.innerHTML = '<option value="all">Todas</option>';
+        sortedCats.forEach(cat => {
+            categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
+        });
+    }
+    
+    // Filtrar movimientos
+    function filterMovements() {
+        const year = yearFilter.value;
+        const month = monthFilter.value;
+        const type = typeFilter.value;
+        const category = categoryFilter.value;
+        const searchText = textSearch.value.toLowerCase().trim();
+        
+        filteredMovements = allMovements.filter(m => {
+            if (year !== 'all' && m.anno !== parseInt(year)) return false;
+            if (month !== 'all' && m.mes !== parseInt(month)) return false;
+            if (type !== 'all' && m.tipo !== type) return false;
+            if (category !== 'all' && m.categoria !== category) return false;
+            if (searchText) {
+                const socioMatch = (m.socioProveedor || '').toLowerCase().includes(searchText);
+                const conceptoMatch = (m.conceptoMotivo || '').toLowerCase().includes(searchText);
+                const categoriaMatch = (m.categoria || '').toLowerCase().includes(searchText);
+                if (!socioMatch && !conceptoMatch && !categoriaMatch) return false;
+            }
+            return true;
+        });
+        
+        // Orden descendente por fecha
+        filteredMovements.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        
+        currentPage = 1;
+        renderTable();
+        updateSummary();
+    }
+    
+    function updateSummary() {
+        const total = filteredMovements.reduce((sum, m) => sum + m.monto, 0);
+        resultCountSpan.innerText = filteredMovements.length;
+        totalAmountSpan.innerHTML = `$${formatCLP(total)}`;
+        renderPagination();
+    }
+    
+    function renderPagination() {
+        const totalPages = Math.ceil(filteredMovements.length / rowsPerPage);
+        paginationDiv.innerHTML = '';
+        if (totalPages <= 1) return;
+        
+        // Botón anterior
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevBtn.classList.add('page-btn');
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderTable(); } };
+        paginationDiv.appendChild(prevBtn);
+        
+        // Números de página (máximo 5)
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+        if (endPage - startPage < 4) {
+            if (startPage === 1) endPage = Math.min(totalPages, startPage + 4);
+            if (endPage === totalPages) startPage = Math.max(1, endPage - 4);
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.innerText = i;
+            pageBtn.classList.add('page-btn');
+            if (i === currentPage) pageBtn.classList.add('active');
+            pageBtn.onclick = () => { currentPage = i; renderTable(); };
+            paginationDiv.appendChild(pageBtn);
+        }
+        
+        // Botón siguiente
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextBtn.classList.add('page-btn');
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderTable(); } };
+        paginationDiv.appendChild(nextBtn);
+    }
+    
+    function renderTable() {
+        const start = (currentPage - 1) * rowsPerPage;
+        const pageMovements = filteredMovements.slice(start, start + rowsPerPage);
+        
+        if (pageMovements.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:40px;">📭 No se encontraron movimientos</td></tr>';
+            return;
+        }
+        
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        
+        tableBody.innerHTML = pageMovements.map(m => `
+            <tr class="${m.tipo === 'ingreso' ? 'ingreso-row' : 'egreso-row'}">
+                <td class="${m.tipoClass}"><i class="fas ${m.tipo === 'ingreso' ? 'fa-arrow-up' : 'fa-arrow-down'}"></i> ${m.tipo === 'ingreso' ? 'Ingreso' : 'Egreso'}</td>
+                <td>${m.fecha || '-'}</td>
+                <td>${m.anno || '-'}</td>
+                <td>${monthNames[m.mes-1] || '-'}</td>
+                <td>${m.categoria || '-'}</td>
+                <td>${m.subcategoria || '-'}</td>
+                <td>${m.socioProveedor || '-'}</td>
+                <td>${m.conceptoMotivo || '-'}</td>
+                <td class="number-cell">$${formatCLP(m.monto)}</td>
+            </tr>
+        `).join('');
+    }
+    
+    // ======================== CARGA DE JSON ========================
+    async function loadData() {
+        try {
+            // Cargar ingresos y egresos desde los JSON existentes
+            const [ingresosResp, egresosResp] = await Promise.all([
+                fetch('./../data/ingresos-all.json'),
+                fetch('./../data/egresos-all.json')
+            ]);
+            
+            if (!ingresosResp.ok || !egresosResp.ok) {
+                throw new Error('No se pudieron cargar los archivos JSON');
+            }
+            
+            const ingresosJson = await ingresosResp.json();
+            const egresosJson = await egresosResp.json();
+            
+            ingresosData = ingresosJson.Ingresos || ingresosJson;
+            egresosData = egresosJson.Egresos || egresosJson;
+            
+            // Filtrar solo años 2023-2026
+            ingresosData = ingresosData.filter(item => item.anno >= 2023 && item.anno <= 2026);
+            egresosData = egresosData.filter(item => item.anno >= 2023 && item.anno <= 2026);
+            
+            combineMovements();
+            filterMovements();
+            
+            // Configurar eventos
+            yearFilter.addEventListener('change', () => filterMovements());
+            monthFilter.addEventListener('change', () => filterMovements());
+            typeFilter.addEventListener('change', () => filterMovements());
+            categoryFilter.addEventListener('change', () => filterMovements());
+            textSearch.addEventListener('input', () => filterMovements());
+            resetBtn.addEventListener('click', () => {
+                yearFilter.value = 'all';
+                monthFilter.value = 'all';
+                typeFilter.value = 'all';
+                categoryFilter.value = 'all';
+                textSearch.value = '';
+                filterMovements();
+            });
+            
+        } catch (error) {
+            console.error(error);
+            tableBody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}<br>Verifica que los archivos JSON existan en la carpeta data/</td></tr>`;
+        }
+    }
+    
+    loadData();
+</script>
+</body>
+</html>
