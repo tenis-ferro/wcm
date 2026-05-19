@@ -395,6 +395,10 @@
         .stat-number.egreso { color: #b91c1c; }
         
         .footer { text-align: center; margin-top: 30px; font-size: 0.7rem; color: #5a6e62; border-top: 1px solid #cbdcd0; padding-top: 16px; }
+
+        #projectionSection {
+            display: none !important;
+        }        
         
         @media (max-width: 900px) { .composition-row { flex-direction: column; } .charts-row { flex-direction: column; } }
     </style>
@@ -414,7 +418,9 @@
     <div class="controls-panel">
         <div class="toggle-group">
             <button id="toggleKpiBtn" class="toggle-btn active"><i class="fas fa-chart-simple"></i> KPIs</button>
+            <!--
             <button id="toggleProjectionBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Proyección</button>
+            -->
             <button id="toggleCompositionBtn" class="toggle-btn active"><i class="fas fa-table-list"></i> Composición</button>
             <button id="toggleQuotaBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Cuota Mensual</button>
             <button id="toggleRegularEvolutionBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Evolución REGULAR</button>
@@ -482,7 +488,6 @@
             <div class="projection-note"><i class="fas fa-exclamation-triangle"></i> Estimación sujeta a variación estacional</div>
         </div>
     </div>
-
     <!-- Tablas de composición -->
     <div id="compositionSection" class="composition-row">
         <div class="composition-card">
