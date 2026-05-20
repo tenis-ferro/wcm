@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Detalle de Movimientos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f7f0;
+            padding: 24px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            color: #1e3a2f;
+            font-weight: 700;
+        }
+        .title-section p {
+            color: #2d5a3f;
+            margin-top: 6px;
+        }
+        .badge {
+            background: #1e5c3a;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        .tabs-container {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .tabs-header {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #e8f0ea;
+            margin-bottom: 24px;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px 30px 0 0;
+            transition: all 0.2s;
+            color: #5a6e62;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tab-btn.active {
+            color: #1e5c3a;
+            background: #e8f0ea;
+            border-bottom: 3px solid #1e5c3a;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .filter-panel {
+            background: #f8fcf9;
+            border-radius: 24px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .filter-box {
+            background: white;
+            padding: 5px 14px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #bdd4c5;
+        }
+        .filter-box label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e3a2f;
+        }
+        select, input {
+            padding: 6px 10px;
+            border-radius: 30px;
+            border: 1px solid #bdd4c5;
+            background: white;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+        }
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 6px 0;
+            width: 180px;
+            outline: none;
+        }
+        .reset-btn {
+            background: #e8f0ea;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .reset-btn:hover {
+            background: #cbdcd0;
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            border-radius: 20px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid;
+            text-align: center;
+        }
+        .stat-card.ingreso { border-left-color: #15803d; }
+        .stat-card.egreso { border-left-color: #b91c1c; }
+        .stat-card .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5a6e62;
+        }
+        .stat-card .stat-number {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 8px 0 4px;
+        }
+        .stat-card .stat-sub {
+            font-size: 0.65rem;
+            color: #5a6e62;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .data-table th, .data-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e8f0ea;
+        }
+        .data-table th {
+            background: #f8fcf9;
+            font-weight: 700;
+            color: #1e5c3a;
+            position: sticky;
+            top: 0;
+        }
+        .number-cell {
+            text-align: right;
+            font-weight: 500;
+        }
+        .socio-link {
+            color: #1e5c3a;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        .socio-link:hover {
+            color: #0f3b2c;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 16px;
+            padding: 8px 0;
+        }
+        .page-btn {
+            background: #e8f0ea;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        .page-btn.active {
+            background: #1e5c3a;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 28px;
+            width: 90%;
+            max-width: 1400px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+            position: relative;
+            animation: modalFadeIn 0.2s ease;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8f0ea;
+        }
+        .modal-header h2 {
+            font-size: 1.4rem;
+            color: #1e3a2f;
+        }
+        .close-modal {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #5a6e62;
+            transition: 0.2s;
+        }
+        .close-modal:hover {
+            color: #b91c1c;
+        }
+        .modal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        .modal-table th, .modal-table td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e8f0ea;
+        }
+        .modal-table th {
+            background: #f8fcf9;
+            font-weight: 700;
+            color: #1e5c3a;
+            position: sticky;
+            top: 0;
+        }
+        .modal-stats {
+            background: #e8f0ea;
+            padding: 12px 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .modal-stats span {
+            font-weight: 600;
+            color: #1e3a2f;
+        }
+        /* Tarjetas dentro del modal */
+        .modal-category-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8fcf9;
+            border-radius: 20px;
+        }
+        .modal-cat-card {
+            flex: 1;
+            min-width: 120px;
+            background: white;
+            border-radius: 16px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            border-left: 3px solid #15803d;
+        }
+        .modal-cat-card .cat-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #4b6b58;
+            text-transform: uppercase;
+        }
+        .modal-cat-card .cat-amount {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1e3a2f;
+            margin-top: 5px;
+        }
+        .modal-cat-card .cat-percent {
+            font-size: 0.6rem;
+            color: #5a6e62;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #5a6e62;
+        }
+        @media (max-width: 900px) {
+            .filter-group { flex-direction: column; align-items: stretch; }
+            .search-box input { width: 100%; }
+            .stat-card .stat-number { font-size: 1rem; }
+            .modal-content { width: 95%; padding: 16px; }
+            .modal-cat-card { min-width: 100px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-table-list"></i> Detalle de Movimientos</h1>
+            <p>Consulta y análisis de ingresos y egresos por separado</p>
+        </div>
+        <div class="badge"><i class="fas fa-calendar-alt"></i> 2023 - 2026</div>
+    </div>
+
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="ingresos"><i class="fas fa-arrow-up" style="color:#15803d;"></i> Ingresos</button>
+            <button class="tab-btn" data-tab="egresos"><i class="fas fa-arrow-down" style="color:#b91c1c;"></i> Egresos</button>
+        </div>
+
+        <!-- Tab Ingresos -->
+        <div id="ingresos-tab" class="tab-content active">
+            <div class="filter-panel">
+                <div class="filter-group">
+                    <div class="filter-box"><label><i class="fas fa-calendar-alt"></i> Año:</label><select id="ingYearFilter"><option value="all">Todos</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select></div>
+                    <div class="filter-box"><label><i class="fas fa-calendar-month"></i> Mes:</label><select id="ingMonthFilter"><option value="all">Todos</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
+                    <div class="filter-box"><label><i class="fas fa-tag"></i> Categoría:</label><select id="ingCategoryFilter"><option value="all">Todas</option></select></div>
+                    <div class="filter-box search-box"><i class="fas fa-search"></i><input type="text" id="ingSearch" placeholder="Buscar socio..."></div>
+                    <button class="reset-btn" id="resetIngresos"><i class="fas fa-undo-alt"></i> Limpiar</button>
+                </div>
+            </div>
+            
+            <!-- Tarjetas de resumen principales (página principal) -->
+            <div class="stats-row">
+                <div class="stat-card ingreso"><div class="stat-label">💰 Total Ingresos</div><div class="stat-number" id="ingTotalAmount">$0</div><div class="stat-sub">Período seleccionado</div></div>
+                <div class="stat-card ingreso"><div class="stat-label">📋 Cantidad de Movimientos</div><div class="stat-number" id="ingCount">0</div><div class="stat-sub">Transacciones</div></div>
+                <div class="stat-card ingreso"><div class="stat-label">📊 Ticket Promedio</div><div class="stat-number" id="ingAvgTicket">$0</div><div class="stat-sub">Por movimiento</div></div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" id="ingresosTable">
+                    <thead>
+                        <tr><th>ID</th><th>Ticket</th><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>ID Socio</th><th>Nombre Socio</th><th>Monto</th>
+                    </thead>
+                    <tbody id="ingresosBody">
+                        <tr><td colspan="8" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
+                    </tbody>
+                </table>
+                <div class="pagination" id="ingPagination"></div>
+            </div>
+        </div>
+
+        <!-- Tab Egresos -->
+        <div id="egresos-tab" class="tab-content">
+            <div class="filter-panel">
+                <div class="filter-group">
+                    <div class="filter-box"><label><i class="fas fa-calendar-alt"></i> Año:</label><select id="egrYearFilter"><option value="all">Todos</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select></div>
+                    <div class="filter-box"><label><i class="fas fa-calendar-month"></i> Mes:</label><select id="egrMonthFilter"><option value="all">Todos</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
+                    <div class="filter-box"><label><i class="fas fa-tag"></i> Categoría:</label><select id="egrCategoryFilter"><option value="all">Todas</option></select></div>
+                    <div class="filter-box search-box"><i class="fas fa-search"></i><input type="text" id="egrSearch" placeholder="Buscar proveedor, concepto..."></div>
+                    <button class="reset-btn" id="resetEgresos"><i class="fas fa-undo-alt"></i> Limpiar</button>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-card egreso"><div class="stat-label">💰 Total Egresos</div><div class="stat-number" id="egrTotalAmount">$0</div><div class="stat-sub">Período seleccionado</div></div>
+                <div class="stat-card egreso"><div class="stat-label">📋 Cantidad de Movimientos</div><div class="stat-number" id="egrCount">0</div><div class="stat-sub">Transacciones</div></div>
+                <div class="stat-card egreso"><div class="stat-label">📊 Gasto Promedio</div><div class="stat-number" id="egrAvgTicket">$0</div><div class="stat-sub">Por movimiento</div></div>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="egresosTable">
+                    <thead><tr><th>Fecha</th><th>Categoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th> </thead>
+                    <tbody id="egresosBody"><tr><td colspan="6" style="text-align:center; padding:40px;">Cargando datos...</td></tr></tbody>
+                </table>
+                <div class="pagination" id="egrPagination"></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><i class="fas fa-info-circle"></i> Haz clic en el ID Socio para ver todos sus movimientos.</div>
+</div>
+
+<!-- Modal para movimientos del socio -->
+<div id="socioModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user"></i> Movimientos del Socio <span id="modalSocioNombre"></span> (ID: <span id="modalSocioId"></span>)</h2>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-stats" id="modalStats"></div>
+        <!-- Tarjetas de desglose por categoría dentro del modal -->
+        <div class="modal-category-stats" id="modalCategoryStats"></div>
+        <div style="overflow-x: auto;">
+            <table class="modal-table" id="modalTable">
+                <thead>
+                    <tr><th>ID</th><th>Ticket</th><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>Subcategoría</th><th>Concepto/Proveedor</th><th>Monto</th></tr>
+                </thead>
+                <tbody id="modalBody">
+                    <tr><td colspan="8" style="text-align:center;">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ======================== CARGA DE DATOS ========================
+    let ingresosData = [];
+    let egresosData = [];
+    let allIngresosRaw = [];
+    let allEgresosRaw = [];
+    
+    let ingCurrentPage = 1, egrCurrentPage = 1;
+    const rowsPerPage = 50;
+    
+    // Elementos DOM
+    const ingYear = document.getElementById('ingYearFilter');
+    const ingMonth = document.getElementById('ingMonthFilter');
+    const ingCategory = document.getElementById('ingCategoryFilter');
+    const ingSearch = document.getElementById('ingSearch');
+    const resetIng = document.getElementById('resetIngresos');
+    
+    const egrYear = document.getElementById('egrYearFilter');
+    const egrMonth = document.getElementById('egrMonthFilter');
+    const egrCategory = document.getElementById('egrCategoryFilter');
+    const egrSearch = document.getElementById('egrSearch');
+    const resetEgr = document.getElementById('resetEgresos');
+    
+    const ingTotalSpan = document.getElementById('ingTotalAmount');
+    const ingCountSpan = document.getElementById('ingCount');
+    const ingAvgSpan = document.getElementById('ingAvgTicket');
+    const ingBody = document.getElementById('ingresosBody');
+    const ingPagination = document.getElementById('ingPagination');
+    
+    const egrTotalSpan = document.getElementById('egrTotalAmount');
+    const egrCountSpan = document.getElementById('egrCount');
+    const egrAvgSpan = document.getElementById('egrAvgTicket');
+    const egrBody = document.getElementById('egresosBody');
+    const egrPagination = document.getElementById('egrPagination');
+    
+    // Modal
+    const modal = document.getElementById('socioModal');
+    const closeModal = document.querySelector('.close-modal');
+    const modalSocioNombre = document.getElementById('modalSocioNombre');
+    const modalSocioId = document.getElementById('modalSocioId');
+    const modalStats = document.getElementById('modalStats');
+    const modalBody = document.getElementById('modalBody');
+    const modalCategoryStats = document.getElementById('modalCategoryStats');
+    
+    function formatCLP(value) {
+        return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    
+    // Categorías para desglose en el modal
+    const CATEGORIAS_DESGLOSE = ["CUOTA MENSUAL", "CUOTA INCORPORACION", "ARRIENDO", "TORNEO", "CENA ANIVERSARIO"];
+    
+    // Abrir modal con movimientos del socio
+    function openSocioModal(socioId, socioNombre) {
+        const ingresosSocio = allIngresosRaw.filter(i => i.socio == socioId || i.iding == socioId);
+        
+        const movimientos = [];
+        const porCategoria = {};
+        CATEGORIAS_DESGLOSE.forEach(cat => { porCategoria[cat] = 0; });
+        let totalGeneral = 0;
+        
+        ingresosSocio.forEach(ing => {
+            const monto = ing.importe || 0;
+            const cat = ing.categoria;
+            if (porCategoria.hasOwnProperty(cat)) {
+                porCategoria[cat] += monto;
+            }
+            totalGeneral += monto;
+            
+            movimientos.push({
+                id: ing.iding || '-',
+                ticket: ing.ticket || '-',
+                fecha: ing.fecha ? ing.fecha.slice(0,10) : `${ing.anno}-${String(ing.mes).padStart(2,'0')}`,
+                tipo: ing.tiping || 'Ingreso',
+                categoria: ing.categoria,
+                subcategoria: ing.subcategoria || '-',
+                concepto: ing.nomsocio || ing.tiping || 'Ingreso',
+                monto: monto
+            });
+        });
+        
+        movimientos.sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        
+        const totalMonto = movimientos.reduce((sum, m) => sum + m.monto, 0);
+        const totalMovimientos = movimientos.length;
+        const promedio = totalMovimientos > 0 ? totalMonto / totalMovimientos : 0;
+        
+        modalSocioNombre.innerText = socioNombre;
+        modalSocioId.innerText = socioId;
+        modalStats.innerHTML = `
+            <span><strong>💰 Total:</strong> $${formatCLP(totalMonto)}</span>
+            <span><strong>📋 Movimientos:</strong> ${totalMovimientos}</span>
+            <span><strong>📊 Promedio:</strong> $${formatCLP(promedio)}</span>
+        `;
+        
+        // Generar tarjetas de desglose por categoría dentro del modal
+        let catCardsHtml = '';
+        for (const [cat, monto] of Object.entries(porCategoria)) {
+            if (monto > 0 || totalMovimientos === 0) {
+                const porcentaje = totalMonto > 0 ? (monto / totalMonto) * 100 : 0;
+                catCardsHtml += `
+                    <div class="modal-cat-card">
+                        <div class="cat-name">${cat}</div>
+                        <div class="cat-amount">$${formatCLP(monto)}</div>
+                        <div class="cat-percent">${porcentaje.toFixed(1)}% del total</div>
+                    </div>
+                `;
+            }
+        }
+        modalCategoryStats.innerHTML = catCardsHtml;
+        
+        if (movimientos.length === 0) {
+            modalBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">📭 No hay movimientos para este socio</td></tr>';
+        } else {
+            modalBody.innerHTML = movimientos.map(m => `
+                <tr>
+                    <td>${m.id}</td>
+                    <td>${m.ticket}</td>
+                    <td>${m.fecha}</td>
+                    <td style="color:#15803d; font-weight:bold;">${m.tipo}</td>
+                    <td>${m.categoria || '-'}</td>
+                    <td>${m.subcategoria}</td>
+                    <td>${m.concepto}</td>
+                    <td class="number-cell">$${formatCLP(m.monto)}</td>
+                </tr>
+            `).join('');
+        }
+        
+        modal.style.display = 'flex';
+    }
+    
+    function updateCategoryFilters() {
+        const ingCats = new Set();
+        const egrCats = new Set();
+        ingresosData.forEach(i => { if (i.categoria) ingCats.add(i.categoria); });
+        egresosData.forEach(e => { if (e.categoria) egrCats.add(e.categoria); });
+        
+        const sortedIng = Array.from(ingCats).sort();
+        const sortedEgr = Array.from(egrCats).sort();
+        
+        ingCategory.innerHTML = '<option value="all">Todas</option>';
+        sortedIng.forEach(cat => { ingCategory.innerHTML += `<option value="${cat}">${cat}</option>`; });
+        
+        egrCategory.innerHTML = '<option value="all">Todas</option>';
+        sortedEgr.forEach(cat => { egrCategory.innerHTML += `<option value="${cat}">${cat}</option>`; });
+    }
+    
+    // ======================== FILTRADO DE INGRESOS ========================
+    function filterIngresos() {
+        const year = ingYear.value;
+        const month = ingMonth.value;
+        const category = ingCategory.value;
+        const searchText = ingSearch.value.toLowerCase().trim();
+        
+        let filtered = [...ingresosData];
+        if (year !== 'all') filtered = filtered.filter(i => i.anno === parseInt(year));
+        if (month !== 'all') filtered = filtered.filter(i => i.mes === parseInt(month));
+        if (category !== 'all') filtered = filtered.filter(i => i.categoria === category);
+        if (searchText) {
+            filtered = filtered.filter(i => 
+                (i.nomsocio || '').toLowerCase().includes(searchText) ||
+                (i.categoria || '').toLowerCase().includes(searchText) ||
+                (i.tiping || '').toLowerCase().includes(searchText)
+            );
+        }
+        
+        filtered.sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        
+        const total = filtered.reduce((sum, i) => sum + (i.importe || 0), 0);
+        const count = filtered.length;
+        const avg = count > 0 ? total / count : 0;
+        
+        ingTotalSpan.innerHTML = `$${formatCLP(total)}`;
+        ingCountSpan.innerText = count;
+        ingAvgSpan.innerHTML = `$${formatCLP(avg)}`;
+        
+        ingCurrentPage = 1;
+        renderIngresosTable(filtered);
+        renderIngresosPagination(filtered);
+    }
+    
+    function renderIngresosTable(data) {
+        const start = (ingCurrentPage - 1) * rowsPerPage;
+        const pageData = data.slice(start, start + rowsPerPage);
+        
+        if (pageData.length === 0) {
+            ingBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px;">📭 No hay ingresos para los filtros seleccionados</td></tr>';
+            return;
+        }
+        
+        ingBody.innerHTML = pageData.map(i => {
+            const idSocio = i.socio || i.iding || '-';
+            const nombreSocio = i.nomsocio || i.tiping || '-';
+            const socioLink = (idSocio !== '-' && idSocio !== '0') 
+                ? `<span class="socio-link" onclick="openSocioModal('${idSocio}', '${nombreSocio.replace(/'/g, "\\'")}')">${idSocio}</span>`
+                : idSocio;
+            
+            return `<tr>
+                <td>${i.iding || '-'}</td>
+                <td>${i.ticket || '-'}</td>
+                <td>${i.fecha ? i.fecha.slice(0,10) : `${i.anno}-${String(i.mes).padStart(2,'0')}`}</td>
+                <td>${i.tiping || '-'}</td>
+                <td>${i.categoria || '-'}</td>
+                <td>${socioLink}</td>
+                <td>${nombreSocio}</td>
+                <td class="number-cell">$${formatCLP(i.importe)}</td>
+            </tr>`;
+        }).join('');
+    }
+    
+    function renderIngresosPagination(data) {
+        const totalPages = Math.ceil(data.length / rowsPerPage);
+        ingPagination.innerHTML = '';
+        if (totalPages <= 1) return;
+        
+        const prev = document.createElement('button');
+        prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prev.classList.add('page-btn');
+        prev.disabled = ingCurrentPage === 1;
+        prev.onclick = () => { if (ingCurrentPage > 1) { ingCurrentPage--; filterIngresos(); } };
+        ingPagination.appendChild(prev);
+        
+        let start = Math.max(1, ingCurrentPage - 2);
+        let end = Math.min(totalPages, ingCurrentPage + 2);
+        for (let i = start; i <= end; i++) {
+            const btn = document.createElement('button');
+            btn.innerText = i;
+            btn.classList.add('page-btn');
+            if (i === ingCurrentPage) btn.classList.add('active');
+            btn.onclick = () => { ingCurrentPage = i; filterIngresos(); };
+            ingPagination.appendChild(btn);
+        }
+        
+        const next = document.createElement('button');
+        next.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        next.classList.add('page-btn');
+        next.disabled = ingCurrentPage === totalPages;
+        next.onclick = () => { if (ingCurrentPage < totalPages) { ingCurrentPage++; filterIngresos(); } };
+        ingPagination.appendChild(next);
+    }
+    
+    // ======================== FILTRADO DE EGRESOS ========================
+    function filterEgresos() {
+        const year = egrYear.value;
+        const month = egrMonth.value;
+        const category = egrCategory.value;
+        const searchText = egrSearch.value.toLowerCase().trim();
+        
+        let filtered = [...egresosData];
+        if (year !== 'all') filtered = filtered.filter(e => e.anno === parseInt(year));
+        if (month !== 'all') filtered = filtered.filter(e => e.mes === parseInt(month));
+        if (category !== 'all') filtered = filtered.filter(e => e.categoria === category);
+        if (searchText) {
+            filtered = filtered.filter(e => 
+                (e.nomproveedor || '').toLowerCase().includes(searchText) ||
+                (e.nomconcepto || '').toLowerCase().includes(searchText) ||
+                (e.motivo || '').toLowerCase().includes(searchText) ||
+                (e.categoria || '').toLowerCase().includes(searchText)
+            );
+        }
+        
+        filtered.sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
+        
+        const total = filtered.reduce((sum, e) => sum + (e.importe || 0), 0);
+        const count = filtered.length;
+        const avg = count > 0 ? total / count : 0;
+        
+        egrTotalSpan.innerHTML = `$${formatCLP(total)}`;
+        egrCountSpan.innerText = count;
+        egrAvgSpan.innerHTML = `$${formatCLP(avg)}`;
+        
+        egrCurrentPage = 1;
+        renderEgresosTable(filtered);
+        renderEgresosPagination(filtered);
+    }
+    
+    function renderEgresosTable(data) {
+        const start = (egrCurrentPage - 1) * rowsPerPage;
+        const pageData = data.slice(start, start + rowsPerPage);
+        
+        if (pageData.length === 0) {
+            egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;">📭 No hay egresos para los filtros seleccionados</td></tr>';
+            return;
+        }
+        
+        egrBody.innerHTML = pageData.map(e => `<tr>
+            <td>${e.fecha ? e.fecha.slice(0,10) : `${e.anno}-${String(e.mes).padStart(2,'0')}`}</td>
+            <td>${e.categoria || '-'}</td>
+            <td>${e.nomproveedor || '-'}</td>
+            <td>${e.nomconcepto || '-'}</td>
+            <td>${e.motivo || '-'}</td>
+            <td class="number-cell">$${formatCLP(e.importe)}</td>
+        </tr>`).join('');
+    }
+    
+    function renderEgresosPagination(data) {
+        const totalPages = Math.ceil(data.length / rowsPerPage);
+        egrPagination.innerHTML = '';
+        if (totalPages <= 1) return;
+        
+        const prev = document.createElement('button');
+        prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prev.classList.add('page-btn');
+        prev.disabled = egrCurrentPage === 1;
+        prev.onclick = () => { if (egrCurrentPage > 1) { egrCurrentPage--; filterEgresos(); } };
+        egrPagination.appendChild(prev);
+        
+        let start = Math.max(1, egrCurrentPage - 2);
+        let end = Math.min(totalPages, egrCurrentPage + 2);
+        for (let i = start; i <= end; i++) {
+            const btn = document.createElement('button');
+            btn.innerText = i;
+            btn.classList.add('page-btn');
+            if (i === egrCurrentPage) btn.classList.add('active');
+            btn.onclick = () => { egrCurrentPage = i; filterEgresos(); };
+            egrPagination.appendChild(btn);
+        }
+        
+        const next = document.createElement('button');
+        next.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        next.classList.add('page-btn');
+        next.disabled = egrCurrentPage === totalPages;
+        next.onclick = () => { if (egrCurrentPage < totalPages) { egrCurrentPage++; filterEgresos(); } };
+        egrPagination.appendChild(next);
+    }
+    
+    // ======================== CARGA DE JSON Y EVENTOS ========================
+    async function loadData() {
+        try {
+            const [ingresosResp, egresosResp] = await Promise.all([
+                fetch('./../data/ingresos-all.json'),
+                fetch('./../data/egresos-all.json')
+            ]);
+            if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON');
+            
+            const ingresosJson = await ingresosResp.json();
+            const egresosJson = await egresosResp.json();
+            allIngresosRaw = ingresosJson.Ingresos || ingresosJson;
+            allEgresosRaw = egresosJson.Egresos || egresosJson;
+            
+            ingresosData = allIngresosRaw.filter(i => i.anno >= 2023 && i.anno <= 2026);
+            egresosData = allEgresosRaw.filter(e => e.anno >= 2023 && e.anno <= 2026);
+            
+            updateCategoryFilters();
+            filterIngresos();
+            filterEgresos();
+            
+            ingYear.addEventListener('change', () => filterIngresos());
+            ingMonth.addEventListener('change', () => filterIngresos());
+            ingCategory.addEventListener('change', () => filterIngresos());
+            ingSearch.addEventListener('input', () => filterIngresos());
+            resetIng.addEventListener('click', () => {
+                ingYear.value = 'all';
+                ingMonth.value = 'all';
+                ingCategory.value = 'all';
+                ingSearch.value = '';
+                filterIngresos();
+            });
+            
+            egrYear.addEventListener('change', () => filterEgresos());
+            egrMonth.addEventListener('change', () => filterEgresos());
+            egrCategory.addEventListener('change', () => filterEgresos());
+            egrSearch.addEventListener('input', () => filterEgresos());
+            resetEgr.addEventListener('click', () => {
+                egrYear.value = 'all';
+                egrMonth.value = 'all';
+                egrCategory.value = 'all';
+                egrSearch.value = '';
+                filterEgresos();
+            });
+            
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            closeModal.onclick = () => { modal.style.display = 'none'; };
+            window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
+            
+        } catch (error) {
+            console.error(error);
+            ingBody.innerHTML = '</table><td colspan="8" style="text-align:center; color:red;">❌ Error al cargar datos</td><tr>';
+            egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">❌ Error al cargar datos</td></tr>';
+        }
+    }
+    
+    window.openSocioModal = openSocioModal;
+    
+    loadData();
+</script>
+</body>
+</html>
