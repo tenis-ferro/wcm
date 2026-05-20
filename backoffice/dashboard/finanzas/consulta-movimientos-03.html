@@ -189,6 +189,8 @@
             border-radius: 20px;
             overflow-x: auto;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            max-height: 70vh;
+            overflow-y: auto;
         }
         .data-table {
             width: 100%;
@@ -206,6 +208,7 @@
             color: #1e5c3a;
             position: sticky;
             top: 0;
+            z-index: 10;
         }
         .number-cell {
             text-align: right;
@@ -220,26 +223,8 @@
         .socio-link:hover {
             color: #0f3b2c;
         }
-
-        .pagination {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 16px;
-            padding: 8px 0;
-        }
-        .page-btn {
-            background: #e8f0ea;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-        .page-btn.active {
-            background: #1e5c3a;
-            color: white;
+        .socio-empty {
+            color: #a0aec0;
         }
 
         /* Modal */
@@ -322,7 +307,6 @@
             font-weight: 600;
             color: #1e3a2f;
         }
-        /* Tarjetas dentro del modal */
         .modal-category-stats {
             display: flex;
             flex-wrap: wrap;
@@ -369,7 +353,7 @@
             .filter-group { flex-direction: column; align-items: stretch; }
             .search-box input { width: 100%; }
             .stat-card .stat-number { font-size: 1rem; }
-            .modal-content { width: 95%; padding: 16px; }
+            .data-table th, .data-table td { padding: 8px 4px; font-size: 0.7rem; }
             .modal-cat-card { min-width: 100px; }
         }
     </style>
@@ -402,7 +386,6 @@
                 </div>
             </div>
             
-            <!-- Tarjetas de resumen principales (página principal) -->
             <div class="stats-row">
                 <div class="stat-card ingreso"><div class="stat-label">💰 Total Ingresos</div><div class="stat-number" id="ingTotalAmount">$0</div><div class="stat-sub">Período seleccionado</div></div>
                 <div class="stat-card ingreso"><div class="stat-label">📋 Cantidad de Movimientos</div><div class="stat-number" id="ingCount">0</div><div class="stat-sub">Transacciones</div></div>
@@ -418,7 +401,6 @@
                         <tr><td colspan="8" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
                     </tbody>
                 </table>
-                <div class="pagination" id="ingPagination"></div>
             </div>
         </div>
 
@@ -443,11 +425,10 @@
                     <thead><tr><th>Fecha</th><th>Categoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th> </thead>
                     <tbody id="egresosBody"><tr><td colspan="6" style="text-align:center; padding:40px;">Cargando datos...</td></tr></tbody>
                 </table>
-                <div class="pagination" id="egrPagination"></div>
             </div>
         </div>
     </div>
-    <div class="footer"><i class="fas fa-info-circle"></i> Haz clic en el ID Socio para ver todos sus movimientos.</div>
+    <div class="footer"><i class="fas fa-info-circle"></i> Haz clic en el ID Socio para ver todos sus movimientos. ID Socio = atributo "socio".</div>
 </div>
 
 <!-- Modal para movimientos del socio -->
@@ -458,12 +439,11 @@
             <span class="close-modal">&times;</span>
         </div>
         <div class="modal-stats" id="modalStats"></div>
-        <!-- Tarjetas de desglose por categoría dentro del modal -->
         <div class="modal-category-stats" id="modalCategoryStats"></div>
         <div style="overflow-x: auto;">
             <table class="modal-table" id="modalTable">
                 <thead>
-                    <tr><th>ID</th><th>Ticket</th><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>Subcategoría</th><th>Concepto/Proveedor</th><th>Monto</th></tr>
+                    <tr><th>ID</th><th>Ticket</th><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>Subcategoría</th><th>Concepto/Proveedor</th><th>Monto</th> </tr>
                 </thead>
                 <tbody id="modalBody">
                     <tr><td colspan="8" style="text-align:center;">Cargando...</td></tr>
@@ -478,10 +458,6 @@
     let ingresosData = [];
     let egresosData = [];
     let allIngresosRaw = [];
-    let allEgresosRaw = [];
-    
-    let ingCurrentPage = 1, egrCurrentPage = 1;
-    const rowsPerPage = 50;
     
     // Elementos DOM
     const ingYear = document.getElementById('ingYearFilter');
@@ -500,13 +476,11 @@
     const ingCountSpan = document.getElementById('ingCount');
     const ingAvgSpan = document.getElementById('ingAvgTicket');
     const ingBody = document.getElementById('ingresosBody');
-    const ingPagination = document.getElementById('ingPagination');
     
     const egrTotalSpan = document.getElementById('egrTotalAmount');
     const egrCountSpan = document.getElementById('egrCount');
     const egrAvgSpan = document.getElementById('egrAvgTicket');
     const egrBody = document.getElementById('egresosBody');
-    const egrPagination = document.getElementById('egrPagination');
     
     // Modal
     const modal = document.getElementById('socioModal');
@@ -517,12 +491,15 @@
     const modalBody = document.getElementById('modalBody');
     const modalCategoryStats = document.getElementById('modalCategoryStats');
     
+    const CATEGORIAS_DESGLOSE = ["CUOTA MENSUAL", "CUOTA INCORPORACION", "ARRIENDO", "TORNEO", "CENA ANIVERSARIO"];
+    
     function formatCLP(value) {
         return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
     
-    // Categorías para desglose en el modal
-    const CATEGORIAS_DESGLOSE = ["CUOTA MENSUAL", "CUOTA INCORPORACION", "ARRIENDO", "TORNEO", "CENA ANIVERSARIO"];
+    function isValidSocio(socioId) {
+        return socioId && socioId !== 0 && socioId !== '0' && socioId !== 'null' && socioId !== '';
+    }
     
     // Abrir modal con movimientos del socio
     function openSocioModal(socioId, socioNombre) {
@@ -567,7 +544,7 @@
             <span><strong>📊 Promedio:</strong> $${formatCLP(promedio)}</span>
         `;
         
-        // Generar tarjetas de desglose por categoría dentro del modal
+        // Generar tarjetas de desglose
         let catCardsHtml = '';
         for (const [cat, monto] of Object.entries(porCategoria)) {
             if (monto > 0 || totalMovimientos === 0) {
@@ -603,6 +580,52 @@
         modal.style.display = 'flex';
     }
     
+    function renderIngresosTable(data) {
+        if (data.length === 0) {
+            ingBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px;">📭 No hay ingresos para los filtros seleccionados</td></tr>';
+            return;
+        }
+        
+        ingBody.innerHTML = data.map(i => {
+            const idSocio = i.socio;
+            const nombreSocio = i.nomsocio || i.tiping || '-';
+            let socioDisplay = '';
+            
+            if (isValidSocio(idSocio)) {
+                socioDisplay = `<span class="socio-link" onclick="openSocioModal('${idSocio}', '${nombreSocio.replace(/'/g, "\\'")}')">${idSocio}</span>`;
+            } else {
+                socioDisplay = '<span class="socio-empty">—</span>';
+            }
+            
+            return `<tr>
+                <td>${i.iding || '-'}</td>
+                <td>${i.ticket || '-'}</td>
+                <td>${i.fecha ? i.fecha.slice(0,10) : `${i.anno}-${String(i.mes).padStart(2,'0')}`}</td>
+                <td>${i.tiping || '-'}</td>
+                <td>${i.categoria || '-'}</td>
+                <td>${socioDisplay}</td>
+                <td>${nombreSocio}</td>
+                <td class="number-cell">$${formatCLP(i.importe)}</td>
+            </tr>`;
+        }).join('');
+    }
+    
+    function renderEgresosTable(data) {
+        if (data.length === 0) {
+            egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;">📭 No hay egresos para los filtros seleccionados</td></tr>';
+            return;
+        }
+        
+        egrBody.innerHTML = data.map(e => `<tr>
+            <td>${e.fecha ? e.fecha.slice(0,10) : `${e.anno}-${String(e.mes).padStart(2,'0')}`}</td>
+            <td>${e.categoria || '-'}</td>
+            <td>${e.nomproveedor || '-'}</td>
+            <td>${e.nomconcepto || '-'}</td>
+            <td>${e.motivo || '-'}</td>
+            <td class="number-cell">$${formatCLP(e.importe)}</td>
+        </tr>`).join('');
+    }
+    
     function updateCategoryFilters() {
         const ingCats = new Set();
         const egrCats = new Set();
@@ -619,7 +642,6 @@
         sortedEgr.forEach(cat => { egrCategory.innerHTML += `<option value="${cat}">${cat}</option>`; });
     }
     
-    // ======================== FILTRADO DE INGRESOS ========================
     function filterIngresos() {
         const year = ingYear.value;
         const month = ingMonth.value;
@@ -648,72 +670,9 @@
         ingCountSpan.innerText = count;
         ingAvgSpan.innerHTML = `$${formatCLP(avg)}`;
         
-        ingCurrentPage = 1;
         renderIngresosTable(filtered);
-        renderIngresosPagination(filtered);
     }
     
-    function renderIngresosTable(data) {
-        const start = (ingCurrentPage - 1) * rowsPerPage;
-        const pageData = data.slice(start, start + rowsPerPage);
-        
-        if (pageData.length === 0) {
-            ingBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px;">📭 No hay ingresos para los filtros seleccionados</td></tr>';
-            return;
-        }
-        
-        ingBody.innerHTML = pageData.map(i => {
-            const idSocio = i.socio || i.iding || '-';
-            const nombreSocio = i.nomsocio || i.tiping || '-';
-            const socioLink = (idSocio !== '-' && idSocio !== '0') 
-                ? `<span class="socio-link" onclick="openSocioModal('${idSocio}', '${nombreSocio.replace(/'/g, "\\'")}')">${idSocio}</span>`
-                : idSocio;
-            
-            return `<tr>
-                <td>${i.iding || '-'}</td>
-                <td>${i.ticket || '-'}</td>
-                <td>${i.fecha ? i.fecha.slice(0,10) : `${i.anno}-${String(i.mes).padStart(2,'0')}`}</td>
-                <td>${i.tiping || '-'}</td>
-                <td>${i.categoria || '-'}</td>
-                <td>${socioLink}</td>
-                <td>${nombreSocio}</td>
-                <td class="number-cell">$${formatCLP(i.importe)}</td>
-            </tr>`;
-        }).join('');
-    }
-    
-    function renderIngresosPagination(data) {
-        const totalPages = Math.ceil(data.length / rowsPerPage);
-        ingPagination.innerHTML = '';
-        if (totalPages <= 1) return;
-        
-        const prev = document.createElement('button');
-        prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        prev.classList.add('page-btn');
-        prev.disabled = ingCurrentPage === 1;
-        prev.onclick = () => { if (ingCurrentPage > 1) { ingCurrentPage--; filterIngresos(); } };
-        ingPagination.appendChild(prev);
-        
-        let start = Math.max(1, ingCurrentPage - 2);
-        let end = Math.min(totalPages, ingCurrentPage + 2);
-        for (let i = start; i <= end; i++) {
-            const btn = document.createElement('button');
-            btn.innerText = i;
-            btn.classList.add('page-btn');
-            if (i === ingCurrentPage) btn.classList.add('active');
-            btn.onclick = () => { ingCurrentPage = i; filterIngresos(); };
-            ingPagination.appendChild(btn);
-        }
-        
-        const next = document.createElement('button');
-        next.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        next.classList.add('page-btn');
-        next.disabled = ingCurrentPage === totalPages;
-        next.onclick = () => { if (ingCurrentPage < totalPages) { ingCurrentPage++; filterIngresos(); } };
-        ingPagination.appendChild(next);
-    }
-    
-    // ======================== FILTRADO DE EGRESOS ========================
     function filterEgresos() {
         const year = egrYear.value;
         const month = egrMonth.value;
@@ -743,62 +702,9 @@
         egrCountSpan.innerText = count;
         egrAvgSpan.innerHTML = `$${formatCLP(avg)}`;
         
-        egrCurrentPage = 1;
         renderEgresosTable(filtered);
-        renderEgresosPagination(filtered);
     }
     
-    function renderEgresosTable(data) {
-        const start = (egrCurrentPage - 1) * rowsPerPage;
-        const pageData = data.slice(start, start + rowsPerPage);
-        
-        if (pageData.length === 0) {
-            egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;">📭 No hay egresos para los filtros seleccionados</td></tr>';
-            return;
-        }
-        
-        egrBody.innerHTML = pageData.map(e => `<tr>
-            <td>${e.fecha ? e.fecha.slice(0,10) : `${e.anno}-${String(e.mes).padStart(2,'0')}`}</td>
-            <td>${e.categoria || '-'}</td>
-            <td>${e.nomproveedor || '-'}</td>
-            <td>${e.nomconcepto || '-'}</td>
-            <td>${e.motivo || '-'}</td>
-            <td class="number-cell">$${formatCLP(e.importe)}</td>
-        </tr>`).join('');
-    }
-    
-    function renderEgresosPagination(data) {
-        const totalPages = Math.ceil(data.length / rowsPerPage);
-        egrPagination.innerHTML = '';
-        if (totalPages <= 1) return;
-        
-        const prev = document.createElement('button');
-        prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        prev.classList.add('page-btn');
-        prev.disabled = egrCurrentPage === 1;
-        prev.onclick = () => { if (egrCurrentPage > 1) { egrCurrentPage--; filterEgresos(); } };
-        egrPagination.appendChild(prev);
-        
-        let start = Math.max(1, egrCurrentPage - 2);
-        let end = Math.min(totalPages, egrCurrentPage + 2);
-        for (let i = start; i <= end; i++) {
-            const btn = document.createElement('button');
-            btn.innerText = i;
-            btn.classList.add('page-btn');
-            if (i === egrCurrentPage) btn.classList.add('active');
-            btn.onclick = () => { egrCurrentPage = i; filterEgresos(); };
-            egrPagination.appendChild(btn);
-        }
-        
-        const next = document.createElement('button');
-        next.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        next.classList.add('page-btn');
-        next.disabled = egrCurrentPage === totalPages;
-        next.onclick = () => { if (egrCurrentPage < totalPages) { egrCurrentPage++; filterEgresos(); } };
-        egrPagination.appendChild(next);
-    }
-    
-    // ======================== CARGA DE JSON Y EVENTOS ========================
     async function loadData() {
         try {
             const [ingresosResp, egresosResp] = await Promise.all([
@@ -810,10 +716,8 @@
             const ingresosJson = await ingresosResp.json();
             const egresosJson = await egresosResp.json();
             allIngresosRaw = ingresosJson.Ingresos || ingresosJson;
-            allEgresosRaw = egresosJson.Egresos || egresosJson;
-            
             ingresosData = allIngresosRaw.filter(i => i.anno >= 2023 && i.anno <= 2026);
-            egresosData = allEgresosRaw.filter(e => e.anno >= 2023 && e.anno <= 2026);
+            egresosData = (egresosJson.Egresos || egresosJson).filter(e => e.anno >= 2023 && e.anno <= 2026);
             
             updateCategoryFilters();
             filterIngresos();
@@ -860,7 +764,7 @@
             
         } catch (error) {
             console.error(error);
-            ingBody.innerHTML = '</table><td colspan="8" style="text-align:center; color:red;">❌ Error al cargar datos</td><tr>';
+            ingBody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:red;">❌ Error al cargar datos</td></tr>';
             egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">❌ Error al cargar datos</td></tr>';
         }
     }
