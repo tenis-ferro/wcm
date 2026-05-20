@@ -23,7 +23,6 @@
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
             margin-bottom: 28px;
             display: flex;
@@ -49,7 +48,6 @@
             font-weight: 600;
         }
 
-        /* Pestañas */
         .tabs-container {
             background: white;
             border-radius: 28px;
@@ -89,7 +87,6 @@
             display: block;
         }
 
-        /* Panel de filtros */
         .filter-panel {
             background: #f8fcf9;
             border-radius: 24px;
@@ -153,7 +150,6 @@
             background: #cbdcd0;
         }
 
-        /* Tarjetas de resumen */
         .stats-row {
             display: flex;
             flex-wrap: wrap;
@@ -188,7 +184,6 @@
             color: #5a6e62;
         }
 
-        /* Tabla */
         .table-container {
             background: white;
             border-radius: 20px;
@@ -246,6 +241,7 @@
             .filter-group { flex-direction: column; align-items: stretch; }
             .search-box input { width: 100%; }
             .stat-card .stat-number { font-size: 1.2rem; }
+            .data-table th, .data-table td { padding: 8px 4px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -265,7 +261,7 @@
             <button class="tab-btn" data-tab="egresos"><i class="fas fa-arrow-down" style="color:#b91c1c;"></i> Egresos</button>
         </div>
 
-        <!-- Tab Ingresos -->
+        <!-- Tab Ingresos MODIFICADO: columnas ID, Ticket, Fecha, Tipo, Categoría, ID Socio, Nombre Socio, Monto -->
         <div id="ingresos-tab" class="tab-content active">
             <div class="filter-panel">
                 <div class="filter-group">
@@ -285,7 +281,7 @@
                 <table class="data-table" id="ingresosTable">
                     <thead>
                         <tr>
-                            <th>ID</th><th>Ticket</th><th>Fecha</th><th>Año</th><th>Mes</th><th>Categoría</th><th>Socio / Concepto</th><th>Monto</th>
+                            <th>ID</th><th>Ticket</th><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>ID Socio</th><th>Nombre Socio</th><th>Monto</th>
                         </tr>
                     </thead>
                     <tbody id="ingresosBody">
@@ -296,7 +292,7 @@
             </div>
         </div>
 
-        <!-- Tab Egresos -->
+        <!-- Tab Egresos (sin cambios estructurales) -->
         <div id="egresos-tab" class="tab-content">
             <div class="filter-panel">
                 <div class="filter-group">
@@ -315,13 +311,9 @@
             <div class="table-container">
                 <table class="data-table" id="egresosTable">
                     <thead>
-                        <tr>
-                            <th>Fecha</th><th>Año</th><th>Mes</th><th>Categoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th>
-                        </tr>
+                        <tr><th>Fecha</th><th>Categoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th>
                     </thead>
-                    <tbody id="egresosBody">
-                        <tr><td colspan="8" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
-                    </tbody>
+                    <tbody id="egresosBody"><tr><td colspan="6" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
                 </table>
                 <div class="pagination" id="egrPagination"></div>
             </div>
@@ -335,7 +327,6 @@
     let ingresosData = [];
     let egresosData = [];
     
-    // Estados de paginación
     let ingCurrentPage = 1, egrCurrentPage = 1;
     const rowsPerPage = 50;
     
@@ -364,12 +355,10 @@
     const egrBody = document.getElementById('egresosBody');
     const egrPagination = document.getElementById('egrPagination');
     
-    // Formateo CLP
     function formatCLP(value) {
         return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
     
-    // Actualizar categorías en filtros
     function updateCategoryFilters() {
         const ingCats = new Set();
         const egrCats = new Set();
@@ -399,15 +388,14 @@
         if (category !== 'all') filtered = filtered.filter(i => i.categoria === category);
         if (searchText) {
             filtered = filtered.filter(i => 
-                (i.nomsocio || i.tiping || '').toLowerCase().includes(searchText) ||
-                (i.categoria || '').toLowerCase().includes(searchText)
+                (i.nomsocio || '').toLowerCase().includes(searchText) ||
+                (i.categoria || '').toLowerCase().includes(searchText) ||
+                (i.tiping || '').toLowerCase().includes(searchText)
             );
         }
         
-        // Ordenar por fecha descendente
         filtered.sort((a,b) => (b.fecha || '').localeCompare(a.fecha || ''));
         
-        // Actualizar estadísticas
         const total = filtered.reduce((sum, i) => sum + (i.importe || 0), 0);
         const count = filtered.length;
         const avg = count > 0 ? total / count : 0;
@@ -416,34 +404,37 @@
         ingCountSpan.innerText = count;
         ingAvgSpan.innerHTML = `$${formatCLP(avg)}`;
         
-        // Paginación
         ingCurrentPage = 1;
         renderIngresosTable(filtered);
         renderIngresosPagination(filtered);
     }
     
+    // Tabla de Ingresos: ID, Ticket, Fecha, Tipo, Categoría, ID Socio, Nombre Socio, Monto
     function renderIngresosTable(data) {
         const start = (ingCurrentPage - 1) * rowsPerPage;
         const pageData = data.slice(start, start + rowsPerPage);
-        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         
         if (pageData.length === 0) {
             ingBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px;">📭 No hay ingresos para los filtros seleccionados</td></tr>';
             return;
         }
         
-        ingBody.innerHTML = pageData.map(i => `
-            <tr>
+        ingBody.innerHTML = pageData.map(i => {
+            // ID Socio: puede estar en 'socio' o 'iding'
+            const idSocio = i.socio || i.iding || '-';
+            const nombreSocio = i.nomsocio || i.tiping || '-';
+            
+            return `<tr>
                 <td>${i.iding || '-'}</td>
                 <td>${i.ticket || '-'}</td>
                 <td>${i.fecha ? i.fecha.slice(0,10) : `${i.anno}-${String(i.mes).padStart(2,'0')}`}</td>
-                <td>${i.anno}</td>
-                <td>${monthNames[i.mes-1]}</td>
+                <td>${i.tiping || '-'}</td>
                 <td>${i.categoria || '-'}</td>
-                <td>${i.nomsocio || i.tiping || '-'}</td>
+                <td>${idSocio}</td>
+                <td>${nombreSocio}</td>
                 <td class="number-cell">$${formatCLP(i.importe)}</td>
-            </tr>
-        `).join('');
+             </tr>`;
+        }).join('');
     }
     
     function renderIngresosPagination(data) {
@@ -515,25 +506,20 @@
     function renderEgresosTable(data) {
         const start = (egrCurrentPage - 1) * rowsPerPage;
         const pageData = data.slice(start, start + rowsPerPage);
-        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         
         if (pageData.length === 0) {
-            egrBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px;">📭 No hay egresos para los filtros seleccionados</td></tr>';
+            egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;">📭 No hay egresos para los filtros seleccionados</td></tr>';
             return;
         }
         
-        egrBody.innerHTML = pageData.map(e => `
-            <tr>
-                <td>${e.fecha ? e.fecha.slice(0,10) : `${e.anno}-${String(e.mes).padStart(2,'0')}`}</td>
-                <td>${e.anno}</td>
-                <td>${monthNames[e.mes-1]}</td>
-                <td>${e.categoria || '-'}</td>
-                <td>${e.nomproveedor || '-'}</td>
-                <td>${e.nomconcepto || '-'}</td>
-                <td>${e.motivo || '-'}</td>
-                <td class="number-cell">$${formatCLP(e.importe)}</td>
-            </tr>
-        `).join('');
+        egrBody.innerHTML = pageData.map(e => `<tr>
+            <td>${e.fecha ? e.fecha.slice(0,10) : `${e.anno}-${String(e.mes).padStart(2,'0')}`}</td>
+            <td>${e.categoria || '-'}</td>
+            <td>${e.nomproveedor || '-'}</td>
+            <td>${e.nomconcepto || '-'}</td>
+            <td>${e.motivo || '-'}</td>
+            <td class="number-cell">$${formatCLP(e.importe)}</td>
+         </tr>`).join('');
     }
     
     function renderEgresosPagination(data) {
@@ -585,7 +571,6 @@
             filterIngresos();
             filterEgresos();
             
-            // Configurar eventos
             ingYear.addEventListener('change', () => filterIngresos());
             ingMonth.addEventListener('change', () => filterIngresos());
             ingCategory.addEventListener('change', () => filterIngresos());
@@ -610,7 +595,6 @@
                 filterEgresos();
             });
             
-            // Configurar pestañas
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
             tabBtns.forEach(btn => {
@@ -625,8 +609,8 @@
             
         } catch (error) {
             console.error(error);
-            ingBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:red;">❌ Error: ${error.message}</td></tr>`;
-            egrBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:red;">❌ Error: ${error.message}</td></tr>`;
+            ingBody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:red;">❌ Error al cargar datos</td></tr>';
+            egrBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">❌ Error al cargar datos</td></tr>';
         }
     }
     

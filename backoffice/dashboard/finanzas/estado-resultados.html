@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Estado de Resultados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f7f0;
+            padding: 24px 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            color: #1e3a2f;
+            font-weight: 700;
+        }
+        .title-section p {
+            color: #2d5a3f;
+            margin-top: 6px;
+        }
+        .badge-year {
+            background: #1e5c3a;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls-panel {
+            background: white;
+            border-radius: 28px;
+            padding: 18px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        .filter-select {
+            background: #e8f0ea;
+            padding: 5px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .filter-select label {
+            font-weight: 600;
+            color: #1e3a2f;
+        }
+        select {
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px solid #bdd4c5;
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .loading-indicator {
+            background: #e8f0ea;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #1e5c3a;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-left: 5px solid #1e5c3a;
+            text-align: center;
+        }
+        .kpi-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #4b6b58;
+        }
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e3a2f;
+            margin: 10px 0 5px;
+        }
+        .kpi-sub {
+            font-size: 0.7rem;
+            color: #5a6e62;
+        }
+        .kpi-card.ingreso { border-left-color: #15803d; }
+        .kpi-card.egreso { border-left-color: #b91c1c; }
+        .kpi-card.resultado { border-left-color: #1e5c3a; }
+
+        .table-section {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .table-section h2 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1e3a2f;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e8f0ea;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            overflow-x: auto;
+            display: block;
+        }
+        .result-table thead,
+        .result-table tbody {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        .result-table th, .result-table td {
+            padding: 10px 6px;
+            text-align: right;
+            border-bottom: 1px solid #e8f0ea;
+        }
+        .result-table th:first-child, 
+        .result-table td:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: white;
+            font-weight: 600;
+        }
+        .result-table th {
+            background: #f8fcf9;
+            font-weight: 700;
+            color: #1e5c3a;
+            text-align: center;
+        }
+        .result-table th:first-child {
+            text-align: left;
+        }
+        .result-table .total-row {
+            background: #e8f0ea;
+            font-weight: 800;
+        }
+        .result-table .total-row td {
+            font-weight: 800;
+        }
+        .number-cell {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #5a6e62;
+        }
+
+        @media (max-width: 1000px) {
+            .result-table { font-size: 0.65rem; }
+            .result-table th, .result-table td { padding: 6px 4px; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-chart-line"></i> Estado de Resultados</h1>
+            <p>Análisis de Ingresos y Gastos | Detalle por categoría y mes</p>
+        </div>
+        <div class="badge-year" id="badgeYear">
+            <i class="fas fa-calendar-alt"></i> Año <span id="yearBadge">2024</span>
+        </div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="filter-group">
+            <div class="filter-select">
+                <label><i class="fas fa-calendar-alt"></i> Año:</label>
+                <select id="yearSelector">
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+            </div>
+            <div class="loading-indicator" id="loadingIndicator">
+                <i class="fas fa-spinner fa-pulse"></i> Cargando...
+            </div>
+        </div>
+    </div>
+
+    <!-- KPIs Resumen -->
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- Tabla de Ingresos -->
+    <div class="table-section">
+        <h2><i class="fas fa-arrow-up" style="color:#15803d;"></i> INGRESOS</h2>
+        <div style="overflow-x: auto;">
+            <table class="result-table" id="ingresosResultTable">
+                <thead id="ingresosHeader"></thead>
+                <tbody id="ingresosBody">
+                    <tr><td colspan="14" style="text-align:center; padding:40px;">Seleccione un año para cargar datos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tabla de Egresos -->
+    <div class="table-section">
+        <h2><i class="fas fa-arrow-down" style="color:#b91c1c;"></i> GASTOS (EGRESOS)</h2>
+        <div style="overflow-x: auto;">
+            <table class="result-table" id="egresosResultTable">
+                <thead id="egresosHeader"></thead>
+                <tbody id="egresosBody">
+                    <tr><td colspan="14" style="text-align:center; padding:40px;">Seleccione un año para cargar datos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <i class="fas fa-info-circle"></i> Tablas agrupadas por categoría. Columnas: meses (Enero a Diciembre), Total Anual y Promedio Mensual.
+    </div>
+</div>
+
+<script>
+    // ======================== CONFIGURACIÓN ========================
+    const currentYear = new Date().getFullYear();
+    let YEAR = (currentYear >= 2024 && currentYear <= 2026) ? currentYear : 2026;
+    
+    let ingresosData = [];
+    let egresosData = [];
+    let isLoading = false;
+
+    const monthShort = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+    function formatCLP(value) {
+        return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    function showLoading(show) {
+        isLoading = show;
+        const indicator = document.getElementById('loadingIndicator');
+        if (show) {
+            indicator.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Cargando...';
+            indicator.style.display = 'flex';
+        } else {
+            indicator.innerHTML = '<i class="fas fa-check-circle"></i> Datos cargados';
+            setTimeout(() => {
+                if (!isLoading) indicator.style.display = 'flex';
+            }, 1500);
+        }
+    }
+
+    // Procesar datos: agrupar por categoría y ordenar por monto total (mayor a menor)
+    function processDataForTable(data) {
+        const grouped = new Map();
+        
+        data.forEach(item => {
+            const cat = item.categoria || "Sin categoría";
+            const mes = item.mes - 1;
+            const monto = item.importe || 0;
+            
+            if (!grouped.has(cat)) {
+                grouped.set(cat, {
+                    categoria: cat,
+                    meses: new Array(12).fill(0),
+                    total: 0
+                });
+            }
+            const entry = grouped.get(cat);
+            entry.meses[mes] += monto;
+            entry.total += monto;
+        });
+        
+        const items = Array.from(grouped.values());
+        
+        // Calcular promedios
+        items.forEach(item => {
+            const mesesConDatos = item.meses.filter(m => m > 0).length;
+            item.promedio = mesesConDatos > 0 ? item.total / mesesConDatos : 0;
+        });
+        
+        // ORDENAR POR TOTAL (mayor a menor)
+        items.sort((a, b) => b.total - a.total);
+        
+        return items;
+    }
+
+    // Generar cabecera (Categoría, meses, total, promedio)
+    function generateHeader() {
+        let headerHtml = '<tr><th>Categoría</th>';
+        for (let i = 0; i < 12; i++) {
+            headerHtml += `<th>${monthShort[i]}</th>`;
+        }
+        headerHtml += '<th>Total Anual</th><th>Promedio</th></tr>';
+        return headerHtml;
+    }
+
+    // Renderizar tabla de ingresos
+    function renderIngresosTable() {
+        if (!ingresosData.length) {
+            document.getElementById('ingresosHeader').innerHTML = '';
+            document.getElementById('ingresosBody').innerHTML = '<tr><td colspan="14" style="text-align:center; padding:40px;">📭 No hay datos para el año seleccionado</td></tr>';
+            return;
+        }
+        
+        const processed = processDataForTable(ingresosData);
+        const header = generateHeader();
+        document.getElementById('ingresosHeader').innerHTML = header;
+        
+        let bodyHtml = '';
+        
+        processed.forEach(item => {
+            let mesesRow = '';
+            for (let i = 0; i < 12; i++) {
+                mesesRow += `<td class="number-cell">${item.meses[i] > 0 ? '$' + formatCLP(item.meses[i]) : '-'}</td>`;
+            }
+            bodyHtml += `<tr>
+                <td>${item.categoria}</td>
+                ${mesesRow}
+                <td class="number-cell"><strong>$${formatCLP(item.total)}</strong></td>
+                <td class="number-cell">$${formatCLP(item.promedio)}</td>
+            </tr>`;
+        });
+        
+        // TOTAL GENERAL
+        const totalGeneral = ingresosData.reduce((sum, i) => sum + i.importe, 0);
+        const mesesTotales = new Array(12).fill(0);
+        ingresosData.forEach(i => { if (i.mes >= 1 && i.mes <= 12) mesesTotales[i.mes-1] += i.importe; });
+        const mesesConDatos = mesesTotales.filter(m => m > 0).length;
+        const promedioGeneral = mesesConDatos > 0 ? totalGeneral / mesesConDatos : 0;
+        
+        let totalRow = `<tr class="total-row">
+            <td><strong>TOTAL INGRESOS</strong></td>`;
+        for (let i = 0; i < 12; i++) {
+            totalRow += `<td class="number-cell"><strong>${mesesTotales[i] > 0 ? '$' + formatCLP(mesesTotales[i]) : '-'}</strong></td>`;
+        }
+        totalRow += `<td class="number-cell"><strong>$${formatCLP(totalGeneral)}</strong></td>
+            <td class="number-cell"><strong>$${formatCLP(promedioGeneral)}</strong></td>
+        </tr>`;
+        
+        bodyHtml += totalRow;
+        document.getElementById('ingresosBody').innerHTML = bodyHtml;
+    }
+
+    // Renderizar tabla de egresos
+    function renderEgresosTable() {
+        if (!egresosData.length) {
+            document.getElementById('egresosHeader').innerHTML = '';
+            document.getElementById('egresosBody').innerHTML = '<tr><td colspan="14" style="text-align:center; padding:40px;">📭 No hay datos para el año seleccionado</td></tr>';
+            return;
+        }
+        
+        const processed = processDataForTable(egresosData);
+        const header = generateHeader();
+        document.getElementById('egresosHeader').innerHTML = header;
+        
+        let bodyHtml = '';
+        
+        processed.forEach(item => {
+            let mesesRow = '';
+            for (let i = 0; i < 12; i++) {
+                mesesRow += `<td class="number-cell">${item.meses[i] > 0 ? '$' + formatCLP(item.meses[i]) : '-'}</td>`;
+            }
+            bodyHtml += `<tr>
+                <td>${item.categoria}</td>
+                ${mesesRow}
+                <td class="number-cell"><strong>$${formatCLP(item.total)}</strong></td>
+                <td class="number-cell">$${formatCLP(item.promedio)}</td>
+            </tr>`;
+        });
+        
+        // TOTAL GENERAL EGRESOS
+        const totalGeneral = egresosData.reduce((sum, e) => sum + e.importe, 0);
+        const mesesTotales = new Array(12).fill(0);
+        egresosData.forEach(e => { if (e.mes >= 1 && e.mes <= 12) mesesTotales[e.mes-1] += e.importe; });
+        const mesesConDatos = mesesTotales.filter(m => m > 0).length;
+        const promedioGeneral = mesesConDatos > 0 ? totalGeneral / mesesConDatos : 0;
+        
+        let totalRow = `<tr class="total-row">
+            <td><strong>TOTAL EGRESOS</strong></td>`;
+        for (let i = 0; i < 12; i++) {
+            totalRow += `<td class="number-cell"><strong>${mesesTotales[i] > 0 ? '$' + formatCLP(mesesTotales[i]) : '-'}</strong></td>`;
+        }
+        totalRow += `<td class="number-cell"><strong>$${formatCLP(totalGeneral)}</strong></td>
+            <td class="number-cell"><strong>$${formatCLP(promedioGeneral)}</strong></td>
+        </tr>`;
+        
+        bodyHtml += totalRow;
+        document.getElementById('egresosBody').innerHTML = bodyHtml;
+    }
+
+    // Actualizar KPIs
+    function updateKPIs() {
+        const totalIngresos = ingresosData.reduce((sum, i) => sum + i.importe, 0);
+        const totalEgresos = egresosData.reduce((sum, e) => sum + e.importe, 0);
+        const balance = totalIngresos - totalEgresos;
+        const margen = totalIngresos > 0 ? ((balance / totalIngresos) * 100).toFixed(1) : 0;
+        
+        const kpiHtml = `
+            <div class="kpi-card ingreso"><div class="kpi-title"><i class="fas fa-arrow-up"></i> Total Ingresos</div><div class="kpi-value">$${formatCLP(totalIngresos)}</div><div class="kpi-sub">Acumulado ${YEAR}</div></div>
+            <div class="kpi-card egreso"><div class="kpi-title"><i class="fas fa-arrow-down"></i> Total Egresos</div><div class="kpi-value">$${formatCLP(totalEgresos)}</div><div class="kpi-sub">Acumulado ${YEAR}</div></div>
+            <div class="kpi-card resultado"><div class="kpi-title"><i class="fas fa-dollar-sign"></i> Balance Neto</div><div class="kpi-value">$${formatCLP(balance)}</div><div class="kpi-sub">Resultado del período</div></div>
+            <div class="kpi-card"><div class="kpi-title"><i class="fas fa-chart-pie"></i> Margen %</div><div class="kpi-value">${margen}%</div><div class="kpi-sub">Sobre ingresos totales</div></div>
+        `;
+        document.getElementById('kpiGrid').innerHTML = kpiHtml;
+    }
+
+    // Cargar datos según el año
+    async function loadDataForYear(year) {
+        showLoading(true);
+        YEAR = year;
+        document.getElementById('yearBadge').innerText = YEAR;
+        
+        try {
+            const [ingresosResp, egresosResp] = await Promise.all([
+                fetch(`./../data/ingresos-${YEAR}.json`),
+                fetch(`./../data/egresos-${YEAR}.json`)
+            ]);
+            
+            if (!ingresosResp.ok || !egresosResp.ok) {
+                throw new Error(`No se pudieron cargar los archivos para el año ${YEAR}`);
+            }
+            
+            const ingresosJson = await ingresosResp.json();
+            const egresosJson = await egresosResp.json();
+            
+            ingresosData = ingresosJson.Ingresos || ingresosJson;
+            egresosData = egresosJson.Egresos || egresosJson;
+            
+            ingresosData = ingresosData.filter(item => item.anno === YEAR);
+            egresosData = egresosData.filter(item => item.anno === YEAR);
+            
+            renderIngresosTable();
+            renderEgresosTable();
+            updateKPIs();
+            
+            showLoading(false);
+        } catch (error) {
+            console.error(error);
+            showLoading(false);
+            document.getElementById('ingresosHeader').innerHTML = '';
+            document.getElementById('ingresosBody').innerHTML = `<tr><td colspan="14" style="text-align:center; color:red; padding:40px;">❌ Error: ${error.message}</td></tr>`;
+            document.getElementById('egresosBody').innerHTML = `<tr><td colspan="14" style="text-align:center; color:red; padding:40px;">❌ Error: ${error.message}</td></tr>`;
+        }
+    }
+
+    function setupEventListeners() {
+        const yearSelector = document.getElementById('yearSelector');
+        yearSelector.addEventListener('change', async (e) => {
+            const selectedYear = parseInt(e.target.value);
+            await loadDataForYear(selectedYear);
+        });
+    }
+
+    async function init() {
+        setupEventListeners();
+        const yearSelector = document.getElementById('yearSelector');
+        yearSelector.value = YEAR;
+        await loadDataForYear(YEAR);
+    }
+    
+    init();
+</script>
+</body>
+</html>
