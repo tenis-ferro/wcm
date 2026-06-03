@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de Solicitudes - Club de Tenis Ferroviario</title>
+  
+  <!-- Vendor CSS Files -->
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: "Open Sans", sans-serif;
+      color: #444;
+      padding: 20px;
+    }
+    .search-box {
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      padding-left: 40px;
+      height: 45px;
+    }
+    .search-container {
+      position: relative;
+    }
+    .search-container i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+    .badge-aprobado {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+      font-weight: 600;
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+    .badge-pendiente {
+      background-color: rgba(255, 193, 7, 0.1);
+      color: #ffc107;
+      font-weight: 600;
+      border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+    .badge-rechazado {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      font-weight: 600;
+      border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+    .premium-table th {
+      background-color: #151515;
+      color: #fff;
+      font-weight: 500;
+      border: none;
+    }
+    .premium-table td {
+      vertical-align: middle;
+    }
+    .table-container {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      position: relative;
+      min-height: 200px;
+    }
+    .btn-sheet-link {
+      background-color: transparent;
+      color: #6c757d;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-sheet-link:hover {
+      background-color: #e9ecef;
+      color: #151515;
+    }
+    .spinner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      border-radius: 10px;
+      transition: opacity 0.3s ease;
+    }
+    .dashboard-card {
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <!-- Header de Sección -->
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4">
+      <div>
+        <h4 class="fw-bold mb-1"><i class="bi bi-list-stars text-warning me-2"></i>Listado de Solicitudes (Últimas 100)</h4>
+        <p class="text-muted small mb-0">Cargando las solicitudes más recientes en tiempo real desde el sistema oficial.</p>
+      </div>
+    </div>
+
+    <!-- Buscador Único por Socio -->
+    <div class="card dashboard-card p-3 mb-4">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-9">
+          <div class="search-container">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control search-box" id="search-name" placeholder="Buscar por socio o partner...">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-outline-secondary w-100 h-45" id="btn-reset" style="border-radius: 8px; height: 45px;">
+            <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar Búsqueda
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Solicitudes -->
+    <div class="table-container">
+      <!-- Loading Overlay -->
+      <div class="spinner-overlay" id="loading-spinner">
+        <div class="text-center">
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="mt-2 mb-0 fw-bold text-muted">Cargando datos desde Google Sheets...</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover premium-table mb-0">
+          <thead>
+            <tr>
+              <th scope="col" class="ps-3 py-3">Fecha Solicitada</th>
+              <th scope="col" class="py-3">Horario</th>
+              <th scope="col" class="py-3">Socio</th>
+              <th scope="col" class="py-3">Partner</th>
+              <th scope="col" class="py-3">Estado</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Cargado dinámicamente por JS -->
+          </tbody>
+        </table>
+      </div>
+      <!-- Empty State -->
+      <div class="text-center p-5 d-none" id="empty-state">
+        <i class="bi bi-search-heart text-muted display-4"></i>
+        <h5 class="mt-3 fw-bold">No se encontraron solicitudes</h5>
+        <p class="text-muted">Prueba con otro término de búsqueda.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Lógica de Control -->
+  <script>
+    // URL del CSV público de Google Sheets para Solicitudes
+    const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KIVcVir2pj-cL0ySxdPkSUqefoj8x3gULCUSRw3RjTlg7Bond7ndtTFnyTMdIPSrg5lOyzweFlre/pub?gid=1024078639&single=true&output=csv";
+
+    // Datos de respaldo en caso de desconexión o fallo CORS
+    const solicitudesBackup = [
+      { fecha: "09/06/2026", hora: "09:00 - 10:30", socio: "Francisco Farías", partner: "Horacio Palma", estado: "Aprobado" },
+      { fecha: "09/06/2026", hora: "10:30 - 12:00", socio: "Javier Rivera", partner: "Leonardo Vega", estado: "Aprobado" },
+      { fecha: "09/06/2026", hora: "18:00 - 19:30", socio: "Andrea Ibarra", partner: "Roy Díaz", estado: "Pendiente" },
+      { fecha: "10/06/2026", hora: "16:30 - 18:00", socio: "Luchito Tapia", partner: "Leonardo Vega", estado: "Aprobado" }
+    ];
+
+    let solicitudesData = [];
+
+    // Elementos del DOM
+    const tableBody = document.getElementById("table-body");
+    const emptyState = document.getElementById("empty-state");
+    const searchName = document.getElementById("search-name");
+    const btnReset = document.getElementById("btn-reset");
+    const loadingSpinner = document.getElementById("loading-spinner");
+
+    // Parser CSV que soporta comillas y saltos de línea dentro de las celdas
+    function parseCSV(text) {
+      let lines = [];
+      let row = [""];
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        let c = text[i];
+        let next = text[i+1];
+        if (c === '"') {
+          if (inQuotes && next === '"') {
+            row[row.length - 1] += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (c === ',' && !inQuotes) {
+          row.push('');
+        } else if ((c === '\r' || c === '\n') && !inQuotes) {
+          if (c === '\r' && next === '\n') { i++; }
+          lines.push(row);
+          row = [''];
+        } else {
+          row[row.length - 1] += c;
+        }
+      }
+      if (row.length > 1 || row[0] !== '') {
+        lines.push(row);
+      }
+      return lines;
+    }
+
+    // Cargar datos
+    async function loadData() {
+      try {
+        const response = await fetch(sheetCsvUrl);
+        if (!response.ok) throw new Error("Fallo al descargar la hoja");
+        const csvText = await response.text();
+        const parsed = parseCSV(csvText);
+
+        solicitudesData = [];
+        
+        for (let i = 1; i < parsed.length; i++) {
+          const row = parsed[i];
+          if (!row || row.length < 5 || !row[2] || !row[3]) continue;
+
+          const socio = row[2].trim();
+          const fecha = row[3].trim();
+          const hora = row[4] ? row[4].trim() : "Por definir";
+          const partner = row[5] ? row[5].trim() : "Sin partner";
+          const comentarios = row[6] ? row[6].trim().toUpperCase() : "";
+
+          // Mapear estado
+          let estado = "Pendiente";
+          if (comentarios.includes("AGENDADO") || comentarios.includes("AGNDADO") || comentarios.includes("AGENDA")) {
+            estado = "Aprobado";
+          } else if (comentarios.includes("RECHAZADO") || comentarios.includes("CANCELADO") || comentarios.includes("NO AGENDADO")) {
+            estado = "Rechazado";
+          }
+
+          solicitudesData.push({ fecha, hora, socio, partner, estado });
+        }
+
+        // Ordenar por fecha de forma descendente (más recientes primero)
+        solicitudesData.reverse();
+        
+        // Limitar a las últimas 100 solicitudes
+        solicitudesData = solicitudesData.slice(0, 100);
+
+      } catch (err) {
+        console.warn("Error cargando Google Sheet, usando respaldo local:", err);
+        solicitudesData = [...solicitudesBackup];
+      } finally {
+        loadingSpinner.style.opacity = 0;
+        setTimeout(() => loadingSpinner.classList.add("d-none"), 300);
+        renderTable(solicitudesData);
+      }
+    }
+
+    // Renderizar tabla
+    function renderTable(data) {
+      tableBody.innerHTML = "";
+      if (data.length === 0) {
+        emptyState.classList.remove("d-none");
+        return;
+      }
+      emptyState.classList.add("d-none");
+
+      data.forEach(item => {
+        let badgeClass = "badge-pendiente";
+        if (item.estado === "Aprobado") badgeClass = "badge-aprobado";
+        if (item.estado === "Rechazado") badgeClass = "badge-rechazado";
+
+        const row = `
+          <tr>
+            <td class="ps-3 py-3 fw-bold text-nowrap">${item.fecha}</td>
+            <td class="text-nowrap"><i class="bi bi-clock me-1 text-muted"></i>${item.hora}</td>
+            <td class="fw-bold">${item.socio}</td>
+            <td>${item.partner}</td>
+            <td><span class="badge ${badgeClass} px-3 py-2 rounded-pill">${item.estado}</span></td>
+          </tr>
+        `;
+        tableBody.insertAdjacentHTML("beforeend", row);
+      });
+    }
+
+    // Filtrar solicitudes por socio (solicitante o rival)
+    function filterData() {
+      const searchTerm = searchName.value.toLowerCase().trim();
+
+      const filtered = solicitudesData.filter(item => {
+        return item.socio.toLowerCase().includes(searchTerm) || item.partner.toLowerCase().includes(searchTerm);
+      });
+
+      renderTable(filtered);
+    }
+
+    // Eventos
+    searchName.addEventListener("input", filterData);
+
+    btnReset.addEventListener("click", () => {
+      searchName.value = "";
+      renderTable(solicitudesData);
+    });
+
+    // Carga inicial
+    loadData();
+  </script>
+</body>
+</html>

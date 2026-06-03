@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Alternativa - Agenda de Canchas | Club de Tenis Ferroviario Santiago</title>
+  <meta name="description" content="Explora la alternativa interactiva de reserva y visualización de canchas de arcilla del Club de Tenis Ferroviario.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon-ferro.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .alt-tabs-container {
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+    .alt-nav-tabs {
+      border-bottom: 2px solid #e9ecef;
+      display: flex;
+      gap: 10px;
+      padding-bottom: 0;
+      margin-bottom: 30px;
+    }
+    .alt-tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 12px 24px;
+      font-weight: 600;
+      color: #6c757d;
+      transition: all 0.3s ease;
+      font-size: 1.05rem;
+    }
+    .alt-tab-btn.active {
+      color: #ffc451;
+      border-bottom-color: #ffc451;
+    }
+    .alt-tab-btn:hover:not(.active) {
+      color: #151515;
+    }
+    .alt-tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .alt-tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .form-info-card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      background: #fff;
+      overflow: hidden;
+    }
+    .form-info-header {
+      background-color: #151515;
+      color: #fff;
+      padding: 25px;
+    }
+    .btn-action-booking {
+      background-color: #ffc451;
+      color: #151515;
+      font-weight: 700;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 196, 81, 0.4);
+    }
+    .btn-action-booking:hover {
+      background-color: #ffd584;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 196, 81, 0.5);
+    }
+    .iframe-seamless {
+      width: 100%;
+      height: 980px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      background: #fff;
+    }
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .rule-icon {
+      background-color: rgba(255, 196, 81, 0.1);
+      color: #ffc451;
+      padding: 6px;
+      border-radius: 50%;
+      margin-right: 12px;
+      font-size: 1.1rem;
+      display: inline-flex;
+    }
+  </style>
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-26JLZNSPM7');
+	</script>  
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top"></header>
+  <script src="assets/js/header-loader.js"></script>
+  <!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+        <div>
+          <br>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Agenda de Canchas (Versión Interactiva)</h2>
+          <ol>
+            <li><a href="index.html">Inicio</a></li>
+            <li>Canchas</li>
+          </ol>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+      <div class="container">
+        
+        <!-- Pestañas Alternativas -->
+        <div class="alt-tabs-container">
+          <div class="alt-nav-tabs">
+            <button class="alt-tab-btn active" onclick="openTab(event, 'tab-formulario')">
+              <i class="bi bi-file-earmark-plus me-2"></i>1. Solicitar Cancha
+            </button>
+            <button class="alt-tab-btn" onclick="openTab(event, 'tab-solicitudes')">
+              <i class="bi bi-list-columns-reverse me-2"></i>2. Listado de Solicitudes
+            </button>
+            <button class="alt-tab-btn" onclick="openTab(event, 'tab-asignaciones')">
+              <i class="bi bi-calendar3 me-2"></i>3. Reservas
+            </button>
+          </div>
+
+          <!-- Contenido Pestaña 1: Formulario de Reservas -->
+          <div id="tab-formulario" class="alt-tab-content active">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="card form-info-card">
+                  <div class="form-info-header text-center">
+                    <h3 class="fw-bold mb-1">Formulario de Solicitud</h3>
+                    <p class="mb-0 text-white-50">Ingresa tus datos y solicita tu horario preferido de juego.</p>
+                  </div>
+                  <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4">Reglamento y Condiciones de Uso</h5>
+                    
+                    <div class="rule-item">
+                      <div class="rule-icon"><i class="bi bi-calendar-check"></i></div>
+                      <div>
+                        <strong>Días Hábiles con Reserva:</strong> Las solicitudes son válidas únicamente para jugar de **martes a viernes** de la semana siguiente.
+                      </div>
+                    </div>
+                    
+                    <div class="rule-item">
+                      <div class="rule-icon"><i class="bi bi-people"></i></div>
+                      <div>
+                        <strong>Fines de Semana:</strong> Sábado y domingo el uso de canchas es **sin reserva previa** y por orden estricto de llegada en cancha.
+                      </div>
+                    </div>
+
+                    <div class="rule-item">
+                      <div class="rule-icon"><i class="bi bi-clock-history"></i></div>
+                      <div>
+                        <strong>Plazo de Respuesta:</strong> La asignación de bloques horarios se realiza cada día lunes por la mesa directiva y se visualiza en la pestaña "Reservas".
+                      </div>
+                    </div>
+
+                    <div class="rule-item">
+                      <div class="rule-icon"><i class="bi bi-check-all"></i></div>
+                      <div>
+                        <strong>Límite de Canchas:</strong> Contamos con **6 canchas de arcilla** de excelente nivel. Cuídalas y ayuda a rastrillarlas después de su uso.
+                      </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="text-center p-3">
+                      <p class="text-muted small mb-3">Haz clic en el siguiente botón para abrir el formulario oficial de Google Forms en una pestaña externa segura:</p>
+                      <a href="https://forms.gle/EETd9XpZTb4wdrux7" target="_blank" rel="noopener noreferrer" class="btn btn-action-booking">
+                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>Abrir Formulario de Google Forms
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenido Pestaña 2: Listado de Solicitudes -->
+          <div id="tab-solicitudes" class="alt-tab-content">
+            <iframe src="canchas/solicitudes-alt.html" class="iframe-seamless" id="iframe-solicitudes"></iframe>
+          </div>
+
+          <!-- Contenido Pestaña 3: Asignaciones -->
+          <div id="tab-asignaciones" class="alt-tab-content">
+            <iframe src="canchas/asignacion-solicitudes-alt.html" class="iframe-seamless" id="iframe-asignaciones"></iframe>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer"></footer>
+  <script src="assets/js/footer-loader.js"></script>
+  <!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Control de Pestañas en Vanilla JS -->
+  <script>
+    function openTab(evt, tabId) {
+      // Ocultar todos los contenidos de pestaña
+      const tabContents = document.querySelectorAll(".alt-tab-content");
+      tabContents.forEach(content => content.classList.remove("active"));
+
+      // Desactivar todos los botones
+      const tabButtons = document.querySelectorAll(".alt-tab-btn");
+      tabButtons.forEach(btn => btn.classList.remove("active"));
+
+      // Mostrar la pestaña actual y marcar el botón como activo
+      document.getElementById(tabId).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+
+    // Permitir cambiar a una pestaña específica desde los iframes (ej: redirigir al formulario)
+    window.switchTab = function(index) {
+      const tabButtons = document.querySelectorAll(".alt-tab-btn");
+      if (tabButtons[index]) {
+        tabButtons[index].click();
+      }
+    }
+  </script>
+</body>
+</html>

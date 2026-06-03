@@ -11,7 +11,7 @@
     activeItem = 'inicio';
   } else if (path.includes('elclub.html')) {
     activeItem = 'elclub';
-  } else if (path.includes('canchas.html')) {
+  } else if (path.includes('canchas')) {
     activeItem = 'canchas';
   } else if (path.includes('escalerilla.html')) {
     activeItem = 'escalerilla';
