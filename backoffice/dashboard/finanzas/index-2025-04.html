@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Dashboard Financiero</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="index-2025-04.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-table-tennis"></i> Club de Tenis - Dashboard Financiero</h1>
+            <p>Análisis de composición | Ingresos y Egresos <span id="yearDisplay"></span></p>
+        </div>
+        <div class="badge-year" id="badgeYear">
+            <i class="fas fa-calendar-alt"></i> Año <span id="yearBadge"></span>
+        </div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="toggle-group">
+            <button id="toggleKpiBtn" class="toggle-btn active"><i class="fas fa-chart-simple"></i> KPIs</button>
+            <button id="toggleCompositionBtn" class="toggle-btn active"><i class="fas fa-table-list"></i> Composición</button>
+            <button id="toggleQuotaBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Cuota Mensual</button>
+            <button id="toggleRegularEvolutionBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Evolución REGULAR</button>
+            <button id="toggleRemuneracionesBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Evolución REMUNERACIONES</button>
+            <button id="toggleMonthlyChartBtn" class="toggle-btn active"><i class="fas fa-chart-bar"></i> Evolución Mensual</button>
+            <button id="toggleDetailTableBtn" class="toggle-btn active"><i class="fas fa-receipt"></i> Detalle</button>
+        </div>
+        <div class="filter-group">
+            <div class="filter-select">
+                <label><i class="fas fa-calendar-month"></i> Mes:</label>
+                <select id="monthFilter">
+                    <option value="all">📊 Todos (<span id="currentYearForFilter"></span>)</option>
+                    <option value="1">Enero</option><option value="2">Febrero</option>
+                    <option value="3">Marzo</option><option value="4">Abril</option>
+                    <option value="5">Mayo</option><option value="6">Junio</option>
+                    <option value="7">Julio</option><option value="8">Agosto</option>
+                    <option value="9">Septiembre</option><option value="10">Octubre</option>
+                    <option value="11">Noviembre</option><option value="12">Diciembre</option>
+                </select>
+            </div>
+            <button id="resetAllBtn" class="reset-btn"><i class="fas fa-undo-alt"></i> Resetear</button>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div id="kpiSection" class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-dollar-sign"></i> Balance Neto</div><div class="kpi-value" id="balanceValue">$0</div><div class="kpi-sub" id="balanceSub">-</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-arrow-up"></i> Total Ingresos</div><div class="kpi-value" id="totalIngresos">$0</div><div class="kpi-sub" id="ingresosSub">-</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-arrow-down"></i> Total Egresos</div><div class="kpi-value" id="totalEgresos">$0</div><div class="kpi-sub" id="egresosSub">-</div></div>
+        <div class="kpi-card"><div class="kpi-title"><i class="fas fa-chart-pie"></i> Margen %</div><div class="kpi-value" id="margenValue">0%</div><div class="kpi-sub" id="margenSub">sobre ingresos</div></div>
+    </div>
+
+    <!-- Proyección Anual -->
+    <div id="projectionSection" class="projection-row">
+        <div class="projection-card">
+            <h3><i class="fas fa-chart-line" style="color:#15803d;"></i> Proyección de Ingresos</h3>
+            <div class="projection-stats">
+                <div class="stat-row"><span class="stat-label">📊 Real (meses con datos)</span><span class="stat-value ingreso" id="realIngresos">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📈 Promedio mensual</span><span class="stat-value ingreso" id="promedioIngresosMensual">$0</span></div>
+                <div class="stat-row"><span class="stat-label">🎯 Proyección Anual</span><span class="stat-value ingreso" id="proyeccionIngresosPromedio">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📈 Proyección optimista (+10%)</span><span class="stat-value ingreso" id="proyeccionIngresosOptimista">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📉 Proyección conservadora (-10%)</span><span class="stat-value" id="proyeccionIngresosConservador" style="color:#d97706;">$0</span></div>
+            </div>
+            <div class="projection-note"><i class="fas fa-info-circle"></i> Basado en meses con datos disponibles</div>
+        </div>
+        <div class="projection-card">
+            <h3><i class="fas fa-chart-line" style="color:#b91c1c;"></i> Proyección de Egresos</h3>
+            <div class="projection-stats">
+                <div class="stat-row"><span class="stat-label">📊 Real (meses con datos)</span><span class="stat-value egreso" id="realEgresos">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📈 Promedio mensual</span><span class="stat-value egreso" id="promedioEgresosMensual">$0</span></div>
+                <div class="stat-row"><span class="stat-label">🎯 Proyección Anual</span><span class="stat-value egreso" id="proyeccionEgresosPromedio">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📈 Proyección optimista (+10%)</span><span class="stat-value egreso" id="proyeccionEgresosOptimista">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📉 Proyección conservadora (-10%)</span><span class="stat-value" id="proyeccionEgresosConservador" style="color:#d97706;">$0</span></div>
+            </div>
+            <div class="projection-note"><i class="fas fa-info-circle"></i> Basado en meses con datos disponibles</div>
+        </div>
+        <div class="projection-card">
+            <h3><i class="fas fa-chart-line" style="color:#1e5c3a;"></i> Balance Neto Proyectado</h3>
+            <div class="projection-stats">
+                <div class="stat-row"><span class="stat-label">🎯 Balance proyectado</span><span class="stat-value balance" id="balanceProyectado">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📈 Balance optimista</span><span class="stat-value" id="balanceOptimista" style="color:#d97706;">$0</span></div>
+                <div class="stat-row"><span class="stat-label">📉 Balance conservador</span><span class="stat-value" id="balanceConservador" style="color:#d97706;">$0</span></div>
+                <div class="stat-row"><span class="stat-label">💰 Margen proyectado</span><span class="stat-value balance" id="margenProyectado">0%</span></div>
+            </div>
+            <div class="projection-note"><i class="fas fa-exclamation-triangle"></i> Estimación sujeta a variación estacional</div>
+        </div>
+    </div>
+
+    <!-- Tablas de composición -->
+    <div id="compositionSection" class="composition-row">
+        <div class="composition-card">
+            <h3><i class="fas fa-chart-simple" style="color:#15803d;"></i> Composición de Ingresos</h3>
+            <table class="comp-table">
+                <thead>
+                    <tr><th>Categoría</th><th>Cantidad</th><th>Monto</th><th>% Peso</th></tr>
+                </thead>
+                <tbody id="ingresosCompositionBody"></tbody>
+            </table>
+        </div>
+        <div class="composition-card">
+            <h3><i class="fas fa-chart-simple" style="color:#b91c1c;"></i> Composición de Egresos</h3>
+            <table class="comp-table">
+                <thead>
+                    <tr><th>Categoría</th><th>Cantidad</th><th>Monto</th><th>% Peso</th></tr>
+                </thead>
+                <tbody id="egresosCompositionBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Descomposición de Cuota Mensual -->
+    <div id="quotaSection" class="composition-row">
+        <div class="composition-card quota-card full-width">
+            <h3><i class="fas fa-chart-line"></i> Descomposición de CUOTA MENSUAL</h3>
+            <table class="comp-table">
+                <thead>
+                    <tr><th>Tipo de Socio</th><th>Monto Unitario</th><th>Cantidad</th><th>Total</th><th>% Peso</th></tr>
+                </thead>
+                <tbody id="quotaCompositionBody"></tbody>
+                <tfoot id="quotaCompositionFoot"></tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- Evolución REGULAR -->
+    <div id="regularEvolutionSection" class="composition-row">
+        <div class="composition-card regular-card full-width">
+            <h3><i class="fas fa-chart-line" style="color:#1e7554;"></i> Evolución Mensual - CUOTA MENSUAL REGULAR ($43.500)</h3>
+            <div class="metric-cards">
+                <div class="metric-card"><div class="label">Total Recaudado</div><div class="value" id="totalRegularAnual">$0</div></div>
+                <div class="metric-card"><div class="label">Promedio Socios</div><div class="value" id="promedioSociosRegular">0</div></div>
+                <div class="metric-card"><div class="label">Mínimo Socios</div><div class="value" id="minSociosRegular">0</div></div>
+                <div class="metric-card"><div class="label">Máximo Socios</div><div class="value" id="maxSociosRegular">0</div></div>
+            </div>
+            <canvas id="regularEvolutionChart" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+
+    <!-- Evolución REMUNERACIONES -->
+    <div id="remuneracionesSection" class="composition-row">
+        <div class="composition-card remuneraciones-card full-width">
+            <h3><i class="fas fa-chart-line" style="color:#b91c1c;"></i> Evolución Mensual de REMUNERACIONES</h3>
+            <div class="metric-cards">
+                <div class="metric-card"><div class="label">Total Anual</div><div class="value" id="totalRemuneracionesAnual">$0</div></div>
+                <div class="metric-card"><div class="label">Promedio Mensual</div><div class="value" id="promedioRemuneracionesMensual">$0</div></div>
+                <div class="metric-card"><div class="label">Máximo Mensual</div><div class="value" id="maxRemuneracionesMensual">$0</div></div>
+            </div>
+            <canvas id="remuneracionesChart" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+
+    <!-- Gráfico de evolución mensual general -->
+    <div id="monthlyChartSection" class="charts-row">
+        <div class="chart-box full-width">
+            <h3><i class="fas fa-chart-bar"></i> Evolución Mensual (Ingresos vs Egresos)</h3>
+            <div class="stats-row">
+                <div class="stats-card"><h4><i class="fas fa-chart-line" style="color:#15803d;"></i> INGRESOS</h4><div class="stats-grid"><div class="stat-item"><div class="stat-label-sm">📊 Promedio</div><div class="stat-number ingreso" id="promedioIngresosAnual">$0</div></div><div class="stat-item"><div class="stat-label-sm">📉 Mínimo</div><div class="stat-number ingreso" id="minIngresosMensual">$0</div><div class="stat-label-sm" id="minIngresosMes" style="font-size:0.6rem;"></div></div><div class="stat-item"><div class="stat-label-sm">📈 Máximo</div><div class="stat-number ingreso" id="maxIngresosMensual">$0</div><div class="stat-label-sm" id="maxIngresosMes" style="font-size:0.6rem;"></div></div></div></div>
+                <div class="stats-card"><h4><i class="fas fa-chart-line" style="color:#b91c1c;"></i> EGRESOS</h4><div class="stats-grid"><div class="stat-item"><div class="stat-label-sm">📊 Promedio</div><div class="stat-number egreso" id="promedioEgresosAnual">$0</div></div><div class="stat-item"><div class="stat-label-sm">📉 Mínimo</div><div class="stat-number egreso" id="minEgresosMensual">$0</div><div class="stat-label-sm" id="minEgresosMes" style="font-size:0.6rem;"></div></div><div class="stat-item"><div class="stat-label-sm">📈 Máximo</div><div class="stat-number egreso" id="maxEgresosMensual">$0</div><div class="stat-label-sm" id="maxEgresosMes" style="font-size:0.6rem;"></div></div></div></div>
+            </div>
+            <canvas id="monthlyComparisonChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Detalle de movimientos -->
+    <div id="detailTableSection" class="table-box">
+        <h3><i class="fas fa-list-ul"></i> Detalle de Movimientos <span id="tablePeriodLabel"></span></h3>
+        <div class="tabs-container">
+            <div class="tabs-header"><button class="tab-btn active" data-tab="ingresos-tab"><i class="fas fa-arrow-up" style="color:#15803d;"></i> Ingresos</button><button class="tab-btn" data-tab="egresos-tab"><i class="fas fa-arrow-down" style="color:#b91c1c;"></i> Egresos</button></div>
+            <div id="ingresos-tab" class="tab-content active">
+                <div class="search-bar"><input type="text" id="searchIngresos" placeholder="🔍 Buscar por socio, categoría o ticket..."><button id="clearSearchIngresos" class="clear-search">Limpiar</button></div>
+                <div class="table-wrapper">
+                    <table class="data-table"><thead><tr><th>ID</th><th>Ticket</th><th>Fecha</th><th>Socio</th><th>Categoría</th><th>Subcategoría</th><th>Monto</th></tr></thead><tbody id="ingresosTableBody"></tbody></table>
+                </div>
+            </div>
+            <div id="egresos-tab" class="tab-content">
+                <div class="search-bar"><input type="text" id="searchEgresos" placeholder="🔍 Buscar por proveedor, concepto, motivo o categoría..."><button id="clearSearchEgresos" class="clear-search">Limpiar</button></div>
+                <div class="table-wrapper">
+                    <table class="data-table"><thead><tr><th>Fecha</th><th>Categoría</th><th>Subcategoría</th><th>Proveedor</th><th>Concepto</th><th>Motivo</th><th>Monto</th></tr></thead><tbody id="egresosTableBody"></tbody></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><i class="fas fa-mouse-pointer"></i> Dashboard configurable por año mediante variable global.</div>
+</div>
+
+<script src="index-2025-04.js" defer></script>
+</body>
+</html>
