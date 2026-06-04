@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Detalle de Movimientos</title>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Enlace a estilos externos -->
+    <link rel="stylesheet" href="consulta-movimientos-04.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-table-list"></i> Detalle de Movimientos</h1>
+            <p>Consulta y análisis de ingresos y egresos por separado</p>
+        </div>
+        <div class="badge"><i class="fas fa-calendar-alt"></i> 2023 - 2026</div>
+    </div>
+
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="ingresos"><i class="fas fa-arrow-up" style="color:#15803d;"></i> Ingresos</button>
+            <button class="tab-btn" data-tab="egresos"><i class="fas fa-arrow-down" style="color:#b91c1c;"></i> Egresos</button>
+        </div>
+
+        <!-- Tab Ingresos -->
+        <div id="ingresos-tab" class="tab-content active">
+            <div class="filter-panel">
+                <div class="filter-group">
+                    <div class="filter-box">
+                        <label><i class="fas fa-calendar-alt"></i> Año:</label>
+                        <select id="ingYearFilter">
+                            <option value="all">Todos</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <div class="filter-box">
+                        <label><i class="fas fa-calendar-month"></i> Mes:</label>
+                        <select id="ingMonthFilter">
+                            <option value="all">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="filter-box">
+                        <label><i class="fas fa-tag"></i> Categoría:</label>
+                        <select id="ingCategoryFilter">
+                            <option value="all">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-box search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="ingSearch" placeholder="Buscar socio...">
+                    </div>
+                    <button class="reset-btn" id="resetIngresos"><i class="fas fa-undo-alt"></i> Limpiar</button>
+                    <!-- Botón para exportar Ingresos a Excel -->
+                    <button class="export-btn" id="exportIngresos"><i class="fas fa-file-excel"></i> Exportar Excel</button>
+                </div>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-card ingreso">
+                    <div class="stat-label">💰 Total Ingresos</div>
+                    <div class="stat-number" id="ingTotalAmount">$0</div>
+                    <div class="stat-sub">Período seleccionado</div>
+                </div>
+                <div class="stat-card ingreso">
+                    <div class="stat-label">📋 Cantidad de Movimientos</div>
+                    <div class="stat-number" id="ingCount">0</div>
+                    <div class="stat-sub">Transacciones</div>
+                </div>
+                <div class="stat-card ingreso">
+                    <div class="stat-label">📊 Ticket Promedio</div>
+                    <div class="stat-number" id="ingAvgTicket">$0</div>
+                    <div class="stat-sub">Por movimiento</div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" id="ingresosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ticket</th>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Categoría</th>
+                            <th>ID Socio</th>
+                            <th>Nombre Socio</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ingresosBody">
+                        <tr><td colspan="8" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Egresos -->
+        <div id="egresos-tab" class="tab-content">
+            <div class="filter-panel">
+                <div class="filter-group">
+                    <div class="filter-box">
+                        <label><i class="fas fa-calendar-alt"></i> Año:</label>
+                        <select id="egrYearFilter">
+                            <option value="all">Todos</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <div class="filter-box">
+                        <label><i class="fas fa-calendar-month"></i> Mes:</label>
+                        <select id="egrMonthFilter">
+                            <option value="all">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="filter-box">
+                        <label><i class="fas fa-tag"></i> Categoría:</label>
+                        <select id="egrCategoryFilter">
+                            <option value="all">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-box search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="egrSearch" placeholder="Buscar proveedor, concepto...">
+                    </div>
+                    <button class="reset-btn" id="resetEgresos"><i class="fas fa-undo-alt"></i> Limpiar</button>
+                    <!-- Botón para exportar Egresos a Excel -->
+                    <button class="export-btn" id="exportEgresos"><i class="fas fa-file-excel"></i> Exportar Excel</button>
+                </div>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-card egreso">
+                    <div class="stat-label">💰 Total Egresos</div>
+                    <div class="stat-number" id="egrTotalAmount">$0</div>
+                    <div class="stat-sub">Período seleccionado</div>
+                </div>
+                <div class="stat-card egreso">
+                    <div class="stat-label">📋 Cantidad de Movimientos</div>
+                    <div class="stat-number" id="egrCount">0</div>
+                    <div class="stat-sub">Transacciones</div>
+                </div>
+                <div class="stat-card egreso">
+                    <div class="stat-label">📊 Gasto Promedio</div>
+                    <div class="stat-number" id="egrAvgTicket">$0</div>
+                    <div class="stat-sub">Por movimiento</div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" id="egresosTable">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Categoría</th>
+                            <th>Proveedor</th>
+                            <th>Concepto</th>
+                            <th>Motivo</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="egresosBody">
+                        <tr><td colspan="6" style="text-align:center; padding:40px;">Cargando datos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><i class="fas fa-info-circle"></i> Haz clic en el ID Socio para ver todos sus movimientos. ID Socio = atributo "socio".</div>
+</div>
+
+<!-- Modal para movimientos del socio -->
+<div id="socioModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user"></i> Movimientos del Socio <span id="modalSocioNombre"></span> (ID: <span id="modalSocioId"></span>)</h2>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-stats" id="modalStats"></div>
+        <div class="modal-category-stats" id="modalCategoryStats"></div>
+        <div style="overflow-x: auto;">
+            <table class="modal-table" id="modalTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ticket</th>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Categoría</th>
+                        <th>Subcategoría</th>
+                        <th>Nombre Socio</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody id="modalBody">
+                    <tr><td colspan="8" style="text-align:center;">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Enlace a la lógica JS externa -->
+<script src="consulta-movimientos-04.js" defer></script>
+</body>
+</html>
