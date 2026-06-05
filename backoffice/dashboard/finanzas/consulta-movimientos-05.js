@@ -415,13 +415,65 @@ function getCachedData() {
     return null;
 }
 
+function pruneIngresos(data) {
+    return data.map(i => ({
+        iding: i.iding,
+        ticket: i.ticket,
+        fecha: i.fecha,
+        tiping: i.tiping,
+        categoria: i.categoria,
+        subcategoria: i.subcategoria,
+        socio: i.socio,
+        nomsocio: i.nomsocio,
+        importe: i.importe,
+        anno: i.anno,
+        mes: i.mes
+    }));
+}
+
+function pruneEgresos(data) {
+    return data.map(e => ({
+        fecha: e.fecha,
+        categoria: e.categoria,
+        nomproveedor: e.nomproveedor,
+        nomconcepto: e.nomconcepto,
+        motivo: e.motivo,
+        importe: e.importe,
+        anno: e.anno,
+        mes: e.mes
+    }));
+}
+
 function setCachedData(ingresos, egresos) {
     try {
-        localStorage.setItem(CACHE_KEY_INGRESOS, JSON.stringify(ingresos));
-        localStorage.setItem(CACHE_KEY_EGRESOS, JSON.stringify(egresos));
+        const prunedIngresos = pruneIngresos(ingresos);
+        const prunedEgresos = pruneEgresos(egresos);
+        
+        localStorage.setItem(CACHE_KEY_INGRESOS, JSON.stringify(prunedIngresos));
+        localStorage.setItem(CACHE_KEY_EGRESOS, JSON.stringify(prunedEgresos));
         localStorage.setItem(CACHE_KEY_TIMESTAMP, Date.now().toString());
     } catch (e) {
-        console.error("Error guardando en cache local", e);
+        console.warn("Storage quota exceeded, attempting to clear old dashboard/query keys...", e);
+        try {
+            // Limpiar claves del dashboard y consultas anteriores para liberar espacio
+            for (let i = localStorage.length - 1; i >= 0; i--) {
+                const key = localStorage.key(i);
+                if (key && (key.startsWith('dashboard_') || key.startsWith('consulta_movimientos_') || key.startsWith('consulta_'))) {
+                    if (key !== CACHE_KEY_INGRESOS && key !== CACHE_KEY_EGRESOS && key !== CACHE_KEY_TIMESTAMP) {
+                        localStorage.removeItem(key);
+                    }
+                }
+            }
+            // Reintentar con los datos reducidos
+            const prunedIngresos = pruneIngresos(ingresos);
+            const prunedEgresos = pruneEgresos(egresos);
+            localStorage.setItem(CACHE_KEY_INGRESOS, JSON.stringify(prunedIngresos));
+            localStorage.setItem(CACHE_KEY_EGRESOS, JSON.stringify(prunedEgresos));
+            localStorage.setItem(CACHE_KEY_TIMESTAMP, Date.now().toString());
+            console.log("Storage recovered and cache saved successfully after cleanup.");
+        } catch (e2) {
+            console.error("Failed to recover storage cache quota. Data will not be cached.", e2);
+        }
     }
 }
 
