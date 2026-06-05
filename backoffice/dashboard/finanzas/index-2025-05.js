@@ -1,6 +1,12 @@
+// ======================== CONFIGURACIÓN SUPABASE ========================
+const SUPABASE_URL = "https://fwnoluzrshhtmypwevnt.supabase.co"; 
+const SUPABASE_ANON_KEY = "sb_publishable_f1VuE7CRyuLNxxwMAS19WA_F_1lWIoD"; 
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// =======================================================================
+
 // ======================== VARIABLE GLOBAL ========================
 // CAMBIA ESTE VALOR SEGÚN EL AÑO QUE QUIERAS ANALIZAR
-const YEAR = 2026;  // Cambiar a 2023, 2025, etc. para otros dashboards
+const YEAR = 2025;  // Cambiar a 2023, 2025, etc. para otros dashboards
 
 // ======================== FIN VARIABLE GLOBAL ========================
 
@@ -127,6 +133,7 @@ function getRegularEvolution() {
     return { regularMensualCantidad, regularMensualMonto, totalAnualMonto, promedioSocios, minSocios, maxSocios };
 }
 
+// Evolución remuneraciones
 function getRemuneracionesMensual() {
     const remuneracionesMensual = new Array(12).fill(0);
     egresosData.forEach(eg => {
@@ -228,7 +235,7 @@ function renderProjections() {
     document.getElementById('balanceProyectado').innerHTML = `$${formatCLP(p.balanceProyectado)}`;
     document.getElementById('balanceOptimista').innerHTML = `$${formatCLP(p.balanceOptimista)}`;
     document.getElementById('balanceConservador').innerHTML = `$${formatCLP(p.balanceConservador)}`;
-    document.getElementById('margenValue').innerHTML = `${p.margenProyectado.toFixed(1)}%`;
+    document.getElementById('margenProyectado').innerHTML = `${p.margenProyectado.toFixed(1)}%`;
 }
 
 function renderCompositionTables(fIng, fEgr) {
@@ -343,6 +350,17 @@ function renderMonthlyStatsAndChart() {
     });
 }
 
+function hideLoading() {
+    const loader = document.getElementById('loadingOverlay');
+    if (loader) {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 300);
+    }
+}
+
 function updateUIAndCharts() {
     let filteredIngresos = ingresosData;
     let filteredEgresos = egresosData;
@@ -365,15 +383,16 @@ function updateUIAndCharts() {
     document.getElementById('ingresosSub').innerHTML = periodText;
     document.getElementById('egresosSub').innerHTML = periodText;
     
-    renderProjections();
-    renderCompositionTables(filteredIngresos, filteredEgresos);
-    renderQuotaAnalysis(filteredIngresos);
-    renderRegularEvolutionChart();
-    renderRemuneracionesChart();
-    renderMonthlyStatsAndChart();
+    try { renderProjections(); } catch (err) { console.error("Error in renderProjections", err); }
+    try { renderCompositionTables(filteredIngresos, filteredEgresos); } catch (err) { console.error("Error in renderCompositionTables", err); }
+    try { renderQuotaAnalysis(filteredIngresos); } catch (err) { console.error("Error in renderQuotaAnalysis", err); }
+    try { renderRegularEvolutionChart(); } catch (err) { console.error("Error in renderRegularEvolutionChart", err); }
+    try { renderRemuneracionesChart(); } catch (err) { console.error("Error in renderRemuneracionesChart", err); }
+    try { renderMonthlyStatsAndChart(); } catch (err) { console.error("Error in renderMonthlyStatsAndChart", err); }
 }
 
-// Configuración de los componentes visuales activados/desactivados por defecto
+
+
 function setupToggleButtons() {
     const toggles = [
         { btnId: 'toggleKpiBtn', componentId: 'kpiSection' },
@@ -432,23 +451,104 @@ function setupToggleButtons() {
     });
 }
 
+// Función auxiliar para traer todos los registros paginados por el año especificado
+async function fetchAllFromTable(tableName, year) {
+    let allData = [];
+    let page = 0;
+    const pageSize = 1000;
+    let done = false;
+    
+    while (!done) {
+        const { data, error } = await db
+            .from(tableName)
+            .select('*')
+            .eq('anno', year)
+            .range(page * pageSize, (page + 1) * pageSize - 1);
+            
+        if (error) throw error;
+        
+        if (!data || data.length === 0) {
+            done = true;
+        } else {
+            allData.push(...data);
+            if (data.length < pageSize) {
+                done = true;
+            } else {
+                page++;
+            }
+        }
+    }
+    return allData;
+}
+const CACHE_KEY_INGRESOS = `dashboard_ingresos_${YEAR}`;
+const CACHE_KEY_EGRESOS = `dashboard_egresos_${YEAR}`;
+const CACHE_KEY_TIMESTAMP = `dashboard_timestamp_${YEAR}`;
+const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 horas
+
+function getCachedData() {
+    const timestampStr = localStorage.getItem(CACHE_KEY_TIMESTAMP);
+    if (!timestampStr) return null;
+    
+    const timestamp = parseInt(timestampStr, 10);
+    const now = Date.now();
+    if (now - timestamp > CACHE_EXPIRATION_MS) {
+        return null; // Cache expirado
+    }
+    
+    try {
+        const ingresos = JSON.parse(localStorage.getItem(CACHE_KEY_INGRESOS));
+        const egresos = JSON.parse(localStorage.getItem(CACHE_KEY_EGRESOS));
+        if (ingresos && egresos) {
+            return { ingresos, egresos };
+        }
+    } catch (e) {
+        console.error("Error leyendo cache local", e);
+    }
+    return null;
+}
+
+function setCachedData(ingresos, egresos) {
+    try {
+        localStorage.setItem(CACHE_KEY_INGRESOS, JSON.stringify(ingresos));
+        localStorage.setItem(CACHE_KEY_EGRESOS, JSON.stringify(egresos));
+        localStorage.setItem(CACHE_KEY_TIMESTAMP, Date.now().toString());
+    } catch (e) {
+        console.error("Error guardando en cache local", e);
+    }
+}
+
+// Carga asíncrona de datos desde Supabase con paginación local completa y cache local de 24 horas
 async function loadData() {
     try {
-        const [ingresosResp, egresosResp] = await Promise.all([
-            fetch(`./../data/ingresos-${YEAR}.json`), 
-            fetch(`./../data/egresos-${YEAR}.json`)
-        ]);
-        if (!ingresosResp.ok || !egresosResp.ok) throw new Error('No se pudieron cargar los JSON');
-        const ingresosJson = await ingresosResp.json();
-        const egresosJson = await egresosResp.json();
-        ingresosData = (ingresosJson.Ingresos || ingresosJson).filter(item => item.anno === YEAR);
-        egresosData = (egresosJson.Egresos || egresosJson).filter(item => item.anno === YEAR);
+        // 1. Intentar cargar desde cache
+        const cache = getCachedData();
+        if (cache) {
+            console.log(`Cargando datos del año ${YEAR} desde cache local.`);
+            ingresosData = cache.ingresos;
+            egresosData = cache.egresos;
+        } else {
+            console.log(`Cache ausente o expirado. Consultando Supabase para el año ${YEAR}...`);
+            // Obtenemos todos los registros del año de una sola vez
+            const [ingresos, egresos] = await Promise.all([
+                fetchAllFromTable('ingresos-cerrados', YEAR),
+                fetchAllFromTable('egresos-cerrados', YEAR)
+            ]);
+            
+            ingresosData = ingresos;
+            egresosData = egresos;
+            
+            // Guardar en cache local
+            setCachedData(ingresos, egresos);
+        }
+        
         document.getElementById('monthFilter').addEventListener('change', (e) => { currentMonth = e.target.value; updateUIAndCharts(); });
         
         setupToggleButtons();
         updateUIAndCharts();
+        hideLoading();
     } catch (error) {
-        document.body.innerHTML = `<div style="padding:40px;text-align:center;color:red;">Error: ${error.message}<br>Verifica que los JSON tengan datos con anno=${YEAR}</div>`;
+        hideLoading();
+        document.body.innerHTML = `<div style="padding:40px;text-align:center;color:red;font-weight:bold;font-family:sans-serif;">Error al conectar con Supabase: ${error.message}</div>`;
     }
 }
 

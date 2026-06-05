@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Club de Tenis - Dashboard Financiero</title>
+    <title>Club de Tenis - Dashboard Financiero (Supabase)</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="index-2026-04.css">
+    <link rel="stylesheet" href="index-2023-05.css">
 </head>
 <body>
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Cargando datos desde Supabase...</p>
+</div>
+
 <div class="dashboard-container">
     <div class="header">
         <div class="title-section">
             <h1><i class="fas fa-table-tennis"></i> Club de Tenis - Dashboard Financiero</h1>
-            <p>Análisis de composición | Ingresos y Egresos <span id="yearDisplay"></span></p>
+            <p>Análisis de composición | Ingresos y Egresos <span id="yearDisplay"></span> (Supabase)</p>
         </div>
         <div class="badge-year" id="badgeYear">
             <i class="fas fa-calendar-alt"></i> Año <span id="yearBadge"></span>
@@ -129,7 +135,7 @@
     <!-- Evolución REGULAR -->
     <div id="regularEvolutionSection" class="composition-row">
         <div class="composition-card regular-card full-width">
-            <h3><i class="fas fa-chart-line" style="color:#1e7554;"></i> Evolución Mensual - CUOTA MENSUAL REGULAR ($43.500)</h3>
+            <h3><i class="fas fa-chart-line" style="color:#1e7554;"></i> Evolución Mensual - CUOTA MENSUAL REGULAR ($43.500 / $35.000)</h3>
             <div class="metric-cards">
                 <div class="metric-card"><div class="label">Total Recaudado</div><div class="value" id="totalRegularAnual">$0</div></div>
                 <div class="metric-card"><div class="label">Promedio Socios</div><div class="value" id="promedioSociosRegular">0</div></div>
@@ -165,10 +171,9 @@
         </div>
     </div>
 
-
-    <div class="footer"><i class="fas fa-mouse-pointer"></i> Dashboard configurable por año mediante variable global.</div>
+    <div class="footer"><i class="fas fa-mouse-pointer"></i> Conectado directamente a la base de datos Supabase.</div>
 </div>
 
-<script src="index-2026-04.js" defer></script>
+<script src="index-2023-05.js" defer></script>
 </body>
 </html>
