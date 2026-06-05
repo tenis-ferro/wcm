@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Conexión - Supabase</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 30px; 
+            background-color: #f4f7f6; 
+            color: #333;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+        }
+        h1 { color: #1e293b; margin-top: 0; }
+        .btn { 
+            background-color: #3b82f6; 
+            color: white; 
+            padding: 12px 20px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .btn:hover { background-color: #2563eb; }
+        .btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 25px; 
+            font-size: 14px;
+        }
+        th, td { 
+            border: 1px solid #e2e8f0; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #0f172a; 
+            color: white; 
+        }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        
+        /* Zona de estado */
+        #status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+            font-weight: bold;
+        }
+        .error { background-color: #fee2e2; color: #991b1b; }
+        .success { background-color: #dcfce7; color: #166534; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Visualizador de Ingresos Cerrados</h1>
+        <p>Prueba de conexión directa desde el Frontend (Vanilla JS) hacia la base de datos Postgres de Supabase.</p>
+        
+        <button id="btnCargar" class="btn">Consultar Últimos 20 Registros</button>
+        
+        <div id="status"></div>
+        
+        <table id="tablaIngresos" style="display: none;">
+            <thead>
+                <tr>
+                    <th>ID Ingreso</th>
+                    <th>Fecha</th>
+                    <th>Socio</th>
+                    <th>Importe</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpoTabla">
+                </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // =======================================================================
+        // CONFIGURACIÓN: Pega aquí los datos exactos de la pantalla de Supabase
+        // =======================================================================
+        const SUPABASE_URL = "https://fwnoluzrshhtmypwevnt.supabase.co"; 
+        const SUPABASE_ANON_KEY = "sb_publishable_f1VuE7CRyuLNxxwMAS19WA_F_1lWIoD"; 
+        // =======================================================================
+
+        // Inicializar el cliente Supabase exponiendo el objeto global 'window.supabase'
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Referencias a los elementos del HTML
+        const btnCargar = document.getElementById('btnCargar');
+        const tablaIngresos = document.getElementById('tablaIngresos');
+        const cuerpoTabla = document.getElementById('cuerpoTabla');
+        const statusDiv = document.getElementById('status');
+
+        // Función asíncrona para consultar la tabla ingresos-cerrados
+        async function cargarDatos() {
+            // Validar que hayas cambiado la clave de ejemplo
+            if(SUPABASE_ANON_KEY === "PEGA_AQUÍ_EL_TEXTO_LARGO_DE_LA_FILA_ANON_PUBLIC") {
+                mostrarMensaje("Por favor, reemplaza la clave de ejemplo por tu clave ANON real en el código.", "error");
+                return;
+            }
+
+            try {
+                // Cambiar estados visuales
+                btnCargar.textContent = "Buscando en la nube...";
+                btnCargar.disabled = true;
+                statusDiv.style.display = "none";
+
+                // Petición a Supabase usando nuestra variable 'db'
+                const { data, error } = await db  // <--- Cambiado aquí también
+                    .from('ingresos-cerrados') 
+                    .select('iding, fecha, nomsocio, importe, categoria') 
+                    .order('iding', { ascending: false }) 
+                    .limit(20);
+
+                // Si Supabase responde con un error lo capturamos
+                if (error) throw error;
+
+                // Limpiar contenido previo de la tabla
+                cuerpoTabla.innerHTML = "";
+
+                // Validar si la tabla existe pero está vacía
+                if (data.length === 0) {
+                    mostrarMensaje("Conexión exitosa, pero la tabla 'ingresos-cerrados' no devolvió registros. ¿Olvidaste activar/guardar la política RLS con 'true'?", "error");
+                    return;
+                }
+
+                // Recorrer los 10,000 registros filtrados (solo nos llegaron los 20 superiores)
+                data.forEach(ingreso => {
+                    const fila = document.createElement('tr');
+                    
+                    // Convertir la fecha ISO a formato local legible (DD/MM/AAAA)
+                    const fechaLocal = new Date(ingreso.fecha).toLocaleDateString();
+
+                    fila.innerHTML = `
+                        <td><strong>${ingreso.iding}</strong></td>
+                        <td>${fechaLocal}</td>
+                        <td>${ingreso.nomsocio}</td>
+                        <td>$${Number(ingreso.importe).toLocaleString('es-CL')}</td>
+                        <td>${ingreso.categoria}</td>
+                    `;
+                    cuerpoTabla.appendChild(fila);
+                });
+
+                // Mostrar la tabla con los datos nuevos
+                tablaIngresos.style.display = "table";
+                mostrarMensaje(`¡Conectado! Se cargaron los últimos ${data.length} registros exitosamente.`, "success");
+
+            } catch (err) {
+                console.error("Detalle del error:", err);
+                mostrarMensaje("Error al conectar con Supabase: " + err.message, "error");
+            } finally {
+                // Restaurar el botón
+                btnCargar.textContent = "Consultar Últimos 20 Registros";
+                btnCargar.disabled = false;
+            }
+        }
+
+        // Función auxiliar para mostrar alertas visuales en el HTML
+        function mostrarMensaje(texto, tipo) {
+            statusDiv.textContent = texto;
+            statusDiv.className = tipo; // Aplica la clase 'error' o 'success' del CSS
+            statusDiv.style.display = "block";
+        }
+
+        // Escuchar el click del botón para iniciar la consulta
+        btnCargar.addEventListener('click', cargarDatos);
+    </script>
+</body>
+</html>
