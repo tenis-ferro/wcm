@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="author" content="Club de Tenis Ferroviario Santiago">
+
+  <title>Reproductor MP4 Local | Club de Tenis Ferroviario Santiago</title>
+  <meta name="description" content="Reproduce tus videos de tenis e instrucciones en formato MP4 de forma local directamente en tu navegador, sin subirlos a internet.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon-ferro.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  
+  <!-- Video Player Custom CSS -->
+  <link href="assets/css/video-player.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top"></header>
+  <script src="assets/js/header-loader.js"></script>
+  <!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Reproductor de Video Local</h2>
+          <ol>
+            <li><a href="index.html">Inicio</a></li>
+            <li>Reproductor</li>
+          </ol>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Player Section ======= -->
+    <section class="inner-page player-section">
+      <div class="container" data-aos="fade-up">
+        
+        <div class="row mb-4">
+          <div class="col-lg-12 text-center">
+            <h1 style="color: var(--color-primary); font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 10px;">
+              <i class="bi bi-play-btn me-2"></i>Reproductor de Video MP4
+            </h1>
+            <p class="text-muted">Reproduce videos MP4 alojados localmente en tu computadora de forma directa, privada y veloz.</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Left Column: Video Area -->
+          <div class="col-lg-8 mb-4">
+            
+            <!-- Drag and Drop Area -->
+            <div id="drop-zone" class="video-drop-zone">
+              <i class="bi bi-cloud-arrow-up"></i>
+              <h3>Arrastra tu video aquí</h3>
+              <p>Arrastra tu archivo MP4 (.mp4, .m4v, .webm) o haz clic en el botón de abajo para seleccionarlo desde tu estación de trabajo.</p>
+              <button class="btn btn-select-file mt-2">
+                <i class="bi bi-folder2-open me-2"></i>Examinar Archivos
+              </button>
+              <!-- Hidden File Input -->
+              <input type="file" id="video-file" class="file-select-minimal" accept="video/mp4,video/m4v,video/webm,video/*">
+            </div>
+
+            <!-- Custom Video Player Container -->
+            <div id="player-container" class="premium-player-container show-controls fit-video">
+              
+              <!-- Video Element -->
+              <video id="player-video" playsinline>
+                Tu navegador no soporta la reproducción de video HTML5.
+              </video>
+
+              <!-- Center Play/Pause Ripple State Overlay -->
+              <div id="play-state-overlay" class="play-state-overlay">
+                <i class="bi bi-play-fill"></i>
+              </div>
+
+              <!-- Controls Overlay -->
+              <div class="video-controls-overlay">
+                
+                <!-- Row 1: Timeline -->
+                <div class="controls-row-timeline">
+                  <div id="timeline-container" class="timeline-container">
+                    <div id="timeline-buffer" class="timeline-buffer"></div>
+                    <div id="timeline-progress" class="timeline-progress"></div>
+                    <div id="timeline-handle" class="timeline-handle"></div>
+                    <div id="timeline-tooltip" class="timeline-tooltip">00:00</div>
+                  </div>
+                </div>
+
+                <!-- Row 2: Buttons -->
+                <div class="controls-row-buttons">
+                  <!-- Left side controls -->
+                  <div class="controls-left-group">
+                    <!-- Play/Pause -->
+                    <button id="btn-play-pause" class="ctrl-btn" title="Reproducir/Pausar (Espacio)">
+                      <i class="bi bi-play-fill"></i>
+                    </button>
+
+                    <!-- Volume group -->
+                    <div class="volume-group">
+                      <button id="btn-mute" class="ctrl-btn" title="Silenciar/Activar Sonido (M)">
+                        <i class="bi bi-volume-up-fill"></i>
+                      </button>
+                      <div class="volume-slider-container">
+                        <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.05" value="1" title="Volumen">
+                      </div>
+                    </div>
+
+                    <!-- Time display -->
+                    <div id="time-display" class="time-display">00:00 / 00:00</div>
+                  </div>
+
+                  <!-- Right side controls -->
+                  <div class="controls-right-group">
+                    <!-- Playback speed dropdown -->
+                    <div class="speed-menu-container">
+                      <button id="btn-speed" class="ctrl-btn" title="Velocidad de reproducción (S)">
+                        <span style="font-size: 13px; font-weight: 600; font-family: 'Poppins', sans-serif;">1.0x</span>
+                      </button>
+                      <div id="speed-options" class="speed-options">
+                        <button class="speed-option" data-speed="0.5">0.5x</button>
+                        <button class="speed-option" data-speed="0.75">0.75x</button>
+                        <button class="speed-option active" data-speed="1">1.0x</button>
+                        <button class="speed-option" data-speed="1.25">1.25x</button>
+                        <button class="speed-option" data-speed="1.5">1.5x</button>
+                        <button class="speed-option" data-speed="2">2.0x</button>
+                      </div>
+                    </div>
+
+                    <!-- Loop video -->
+                    <button id="btn-loop" class="ctrl-btn" title="Repetir Video (L)">
+                      <i class="bi bi-arrow-right-short"></i>
+                    </button>
+
+                    <!-- Picture-in-Picture -->
+                    <button id="btn-pip" class="ctrl-btn" title="Ventana flotante / PiP (P)">
+                      <i class="bi bi-pip"></i>
+                    </button>
+
+                    <!-- Fullscreen -->
+                    <button id="btn-fullscreen" class="ctrl-btn" title="Pantalla Completa (F)">
+                      <i class="bi bi-fullscreen"></i>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Video Metadata Info Panel -->
+            <div class="video-info-panel">
+              <div class="panel-title">
+                <i class="bi bi-info-circle-fill"></i>Detalles del Archivo
+              </div>
+              <div class="metadata-grid">
+                <div class="metadata-item">
+                  <span class="metadata-label">Nombre del archivo</span>
+                  <span id="meta-name" class="metadata-value">Ningún archivo cargado</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="metadata-label">Tamaño</span>
+                  <span id="meta-size" class="metadata-value">--</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="metadata-label">Tipo / Códec</span>
+                  <span id="meta-type" class="metadata-value">--</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="metadata-label">Duración</span>
+                  <span id="meta-duration" class="metadata-value">--</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Settings & Shortcuts -->
+          <div class="col-lg-4">
+            
+            <!-- Video Settings Adjustments -->
+            <div class="video-settings-panel">
+              <div class="panel-title">
+                <i class="bi bi-sliders"></i>Ajustes de Pantalla
+              </div>
+              <div class="mb-4">
+                <label class="metadata-label mb-2">Relación de Aspecto</label>
+                <div class="aspect-ratio-btn-group">
+                  <button class="aspect-btn active" data-aspect="fit">Ajustar (Fit)</button>
+                  <button class="aspect-btn" data-aspect="cover">Llenar (Cover)</button>
+                  <button class="aspect-btn" data-aspect="stretch">Estirar (Stretch)</button>
+                </div>
+              </div>
+
+              <div>
+                <label class="metadata-label mb-2">Subtítulos (VTT / SRT)</label>
+                <div>
+                  <label for="subtitle-file" class="custom-subtitle-input-label">
+                    <i class="bi bi-file-earmark-text"></i>Cargar Subtítulos
+                  </label>
+                  <input type="file" id="subtitle-file" class="file-select-minimal" accept=".vtt,.srt">
+                </div>
+                <small class="text-muted d-block mt-2">Soporta formatos estándar VTT y SRT con conversión automática integrada.</small>
+              </div>
+            </div>
+
+            <!-- Recent Sessions Files -->
+            <div class="video-settings-panel">
+              <div class="panel-title d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-clock-history"></i>Historial de Sesión</span>
+                <button id="btn-clear-recent" class="btn btn-sm btn-link text-danger p-0 border-0" style="font-size: 12px; text-decoration: none;">
+                  Limpiar
+                </button>
+              </div>
+              <ul id="recent-list" class="recent-list">
+                <li class="recent-empty">No hay videos abiertos en esta sesión</li>
+              </ul>
+            </div>
+
+            <!-- Keyboard Shortcuts Cheatsheet -->
+            <div class="video-settings-panel">
+              <div class="panel-title">
+                <i class="bi bi-keyboard"></i>Atajos de Teclado
+              </div>
+              <div class="shortcuts-list">
+                <div class="shortcut-item">
+                  <span>Play / Pause</span>
+                  <span class="shortcut-key">Espacio</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Retroceder 5s</span>
+                  <span class="shortcut-key">←</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Avanzar 5s</span>
+                  <span class="shortcut-key">→</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Volumen +</span>
+                  <span class="shortcut-key">↑</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Volumen -</span>
+                  <span class="shortcut-key">↓</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Pantalla Completa</span>
+                  <span class="shortcut-key">F</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Silenciar (Mute)</span>
+                  <span class="shortcut-key">M</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Modo Flotante PiP</span>
+                  <span class="shortcut-key">P</span>
+                </div>
+                <div class="shortcut-item">
+                  <span>Repetir (Loop)</span>
+                  <span class="shortcut-key">L</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- End Player Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer"></footer>
+  <script src="assets/js/footer-loader.js"></script>
+  <!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Video Player Custom JS Controller -->
+  <script src="assets/js/video-player.js"></script>
+
+</body>
+
+</html>
