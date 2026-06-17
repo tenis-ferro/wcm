@@ -114,17 +114,60 @@ input, select {
     border-radius: 10px;
     border: 1px solid var(--border);
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.match-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-color: #bdc3c7;
+}
+
+.match-row.is-final-match {
+    border: 1.5px solid var(--gold-dark);
+    background: linear-gradient(135deg, #ffffff 0%, #fffdf0 100%);
+    box-shadow: 0 2px 8px rgba(230, 172, 57, 0.12);
+}
+
+.match-row.is-final-match:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(230, 172, 57, 0.25);
+    border-color: var(--gold-dark);
 }
 
 .col-info { display: flex; flex-direction: column; gap: 4px; }
-.category-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 5px; color: #fff; font-weight: 800; text-transform: uppercase; }
+.category-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 5px; color: #fff; font-weight: 800; text-transform: uppercase; width: fit-content; }
 .match-date { font-size: 0.75rem; color: var(--text-muted); }
 
+
 .col-players { display: flex; align-items: center; gap: 12px; justify-content: center; }
-.player { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+.player { display: flex; align-items: center; gap: 6px; color: var(--text-muted); position: relative; }
 .is-winner { color: var(--text-main); font-weight: 700; }
 .winner-icon { display: none; color: var(--gold-dark); }
 .is-winner .winner-icon { display: inline; }
+
+.champion-badge {
+    display: none;
+    background: linear-gradient(135deg, #ffc451, #e6ac39);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    align-items: center;
+    white-space: nowrap;
+}
+
+.is-champion .champion-badge {
+    display: inline-flex;
+}
+
+.is-champion .winner-icon {
+    display: none;
+}
 
 .col-score { text-align: right; font-weight: 800; font-size: 1.05rem; }
 
@@ -141,6 +184,10 @@ input, select {
 .modal-content { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; position: relative; text-align: center; }
 .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
 .score-big { font-size: 2rem; font-weight: 800; color: #d32f2f; margin: 15px 0; }
+.player-big { font-size: 1.15rem; color: var(--text-muted); margin: 5px 0; }
+.player-big.is-winner { font-size: 1.25rem; font-weight: bold; color: var(--text-main); }
+.player-big.is-winner::after { content: " 🏆"; color: var(--gold-dark); }
+.player-big.is-champion::after { content: " 👑 ¡Campeón!"; color: var(--gold-dark); }
 
 @media (max-width: 767px) {
     .match-row { grid-template-columns: 1fr 100px; padding: 12px; }

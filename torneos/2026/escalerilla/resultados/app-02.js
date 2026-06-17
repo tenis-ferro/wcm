@@ -73,6 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const cleanCat = match.Categoria.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
             badge.classList.add(`cat-${cleanCat}`);
 
+            const isFinal = match.Fase && match.Fase.trim() === "Final";
+            if (isFinal) {
+                row.classList.add('is-final-match');
+            }
+
             if (match.Fecha) {
                 const dateObj = new Date(match.Fecha);
                 clone.querySelector('.match-date').textContent = dateObj.toLocaleDateString('es-CL', { day: '2-digit', month: 'short' });
@@ -87,8 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
             p1Block.querySelector('.player-name').innerHTML = htmlNombre(p1Name);
             p2Block.querySelector('.player-name').innerHTML = htmlNombre(p2Name);
 
-            if (match.Ganador === p1Name) p1Block.classList.add('is-winner');
-            if (match.Ganador === p2Name) p2Block.classList.add('is-winner');
+            if (match.Ganador === p1Name) {
+                p1Block.classList.add('is-winner');
+                if (isFinal) p1Block.classList.add('is-champion');
+            }
+            if (match.Ganador === p2Name) {
+                p2Block.classList.add('is-winner');
+                if (isFinal) p2Block.classList.add('is-champion');
+            }
 
             clone.querySelector('.score-value').textContent = match.Resultado;
             row.addEventListener('click', () => abrirModal(match));
@@ -97,11 +108,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function abrirModal(match) {
-        document.getElementById('modalCat').textContent = match.Categoria;
+        const modalCat = document.getElementById('modalCat');
+        const isFinal = match.Fase && match.Fase.trim() === "Final";
+
+        modalCat.textContent = isFinal ? `${match.Categoria} - ¡GRAN FINAL!` : match.Categoria;
         document.getElementById('modalDate').textContent = new Date(match.Fecha).toLocaleDateString('es-CL', { dateStyle: 'full' });
-        document.getElementById('p1Name').textContent = match["Jugador 1"];
-        document.getElementById('p2Name').textContent = match["Jugador 2"];
+        
+        const p1Name = match["Jugador 1"];
+        const p2Name = match["Jugador 2"];
+        document.getElementById('p1Name').textContent = p1Name;
+        document.getElementById('p2Name').textContent = p2Name;
         document.getElementById('finalScore').textContent = match.Resultado;
+
+        const p1Big = document.getElementById('p1Name').parentElement;
+        const p2Big = document.getElementById('p2Name').parentElement;
+        p1Big.className = 'player-big';
+        p2Big.className = 'player-big';
+
+        if (match.Ganador === p1Name) {
+            p1Big.classList.add('is-winner');
+            if (isFinal) p1Big.classList.add('is-champion');
+        }
+        if (match.Ganador === p2Name) {
+            p2Big.classList.add('is-winner');
+            if (isFinal) p2Big.classList.add('is-champion');
+        }
+
         modal.style.display = 'flex';
     }
 

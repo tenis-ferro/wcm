@@ -19,6 +19,8 @@
     activeItem = 'torneos';
   } else if (path.includes('estatutos.html')) {
     activeItem = 'estatutos';
+  } else if (path.includes('reproductor.html')) {
+    activeItem = 'reproductor';
   }
 
   const isHome = activeItem === 'inicio';
@@ -53,6 +55,7 @@
             <li><a class="nav-link scrollto ${activeItem === 'torneos' ? 'active' : ''}" href="${siteRoot}torneos.html">Torneos</a></li>
             <li><a class="nav-link scrollto" href="${siteRoot}index.html#directorio">Directorio</a></li> 
             <li><a class="nav-link scrollto ${activeItem === 'estatutos' ? 'active' : ''}" href="${siteRoot}estatutos.html">Estatutos</a></li>
+            <li><a class="nav-link scrollto ${activeItem === 'reproductor' ? 'active' : ''}" href="${siteRoot}reproductor.html">Reproductor</a></li>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
