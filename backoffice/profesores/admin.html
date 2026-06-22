@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Dashboard Administrador</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- Pantalla de carga (Overlay) -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p id="loadingText">Cargando...</p>
+</div>
+
+<div class="container">
+    <!-- ==================== RESERVATIONS DASHBOARD ==================== -->
+    <div id="dashboardSection">
+        <!-- Header -->
+        <div class="header">
+            <div class="title-section">
+                <h1><i class="fas fa-calendar-check"></i> Sistema de Reservas - Administrador</h1>
+                <p>Gestión y transparencia de asignación de canchas de tenis</p>
+            </div>
+            <div class="badge-info"><i class="fas fa-clock"></i> Club de Tenis - 08:00 a 22:00</div>
+        </div>
+
+        <!-- User bar info -->
+        <div class="user-info-bar">
+            <div>
+                <span id="userNameDisplay"><i class="fas fa-user-circle"></i> Cargando usuario...</span>
+            </div>
+            <button class="btn-logout" id="btnSignOut"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+
+        <!-- Dynamic Stats Row -->
+        <div class="stats-row" id="adminStatsRow" style="margin-bottom: 24px;">
+            <div class="stat-card" style="border-left: 4px solid #d97706;">
+                <div class="stat-label"><i class="fas fa-clock text-warning"></i> Solicitudes Pendientes</div>
+                <div class="stat-number" id="statPendingCount">0</div>
+                <div style="font-size: 0.75rem; color: #5a6e62;">Por asignar cancha</div>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #15803d;">
+                <div class="stat-label"><i class="fas fa-check-circle text-success"></i> Reservas Aprobadas</div>
+                <div class="stat-number" id="statApprovedCount">0</div>
+                <div style="font-size: 0.75rem; color: #5a6e62;">Canchas asignadas</div>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #b91c1c;">
+                <div class="stat-label"><i class="fas fa-times-circle text-danger"></i> Reservas Rechazadas</div>
+                <div class="stat-number" id="statRejectedCount">0</div>
+                <div style="font-size: 0.75rem; color: #5a6e62;">Solicitudes denegadas</div>
+            </div>
+        </div>
+
+        <!-- Dashboard panel contents wrapper -->
+        <div class="tabs-container">
+            <!-- Navigation Tabs -->
+            <div class="tabs-header" id="tabsHeaderContainer">
+                <button class="tab-btn active" data-tab="tab-admin-pendientes"><i class="fas fa-bell"></i> Pendientes</button>
+                <button class="tab-btn" data-tab="tab-admin-equidad"><i class="fas fa-balance-scale"></i> Distribución</button>
+                <button class="tab-btn" data-tab="tab-admin-pagos"><i class="fas fa-wallet"></i> Estadísticas</button>
+                <button class="tab-btn" data-tab="tab-admin-historial"><i class="fas fa-history"></i> Historial</button>
+                <button class="tab-btn" data-tab="tab-admin-calendario"><i class="fas fa-calendar-alt"></i> Calendario</button>
+                <button class="tab-btn" data-tab="tab-admin-canchas"><i class="fas fa-cogs"></i> Configuración</button>
+            </div>
+
+            <!-- ==================== TABS CONTENT FOR ADMIN ==================== -->
+            <div id="adminTabsContainer">
+                <!-- Tab 1: Pendientes de Aprobación -->
+                <div id="tab-admin-pendientes" class="tab-content active">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                        <h3 style="margin: 0; color: #1e3a2f;"><i class="fas fa-bell"></i> Solicitudes Pendientes de Cancha</h3>
+                        <button class="btn-primary" id="btnApproveAllDefault" style="max-width: 280px; background-color: #15803d; border: none; font-size: 0.85rem; padding: 8px 12px; border-radius: 12px;"><i class="fas fa-check-double"></i> Aprobación Masiva (Cancha 6)</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="adminPendientesTable">
+                            <thead>
+                                <tr>
+                                    <th>Profesor</th>
+                                    <th>Fecha</th>
+                                    <th>Horario</th>
+                                    <th>Alumno</th>
+                                    <th>Notas Profesor</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminPendientesBody">
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding: 24px; color: #1e5c3a;">
+                                        <div class="spinner-border spinner-border-sm text-success me-2" role="status" style="width: 1.1rem; height: 1.1rem;"></div>
+                                        Cargando solicitudes pendientes...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Equidad de Asignaciones -->
+                <div id="tab-admin-equidad" class="tab-content">
+                    <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-balance-scale"></i> Equidad de Asignaciones</h3>
+                    <div class="card shadow-sm border-0 p-4" style="border-radius: 24px; background: #fbfdfc; border: 1px solid #e8f0ea; max-width: 600px; margin: 0 auto;">
+                        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 20px; line-height: 1.5;">
+                            Compara las asignaciones aprobadas por profesor para asegurar un reparto de bloques justo en el tiempo.
+                        </p>
+                        <div id="equityBreakdownContainer">
+                            <div style="text-align:center; padding: 20px; color: #1e5c3a;">
+                                <div class="spinner-border spinner-border-sm text-success me-2" role="status"></div>
+                                Cargando equidad...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 5: Estadísticas de Pagos -->
+                <div id="tab-admin-pagos" class="tab-content">
+                    <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-wallet"></i> Estadísticas y Reporte de Pagos</h3>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 p-4" style="border-radius: 24px; background: #fbfdfc; border: 1px solid #e8f0ea; height: 100%;">
+                                <h4 style="font-size: 1rem; font-weight: 700; color: #1e5c3a; margin-bottom: 15px;"><i class="fas fa-user-tie"></i> Acumulado por Profesor</h4>
+                                <div class="table-container">
+                                    <table class="data-table" style="font-size: 0.85rem;" id="adminPagosAcumuladoTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Profesor</th>
+                                                <th style="text-align: center;">Tickets</th>
+                                                <th style="text-align: right;">Total CLP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="adminPagosAcumuladoBody">
+                                            <tr>
+                                                <td colspan="3" style="text-align:center; padding: 20px; color: #1e5c3a;">
+                                                    <div class="spinner-border spinner-border-sm text-success me-2" role="status"></div>
+                                                    Cargando acumulados...
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 p-4" style="border-radius: 24px; background: #fbfdfc; border: 1px solid #e8f0ea; height: 100%;">
+                                <h4 style="font-size: 1rem; font-weight: 700; color: #1e5c3a; margin-bottom: 15px;"><i class="fas fa-calendar-alt"></i> Desglose por Mes y Profesor</h4>
+                                <div class="table-container">
+                                    <table class="data-table" style="font-size: 0.85rem;" id="adminPagosMensualTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Mes</th>
+                                                <th>Profesor</th>
+                                                <th style="text-align: center;">Tickets</th>
+                                                <th style="text-align: right;">Total CLP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="adminPagosMensualBody">
+                                            <tr>
+                                                <td colspan="4" style="text-align:center; padding: 20px; color: #1e5c3a;">
+                                                    <div class="spinner-border spinner-border-sm text-success me-2" role="status"></div>
+                                                    Cargando mensuales...
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Historial General -->
+                <div id="tab-admin-historial" class="tab-content">
+                    <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-history"></i> Historial Completo de Reservas</h3>
+                    <div class="table-container">
+                        <table class="data-table" id="adminHistorialTable">
+                            <thead>
+                                <tr>
+                                    <th>Profesor</th>
+                                    <th>Fecha</th>
+                                    <th>Horario</th>
+                                    <th>Estado</th>
+                                    <th>Pago</th>
+                                    <th>Ticket</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminHistorialBody">
+                                <tr>
+                                    <td colspan="7" style="text-align:center; padding: 24px; color: #1e5c3a;">
+                                        <div class="spinner-border spinner-border-sm text-success me-2" role="status" style="width: 1.1rem; height: 1.1rem;"></div>
+                                        Cargando historial...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Canchas y Profesores -->
+                <div id="tab-admin-canchas" class="tab-content">
+                    <div class="form-grid">
+                        <!-- Courts Column -->
+                        <div>
+                            <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-tennis-ball"></i> Canchas del Club</h3>
+                            <div class="table-container" style="margin-bottom: 20px;">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre Cancha</th>
+                                            <th>Estado</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminCanchasBody">
+                                        <!-- Injected courts -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Add Court Form -->
+                            <form id="addCourtForm" style="background: #f8fcf9; padding: 15px; border-radius: 16px; border: 1px dashed #bdd4c5;">
+                                <h4 style="font-size: 0.9rem; margin-bottom: 10px; color: #1e5c3a;"><i class="fas fa-plus"></i> Registrar Nueva Cancha</h4>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <input type="text" id="courtName" required placeholder="Nombre de Cancha, Ej: Cancha 3 - Arcilla">
+                                </div>
+                                <button type="submit" class="btn-primary" style="padding: 8px 12px; font-size: 0.85rem;"><i class="fas fa-save"></i> Guardar Cancha</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Teachers Column -->
+                        <div>
+                            <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-id-card"></i> Profesores Registrados</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre Completo</th>
+                                            <th>Teléfono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminProfesoresBody">
+                                        <!-- Injected teachers -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Calendario Diario -->
+            <div id="tab-admin-calendario" class="tab-content">
+                <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-calendar-alt"></i> Calendario Diario de Asignaciones</h3>
+                
+                <div class="calendar-header-actions mb-4 p-3 bg-white rounded-4 border" style="border-color: #e8f0ea !important;">
+                    <div class="row align-items-center g-3">
+                        <div class="col-12 col-md-auto d-flex align-items-center gap-2">
+                            <label for="calendarDateInput" class="m-0 fw-bold text-nowrap"><i class="fas fa-calendar-day"></i> Seleccionar Fecha:</label>
+                            <input type="date" id="calendarDateInput" class="form-control" style="max-width: 170px; border-radius: 10px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div class="col-12 col-md-auto d-flex gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-success px-3" id="btnCalPrev" style="border-radius: 8px;"><i class="fas fa-chevron-left"></i> Ayer</button>
+                            <button type="button" class="btn btn-sm btn-success px-3" id="btnCalToday" style="border-radius: 8px;">Hoy</button>
+                            <button type="button" class="btn btn-sm btn-outline-success px-3" id="btnCalNext" style="border-radius: 8px;">Mañana <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="calendar-table-wrapper" style="overflow-x: auto;">
+                        <table class="calendar-grid-table" id="calendarGridTable" style="width: 100%; border-collapse: collapse; min-width: 700px;">
+                            <thead>
+                                <tr id="calendarGridHeader">
+                                    <!-- Dynamic headers will be injected here -->
+                                </tr>
+                            </thead>
+                            <tbody id="calendarGridBody">
+                                <!-- Dynamic rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL 1: APROBACIÓN DE RESERVA ==================== -->
+<div id="approveModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: 2px solid #e8f0ea;">
+                <h3 class="modal-title" style="font-size: 1.25rem; color: #1e3a2f;"><i class="fas fa-check-circle" style="color: #15803d;"></i> Aprobar Reserva</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeApproveModal" style="font-size: 0.85rem;"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Conflict warning box -->
+                <div class="conflict-warning" id="conflictWarningBox"></div>
+                <div class="conflict-warning" id="overlapPendingAlert"></div>
+
+                <form id="approveForm">
+                    <input type="hidden" id="approveReservaId">
+                    <input type="hidden" id="approveReservaFecha">
+                    <input type="hidden" id="approveReservaInicio">
+                    <input type="hidden" id="approveReservaFin">
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="approveCanchaSelect"><i class="fas fa-tennis-ball"></i> Asignar Cancha:</label>
+                        <select id="approveCanchaSelect" required>
+                            <option value="" disabled selected>Selecciona una cancha...</option>
+                            <!-- Injected active courts -->
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label><i class="fas fa-id-card"></i> Condición del Alumno</label>
+                        <div class="d-flex align-items-center gap-2" style="background: #f4fbf6; border: 1px solid #d1e2d7; padding: 10px 14px; border-radius: 12px;">
+                            <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="approveEsSocio" style="width: 2.2em; height: 1.1em; cursor: pointer;">
+                                <label class="form-check-label m-0" for="approveEsSocio" style="cursor: pointer; font-weight: 600; color: #1e3a2f; font-size: 0.9rem;">¿Es Socio del club?</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label><i class="fas fa-cash-register"></i> Estado de Pago</label>
+                        <div class="d-flex align-items-center gap-2" style="background: #f4fbf6; border: 1px solid #d1e2d7; padding: 10px 14px; border-radius: 12px;">
+                            <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="approvePaidSwitch" style="width: 2.2em; height: 1.1em; cursor: pointer;">
+                                <label class="form-check-label m-0" for="approvePaidSwitch" style="cursor: pointer; font-weight: 600; color: #1e3a2f; font-size: 0.9rem;">¿Reserva Pagada?</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="approvePaymentFieldsGroup" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                        <h4 style="font-size: 0.9rem; font-weight: 700; color: #1e293b; margin-bottom: 12px;"><i class="fas fa-receipt"></i> Datos de Pago</h4>
+                        <div class="row g-2">
+                            <div class="col-6 form-group">
+                                <label for="approveNumeroTicket" style="font-size: 0.8rem; margin-bottom: 4px;">Número Ticket:</label>
+                                <input type="text" id="approveNumeroTicket" placeholder="Ej: 1243">
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="approveMonto" style="font-size: 0.8rem; margin-bottom: 4px;">Monto ($):</label>
+                                <input type="number" id="approveMonto" placeholder="Ej: 15000">
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="approveMetodoPago" style="font-size: 0.8rem; margin-bottom: 4px;">Método de Pago:</label>
+                                <select id="approveMetodoPago">
+                                    <option value="transferencia" selected>Transferencia</option>
+                                    <option value="efectivo">Efectivo</option>
+                                </select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="approvePaymentNotas" style="font-size: 0.8rem; margin-bottom: 4px;">Notas de Pago:</label>
+                                <input type="text" id="approvePaymentNotas" placeholder="Ej: Recibido por Admin">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="approveNotes"><i class="fas fa-pencil-alt"></i> Comentarios / Indicaciones adicionales:</label>
+                        <textarea id="approveNotes" rows="2" placeholder="Ej: Confirmada en Cancha 2. Traer pelotas nuevas."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Confirmar Aprobación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL 2: RECHAZO DE RESERVA ==================== -->
+<div id="rejectModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: 2px solid #e8f0ea;">
+                <h3 class="modal-title" style="font-size: 1.25rem; color: #1e3a2f;"><i class="fas fa-times-circle" style="color: #b91c1c;"></i> Rechazar Reserva</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeRejectModal" style="font-size: 0.85rem;"></button>
+            </div>
+            <div class="modal-body">
+                <form id="rejectForm">
+                    <input type="hidden" id="rejectReservaId">
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="rejectNotes"><i class="fas fa-sticky-note"></i> Motivo de Rechazo (Notas Administrador):</label>
+                        <textarea id="rejectNotes" required rows="3" placeholder="Indicar el motivo (ej: Canchas ocupadas por torneo, mantención en progreso, etc.)."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="background: #b91c1c;"><i class="fas fa-times"></i> Confirmar Rechazo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ==================== MODAL 5: REGISTRO/EDICIÓN DE PAGO ==================== -->
+<div id="paymentModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: 2px solid #e8f0ea;">
+                <h3 class="modal-title" style="font-size: 1.25rem; color: #1e3a2f;"><i class="fas fa-credit-card" style="color: #15803d;"></i> Registrar / Editar Pago</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closePaymentModal" style="font-size: 0.85rem;"></button>
+            </div>
+            <div class="modal-body">
+                <p id="paymentModalTitle" style="font-weight: 600; font-size: 0.95rem; color: #2d5a3f; margin-bottom: 15px;"></p>
+                <form id="paymentForm">
+                    <input type="hidden" id="paymentReservaId">
+                    
+                    <div id="paymentFieldsGroup" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                        <h4 style="font-size: 0.9rem; font-weight: 700; color: #1e293b; margin-bottom: 12px;"><i class="fas fa-receipt"></i> Datos de Pago</h4>
+                        <div class="row g-2">
+                            <div class="col-6 form-group">
+                                <label for="paymentNumeroTicket" style="font-size: 0.8rem; margin-bottom: 4px;">Número Ticket:</label>
+                                <input type="text" id="paymentNumeroTicket" placeholder="Ej: 1243">
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="paymentMonto" style="font-size: 0.8rem; margin-bottom: 4px;">Monto ($):</label>
+                                <input type="number" id="paymentMonto" placeholder="Ej: 15000">
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="paymentMetodoPago" style="font-size: 0.8rem; margin-bottom: 4px;">Método de Pago:</label>
+                                <select id="paymentMetodoPago">
+                                    <option value="transferencia" selected>Transferencia</option>
+                                    <option value="efectivo">Efectivo</option>
+                                </select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="paymentPaymentNotas" style="font-size: 0.8rem; margin-bottom: 4px;">Notas de Pago:</label>
+                                <input type="text" id="paymentPaymentNotas" placeholder="Ej: Recibido por Admin">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Guardar Pago</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL 6: CONFIRMACIÓN APROBACIÓN MASIVA ==================== -->
+<div id="confirmBulkModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+                <h3 class="modal-title" style="font-size: 1.2rem; color: #1e3a2f;"><i class="fas fa-question-circle" style="color: #15803d; margin-right: 6px;"></i> Confirmar Acción</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeConfirmBulkModal" style="font-size: 0.85rem;"></button>
+            </div>
+            <div class="modal-body" style="padding-top: 10px;">
+                <p id="confirmBulkModalText" style="font-size: 0.95rem; color: #2d5a3f; line-height: 1.4; margin-bottom: 20px;">¿Estás seguro de que deseas aprobar todas las solicitudes pendientes?</p>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn-primary" id="btnConfirmBulkAction" style="background: #15803d; border: none; padding: 8px 16px;"><i class="fas fa-check"></i> Sí, Aprobar Todas</button>
+                    <button type="button" class="btn-primary" data-bs-dismiss="modal" style="background: #64748b; border: none; padding: 8px 16px;"><i class="fas fa-times"></i> Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL 7: DETALLE COMPLETO DE RESERVA ==================== -->
+<div id="detailsModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: 2px solid #e8f0ea;">
+                <h3 class="modal-title" style="font-size: 1.25rem; color: #1e3a2f;"><i class="fas fa-info-circle" style="color: #1e5c3a; margin-right: 6px;"></i> Detalle Completo de Reserva</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeDetailsModal" style="font-size: 0.85rem;"></button>
+            </div>
+            <div class="modal-body">
+                <div class="details-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 0.9rem; color: #1e3a2f;">
+                    <div><strong>Profesor:</strong><br><span id="detailProfesor" class="text-muted"></span></div>
+                    <div><strong>Fecha:</strong><br><span id="detailFecha" class="text-muted"></span></div>
+                    <div><strong>Horario:</strong><br><span id="detailHorario" class="text-muted"></span></div>
+                    <div><strong>Estado:</strong><br><span id="detailEstado" class="text-muted"></span></div>
+                    <div><strong>Alumno:</strong><br><span id="detailAlumno" class="text-muted"></span></div>
+                    <div><strong>Cancha:</strong><br><span id="detailCancha" class="text-muted"></span></div>
+                    <div><strong>¿Es Socio?:</strong><br><span id="detailEsSocio" class="text-muted"></span></div>
+                    <div><strong>Estado de Pago:</strong><br><span id="detailPago" class="text-muted"></span></div>
+                    <div><strong>Número Ticket:</strong><br><span id="detailTicket" class="text-muted"></span></div>
+                    <div><strong>Monto Pagado:</strong><br><span id="detailMonto" class="text-muted"></span></div>
+                    <div style="grid-column: span 2;"><strong>Notas Pago:</strong><br><span id="detailNotasPago" class="text-muted"></span></div>
+                    <div style="grid-column: span 2;"><strong>Comentarios / Notas Admin:</strong><br><span id="detailComentarios" class="text-muted"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Container for Bootstrap Toasts (Notifications) -->
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 2000;">
+    <div id="appToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius: 16px; min-width: 320px; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center gap-2" style="font-weight: 600; padding: 12px 16px;">
+                <span id="toastIcon"></span>
+                <span id="toastMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Admin Javascript App Logic -->
+<script src="admin.js"></script>
+</body>
+</html>

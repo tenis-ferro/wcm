@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Dashboard Profesor</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- Pantalla de carga (Overlay) -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p id="loadingText">Cargando...</p>
+</div>
+
+<div class="container">
+    <!-- ==================== RESERVATIONS DASHBOARD ==================== -->
+    <div id="dashboardSection">
+        <!-- Header -->
+        <div class="header">
+            <div class="title-section">
+                <h1><i class="fas fa-calendar-check"></i> Sistema de Reservas - Profesores</h1>
+                <p>Gestión y transparencia de asignación de canchas de tenis</p>
+            </div>
+            <div class="badge-info"><i class="fas fa-clock"></i> Club de Tenis - 08:00 a 22:00</div>
+        </div>
+
+        <!-- User bar info -->
+        <div class="user-info-bar">
+            <div>
+                <span id="userNameDisplay"><i class="fas fa-user-circle"></i> Cargando usuario...</span>
+            </div>
+            <button class="btn-logout" id="btnSignOut"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+
+        <!-- Dashboard panel contents wrapper -->
+        <div class="tabs-container">
+            <!-- Navigation Tabs -->
+            <div class="tabs-header" id="tabsHeaderContainer">
+                <button class="tab-btn active" data-tab="tab-solicitar"><i class="fas fa-plus-circle"></i> Solicitar Cancha</button>
+                <button class="tab-btn" data-tab="tab-mis-solicitudes"><i class="fas fa-folder-open"></i> Mis Solicitudes</button>
+                <button class="tab-btn" data-tab="tab-todas-solicitudes"><i class="fas fa-globe"></i> Todas las Reservas</button>
+                <button class="tab-btn" data-tab="tab-calendario"><i class="fas fa-calendar-alt"></i> Calendario</button>
+            </div>
+
+            <!-- ==================== TABS CONTENT FOR PROFESOR ==================== -->
+            <div id="profesorTabsContainer">
+                <!-- Tab 1: Solicitar Cancha -->
+                <div id="tab-solicitar" class="tab-content active">
+                    <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-plus-circle"></i> Solicitar Cancha de Tenis</h3>
+                    <form id="newRequestForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="reqAlumnoNombre"><i class="fas fa-user"></i> Nombre del Alumno</label>
+                                <input type="text" id="reqAlumnoNombre" required placeholder="Ej: Roberto Pérez">
+                            </div>
+                            <div class="form-group">
+                                <label for="reqAlumnoTelefono"><i class="fas fa-phone"></i> Teléfono del Alumno</label>
+                                <input type="text" id="reqAlumnoTelefono" placeholder="Ej: +56998765432">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label><i class="fas fa-id-card"></i> Condición del Alumno</label>
+                            <div class="d-flex align-items-center gap-2" style="background: #f4fbf6; border: 1px solid #d1e2d7; padding: 12px 16px; border-radius: 12px;">
+                                <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="reqAlumnoSocio" style="width: 2.2em; height: 1.1em; cursor: pointer;">
+                                    <label class="form-check-label m-0" for="reqAlumnoSocio" style="cursor: pointer; font-weight: 600; color: #1e3a2f; font-size: 0.95rem;">¿Es Socio del club? <span class="text-muted" style="font-weight: normal; font-size: 0.85rem;">(Dejar desactivado para visitas)</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="reqFecha"><i class="fas fa-calendar-day"></i> Fecha</label>
+                                <input type="date" id="reqFecha" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reqHoraInicio"><i class="fas fa-clock"></i> Hora de Inicio</label>
+                                <select id="reqHoraInicio" required>
+                                    <!-- Injected hours dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-hourglass-half"></i> Duración</label>
+                                <div class="stepper-container">
+                                    <button type="button" class="btn-stepper" id="btnDecDuration"><i class="fas fa-minus"></i></button>
+                                    <input type="text" id="reqDurationDisplay" value="1 hora" readonly>
+                                    <input type="hidden" id="reqDuration" value="1">
+                                    <button type="button" class="btn-stepper" id="btnIncDuration"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reqNotas"><i class="fas fa-sticky-note"></i> Notas adicionales / Comentarios</label>
+                                <textarea id="reqNotas" rows="2" placeholder="Indicaciones para el alumno o requerimientos..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" style="max-width: 250px;"><i class="fas fa-paper-plane"></i> Enviar Solicitud</button>
+                    </form>
+                </div>
+
+                <!-- Tab 2: Mis Solicitudes -->
+                <div id="tab-mis-solicitudes" class="tab-content">
+                    <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-folder-open"></i> Mis Solicitudes de Reserva</h3>
+                    <div class="table-container">
+                        <table class="data-table" id="misSolicitudesTable">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Horario</th>
+                                    <th>Alumno</th>
+                                    <th>Cancha</th>
+                                    <th>Estado</th>
+                                    <th>Ticket</th>
+                                    <th>Monto</th>
+                                    <th>Notas Administrador</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="misSolicitudesBody">
+                                <tr>
+                                    <td colspan="9" style="text-align:center; padding: 24px; color: #1e5c3a;">
+                                        <div class="spinner-border spinner-border-sm text-success me-2" role="status" style="width: 1.1rem; height: 1.1rem;"></div>
+                                        Cargando mis solicitudes...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Todas las Solicitudes -->
+                <div id="tab-todas-solicitudes" class="tab-content">
+                    <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-globe"></i> Todas las Reservas (Transparencia)</h3>
+                    <div class="table-container">
+                        <table class="data-table" id="todasSolicitudesTable">
+                            <thead>
+                                <tr>
+                                    <th>Profesor</th>
+                                    <th>Fecha</th>
+                                    <th>Horario</th>
+                                    <th>Cancha</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="todasSolicitudesBody">
+                                <tr>
+                                    <td colspan="5" style="text-align:center; padding: 24px; color: #1e5c3a;">
+                                        <div class="spinner-border spinner-border-sm text-success me-2" role="status" style="width: 1.1rem; height: 1.1rem;"></div>
+                                        Cargando historial de reservas...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Calendario Diario -->
+            <div id="tab-calendario" class="tab-content">
+                <h3 style="margin-bottom: 18px; color: #1e3a2f;"><i class="fas fa-calendar-alt"></i> Calendario Diario de Asignaciones</h3>
+                
+                <div class="calendar-header-actions mb-4 p-3 bg-white rounded-4 border" style="border-color: #e8f0ea !important;">
+                    <div class="row align-items-center g-3">
+                        <div class="col-12 col-md-auto d-flex align-items-center gap-2">
+                            <label for="calendarDateInput" class="m-0 fw-bold text-nowrap"><i class="fas fa-calendar-day"></i> Seleccionar Fecha:</label>
+                            <input type="date" id="calendarDateInput" class="form-control" style="max-width: 170px; border-radius: 10px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div class="col-12 col-md-auto d-flex gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-success px-3" id="btnCalPrev" style="border-radius: 8px;"><i class="fas fa-chevron-left"></i> Ayer</button>
+                            <button type="button" class="btn btn-sm btn-success px-3" id="btnCalToday" style="border-radius: 8px;">Hoy</button>
+                            <button type="button" class="btn btn-sm btn-outline-success px-3" id="btnCalNext" style="border-radius: 8px;">Mañana <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="calendar-table-wrapper" style="overflow-x: auto;">
+                        <table class="calendar-grid-table" id="calendarGridTable" style="width: 100%; border-collapse: collapse; min-width: 700px;">
+                            <thead>
+                                <tr id="calendarGridHeader">
+                                    <!-- Dynamic headers will be injected here -->
+                                </tr>
+                            </thead>
+                            <tbody id="calendarGridBody">
+                                <!-- Dynamic rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL 3: CONFIRMACIÓN DE CANCELACIÓN ==================== -->
+<div id="cancelConfirmModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: 2px solid #e8f0ea;">
+                <h3 class="modal-title" style="font-size: 1.25rem; color: #1e3a2f;"><i class="fas fa-exclamation-triangle" style="color: #d97706;"></i> Confirmar Cancelación</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 12px; font-size: 0.95rem;">¿Estás seguro de que deseas cancelar esta solicitud de reserva?</p>
+                <p class="text-muted" style="font-size: 0.8rem; margin-bottom: 24px;">Esta acción liberará el bloque de horas y no se puede deshacer.</p>
+                
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button type="button" class="btn-primary" data-bs-dismiss="modal" style="background: #6b7280; max-width: 140px; font-size: 0.9rem; padding: 10px;">No, mantener</button>
+                    <button type="button" class="btn-primary" id="btnConfirmCancel" style="background: #b91c1c; max-width: 140px; font-size: 0.9rem; padding: 10px;">Sí, cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL 4: EDICIÓN DE SOLICITUD PENDIENTE ==================== -->
+<div id="editRequestModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 24px; border: none; padding: 12px; background: white;">
+            <div class="modal-header" style="border-bottom: 2px solid #e8f0ea;">
+                <h3 class="modal-title" style="font-size: 1.25rem; color: #1e3a2f;"><i class="fas fa-edit" style="color: #1e5c3a;"></i> Editar Solicitud de Reserva</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeEditModal" style="font-size: 0.85rem;"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editRequestForm">
+                    <input type="hidden" id="editReservaId">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="editAlumnoNombre"><i class="fas fa-user"></i> Nombre del Alumno</label>
+                            <input type="text" id="editAlumnoNombre" required placeholder="Ej: Roberto Pérez">
+                        </div>
+                        <div class="form-group">
+                            <label for="editAlumnoTelefono"><i class="fas fa-phone"></i> Teléfono del Alumno</label>
+                            <input type="text" id="editAlumnoTelefono" placeholder="Ej: +56998765432">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label><i class="fas fa-id-card"></i> Condición del Alumno</label>
+                        <div class="d-flex align-items-center gap-2" style="background: #f4fbf6; border: 1px solid #d1e2d7; padding: 12px 16px; border-radius: 12px;">
+                            <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="editAlumnoSocio" style="width: 2.2em; height: 1.1em; cursor: pointer;">
+                                <label class="form-check-label m-0" for="editAlumnoSocio" style="cursor: pointer; font-weight: 600; color: #1e3a2f; font-size: 0.95rem;">¿Es Socio del club? <span class="text-muted" style="font-weight: normal; font-size: 0.85rem;">(Dejar desactivado para visitas)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="editFecha"><i class="fas fa-calendar-day"></i> Fecha</label>
+                            <input type="date" id="editFecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editHoraInicio"><i class="fas fa-clock"></i> Hora de Inicio</label>
+                            <select id="editHoraInicio" required>
+                                <!-- Injected hours dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-hourglass-half"></i> Duración</label>
+                            <div class="stepper-container">
+                                <button type="button" class="btn-stepper" id="btnDecEditDuration"><i class="fas fa-minus"></i></button>
+                                <input type="text" id="editDurationDisplay" value="1 hora" readonly>
+                                <input type="hidden" id="editDuration" value="1">
+                                <button type="button" class="btn-stepper" id="btnIncEditDuration"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editNotas"><i class="fas fa-sticky-note"></i> Notas adicionales / Comentarios</label>
+                            <textarea id="editNotas" rows="2" placeholder="Indicaciones para el alumno o requerimientos..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="margin-top: 10px;"><i class="fas fa-save"></i> Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Container for Bootstrap Toasts (Notifications) -->
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 2000;">
+    <div id="appToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius: 16px; min-width: 320px; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center gap-2" style="font-weight: 600; padding: 12px 16px;">
+                <span id="toastIcon"></span>
+                <span id="toastMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Profesor Javascript App Logic -->
+<script src="profesor.js"></script>
+</body>
+</html>

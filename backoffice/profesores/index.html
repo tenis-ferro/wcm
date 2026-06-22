@@ -2,43 +2,87 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control - Profesores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Iniciar Sesión</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root { --primary-color: #2c3e50; }
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .navbar { background-color: var(--primary-color); shadow: 0 2px 4px rgba(0,0,0,.1); }
-        .card-solicitud { transition: transform 0.2s; border: none; border-left: 5px solid #3498db; }
-        .card-solicitud:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        #loader { display: flex; justify-content: center; align-items: center; height: 200px; }
-    </style>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-<nav class="navbar navbar-dark mb-4">
-    <div class="container">
-        <span class="navbar-brand mb-0 h1">Gestión de Solicitudes - Docentes</span>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="row mb-4">
-        <div class="col">
-            <button class="btn btn-primary" onclick="cargarSolicitudes()">Actualizar Datos</button>
-        </div>
-    </div>
-
-    <div id="loader">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
-        </div>
-    </div>
-
-    <div id="contenedor-solicitudes" class="row g-4">
-        </div>
+<!-- Pantalla de carga (Overlay) -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p id="loadingText">Cargando...</p>
 </div>
 
-<script src="app.js"></script>
+<div class="container">
+    <!-- ==================== AUTHENTICATION PANEL ==================== -->
+    <div id="authSection" class="login-container" style="display: none;">
+        <div class="login-card">
+            <h2 id="authTitle"><i class="fas fa-lock"></i> Iniciar Sesión</h2>
+            <p class="subtitle" id="authSubtitle">Acceso al sistema de reservas de profesores</p>
+            
+            <form id="authForm">
+                <!-- Sign Up exclusive inputs (hidden on Sign In) -->
+                <div class="form-group signup-only" style="display: none;">
+                    <label for="regName"><i class="fas fa-user"></i> Nombre</label>
+                    <input type="text" id="regName" placeholder="Ej: Javier">
+                </div>
+                <div class="form-group signup-only" style="display: none;">
+                    <label for="regLastName"><i class="fas fa-user"></i> Apellido</label>
+                    <input type="text" id="regLastName" placeholder="Ej: Zúñiga">
+                </div>
+                <div class="form-group signup-only" style="display: none;">
+                    <label for="regPhone"><i class="fas fa-phone"></i> Teléfono</label>
+                    <input type="text" id="regPhone" placeholder="Ej: +56912345678">
+                </div>
+                <div class="form-group signup-only" style="display: none;">
+                    <label for="regRole"><i class="fas fa-user-tag"></i> Rol</label>
+                    <select id="regRole">
+                        <option value="profesor">Profesor de Tenis</option>
+                        <option value="admin">Administrador del Club</option>
+                    </select>
+                </div>
+                
+                <!-- Shared inputs -->
+                <div class="form-group">
+                    <label for="authEmail"><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                    <input type="email" id="authEmail" required placeholder="correo@ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label for="authPassword"><i class="fas fa-key"></i> Contraseña</label>
+                    <input type="password" id="authPassword" required placeholder="Min. 6 caracteres">
+                </div>
+                
+                <button type="submit" class="btn-primary" id="btnAuthSubmit" style="margin-top: 10px;">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Container for Bootstrap Toasts (Notifications) -->
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 2000;">
+    <div id="appToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius: 16px; min-width: 320px; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center gap-2" style="font-weight: 600; padding: 12px 16px;">
+                <span id="toastIcon"></span>
+                <span id="toastMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Login Javascript App Logic -->
+<script src="login.js"></script>
 </body>
 </html>

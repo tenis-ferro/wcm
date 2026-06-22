@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Club de Tenis - Comparativa Mensual de Arriendos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="arriendos-comparativa.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<!-- Pantalla de carga (Overlay) -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p>Cargando datos comparativos desde Supabase...</p>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-chart-bar"></i> Comparativa Mensual de Arriendos</h1>
+            <p>Análisis y comparación del rendimiento de los socios (Profesores) | Datos 2023 - 2026</p>
+        </div>
+        <div class="badge"><i class="fas fa-calendar-alt"></i> Actualizado a mayo 2026</div>
+    </div>
+
+    <!-- Pestañas de Navegación -->
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="tab-profesores"><i class="fas fa-users-rectangle"></i> Comparación de Profesores</button>
+            <button class="tab-btn" data-tab="tab-historico"><i class="fas fa-history"></i> Historial por Profesor</button>
+        </div>
+
+        <!-- PESTAÑA 1: COMPARACIÓN DE PROFESORES POR AÑO -->
+        <div id="tab-profesores" class="tab-content active">
+            <div class="controls-panel">
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-weight: 600; color: #1e3a2f;"><i class="fas fa-calendar-alt"></i> Seleccionar Año a Comparar:</span>
+                        <select id="profYearFilter">
+                            <option value="2026">Año 2026</option>
+                            <option value="2025" selected>Año 2025</option>
+                            <option value="2024">Año 2024</option>
+                            <option value="2023">Año 2023</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <span style="color:#5a6e62;"><i class="fas fa-info-circle"></i> Compara el rendimiento de los 3 profesores en el año seleccionado</span>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-dollar-sign"></i> Total Arriendos Año</div>
+                    <div class="stat-number" id="profTotalAmount">$0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-clipboard-list"></i> Movimientos Año</div>
+                    <div class="stat-number" id="profTotalCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-calculator"></i> Promedio Mensual Año</div>
+                    <div class="stat-number" id="profMonthlyAvg">$0</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table" id="profesoresTable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 150px;">Mes</th>
+                            <th colspan="2">Socio 86 (Javier Zúñiga)</th>
+                            <th colspan="2">Socio 158 (Juan Antican)</th>
+                            <th colspan="2">Socio 269 (Bianca Antican)</th>
+                        </tr>
+                        <tr>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profTableBody">
+                        <tr><td colspan="7" style="text-align:center; padding:40px;">Cargando comparación de profesores...</td></tr>
+                    </tbody>
+                    <tfoot id="profTableFoot">
+                        <!-- Se poblará dinámicamente -->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 2: HISTORIAL POR PROFESOR (AÑO A AÑO) -->
+        <div id="tab-historico" class="tab-content">
+            <div class="controls-panel">
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-weight: 600; color: #1e3a2f;"><i class="fas fa-user"></i> Seleccionar Profesor:</span>
+                        <select id="histSocioFilter">
+                            <option value="all">Todos (86, 158, 269)</option>
+                            <option value="86">86 - JAVIER ZUÑIGA MEJIAS</option>
+                            <option value="158">158 - JUAN ANTICAN MORALES</option>
+                            <option value="269">269 - BIANCA ANTICAN GONZALEZ</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <span style="color:#5a6e62;"><i class="fas fa-info-circle"></i> Compara el historial mensual año a año del profesor seleccionado</span>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-dollar-sign"></i> Total Histórico Profesor</div>
+                    <div class="stat-number" id="histTotalAmount">$0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-clipboard-list"></i> Movimientos Totales</div>
+                    <div class="stat-number" id="histTotalCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-calculator"></i> Promedio Mensual</div>
+                    <div class="stat-number" id="histMonthlyAvg">$0</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table" id="historicoTable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 150px;">Mes</th>
+                            <th colspan="2">Año 2023</th>
+                            <th colspan="2">Año 2024</th>
+                            <th colspan="2">Año 2025</th>
+                            <th colspan="2">Año 2026</th>
+                        </tr>
+                        <tr>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                            <th>Monto</th>
+                            <th>Movs</th>
+                        </tr>
+                    </thead>
+                    <tbody id="histTableBody">
+                        <tr><td colspan="9" style="text-align:center; padding:40px;">Cargando historial...</td></tr>
+                    </tbody>
+                    <tfoot id="histTableFoot">
+                        <!-- Se poblará dinámicamente -->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><i class="fas fa-info-circle"></i> Comparativa basada en ingresos con la categoría "ARRIENDO" para los socios indicados.</div>
+</div>
+
+<script src="arriendos-comparativa.js" defer></script>
+</body>
+</html>

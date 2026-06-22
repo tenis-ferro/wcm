@@ -1,0 +1,313 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background: #f0f7f0;
+    padding: 24px 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+.title-section h1 {
+    font-size: 1.9rem;
+    color: #1e3a2f;
+    font-weight: 700;
+}
+.title-section p {
+    color: #2d5a3f;
+    margin-top: 6px;
+}
+.badge {
+    background: #1e5c3a;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-weight: 600;
+}
+
+.controls-panel {
+    background: white;
+    border-radius: 28px;
+    padding: 18px 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.search-box {
+    background: #e8f0ea;
+    padding: 5px 16px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 400px;
+}
+.search-box input {
+    border: none;
+    background: transparent;
+    padding: 8px 0;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+}
+.stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.stat-card {
+    flex: 1;
+    min-width: 180px;
+    background: white;
+    border-radius: 20px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-left: 4px solid #15803d;
+    text-align: center;
+}
+.stat-card .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #5a6e62;
+}
+.stat-card .stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 8px 0 4px;
+    color: #1e3a2f;
+}
+
+.table-container {
+    background: white;
+    border-radius: 24px;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.data-table th, .data-table td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e8f0ea;
+}
+.data-table th {
+    background: #f8fcf9;
+    font-weight: 700;
+    color: #1e5c3a;
+    position: sticky;
+    top: 0;
+}
+.data-table tr:hover {
+    background: #f8fcf9;
+}
+.number-cell {
+    text-align: right;
+    font-weight: 600;
+}
+.socio-link {
+    color: #1e5c3a;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+}
+.socio-link:hover {
+    text-decoration: underline;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: white;
+    border-radius: 28px;
+    width: 90%;
+    max-width: 1400px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    position: relative;
+    animation: modalFadeIn 0.2s ease;
+}
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e8f0ea;
+}
+.modal-header h2 {
+    font-size: 1.4rem;
+    color: #1e3a2f;
+}
+.close-modal {
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #5a6e62;
+    transition: 0.2s;
+}
+.close-modal:hover {
+    color: #b91c1c;
+}
+.modal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+.modal-table th, .modal-table td {
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #e8f0ea;
+}
+.modal-table th {
+    background: #f8fcf9;
+    font-weight: 700;
+    color: #1e5c3a;
+    position: sticky;
+    top: 0;
+}
+.modal-stats {
+    background: #e8f0ea;
+    padding: 12px 16px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.modal-stats span {
+    font-weight: 600;
+    color: #1e3a2f;
+}
+.modal-category-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f8fcf9;
+    border-radius: 20px;
+}
+.modal-cat-card {
+    flex: 1;
+    min-width: 120px;
+    background: white;
+    border-radius: 16px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border-left: 3px solid #15803d;
+}
+.modal-cat-card .cat-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #4b6b58;
+    text-transform: uppercase;
+}
+.modal-cat-card .cat-amount {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1e3a2f;
+    margin-top: 5px;
+}
+.modal-cat-card .cat-percent {
+    font-size: 0.6rem;
+    color: #5a6e62;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.7rem;
+    color: #5a6e62;
+    padding: 16px;
+}
+
+@media (max-width: 900px) {
+    .data-table th, .data-table td { padding: 10px 8px; font-size: 0.75rem; }
+    .stat-card .stat-number { font-size: 1.3rem; }
+    .modal-cat-card { min-width: 100px; }
+}
+
+/* Loading Overlay & Spinner Styles */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(240, 247, 240, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-overlay p {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e3a2f;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #bdd4c5;
+    border-top: 5px solid #1e5c3a;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Table Year Divider Row Styling */
+.modal-table tr.year-divider td {
+    border-top: 2px solid #1e5c3a;
+}
