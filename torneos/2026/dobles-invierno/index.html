@@ -752,10 +752,16 @@
         <!-- Schedule Tabs Navigation -->
         <ul class="nav nav-tabs rg-tabs" id="scheduleTabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="sabado-tab" data-bs-toggle="tab" data-bs-target="#sabado" type="button" role="tab" aria-controls="sabado" aria-selected="true">Sábado 27 de Junio</button>
+            <button class="nav-link" id="sabado-tab" data-bs-toggle="tab" data-bs-target="#sabado" type="button" role="tab" aria-controls="sabado" aria-selected="false">Sábado 27 de Junio</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="domingo-tab" data-bs-toggle="tab" data-bs-target="#domingo" type="button" role="tab" aria-controls="domingo" aria-selected="false">Domingo 28 de Junio</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="sabado-04-tab" data-bs-toggle="tab" data-bs-target="#sabado-04" type="button" role="tab" aria-controls="sabado-04" aria-selected="true">Sábado 4 de Julio</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="domingo-05-tab" data-bs-toggle="tab" data-bs-target="#domingo-05" type="button" role="tab" aria-controls="domingo-05" aria-selected="false">Domingo 5 de Julio</button>
           </li>
         </ul>
 
@@ -763,7 +769,7 @@
         <div class="tab-content" id="scheduleTabsContent">
           
           <!-- Sabado Content -->
-          <div class="tab-pane fade show active" id="sabado" role="tabpanel" aria-labelledby="sabado-tab">
+          <div class="tab-pane fade" id="sabado" role="tabpanel" aria-labelledby="sabado-tab">
             <div class="draw-container">
               <div class="timeline-container">
                 
@@ -989,11 +995,237 @@
               </div>
             </div>
           </div>
+
+          <!-- Sabado 4 de Julio Content -->
+          <div class="tab-pane fade show active" id="sabado-04" role="tabpanel" aria-labelledby="sabado-04-tab">
+            <div class="draw-container">
+              <div class="timeline-container">
+                
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 09:30 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-6 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría A</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">JL. Martinez / S. Espejo</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team seeded">A. Menjiba / F. Catalan <small>(Seed 4)</small></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 2 • Categoría A</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team seeded">C. Abumohor / J. Latin <small>(Seed 1)</small></div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team">F. Contreras / L. Meneses</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 11:30 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-4 col-12">
+                      <div class="match-card">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría B</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">C. Soto / C. Yañez</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team text-muted">Por definir</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 2 • Categoría A</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team seeded">M. Guerrero / S. Betancourt <small>(Seed 3)</small></div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team">M. Contreras / J. Molina</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <div class="match-card bg-light border-dashed">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 3 • Categoría A</span>
+                        </div>
+                        <div class="match-pairings py-2 text-center text-muted" style="font-size: 13px; font-weight: 600;">
+                          <i class="bi bi-calendar2-minus"></i> Por definir (Dobles A)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 13:30 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-6 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría B</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team seeded">L. Brito / A. Mardones <small>(Seed 5)</small></div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team">C. Rodriguez / M. Contreras</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 16:00 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-6 col-12">
+                      <div class="match-card bg-light border-dashed">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría B</span>
+                        </div>
+                        <div class="match-pairings py-2 text-center text-muted" style="font-size: 13px; font-weight: 600;">
+                          <i class="bi bi-calendar2-minus"></i> Por definir (Dobles B)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Domingo 5 de Julio Content -->
+          <div class="tab-pane fade" id="domingo-05" role="tabpanel" aria-labelledby="domingo-05-tab">
+            <div class="draw-container">
+              <div class="timeline-container">
+
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 09:30 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-6 col-12">
+                      <div class="match-card">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría B</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">A. Condorelli / F. Catalan</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team text-muted">Por definir</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 11:30 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-4 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría A</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">M. Taiba / R. Raby</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team seeded">JL. Dinamarca / P. Mella <small>(Seed 2)</small></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 2 • Categoría Mixto</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">P. Cuadra / A. Gallardo</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team seeded">L. Illesca / H. Aedo <small>(Seed 2)</small></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <div class="match-card">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 3 • Categoría Mixto</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">S. Ruiz / C. Quevedo</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team">A. Tamayo / M. Yutronic</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="timeline-time-group">
+                  <div class="timeline-time-title">
+                    <i class="bi bi-clock-fill"></i> 13:30 hrs
+                  </div>
+                  <div class="row g-2">
+                    <div class="col-md-6 col-12">
+                      <div class="match-card seed-match">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 1 • Categoría Mixto</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team seeded">A. Ibarra / F. Ibarra <small>(Seed 1)</small></div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team">P. Ortiz / A. Lopez</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="match-card">
+                        <div class="match-meta">
+                          <span class="match-round">Partido 2 • Categoría Mixto</span>
+                        </div>
+                        <div class="match-pairings">
+                          <div class="player-team">H. Marquez / S. Ravelo</div>
+                          <div class="vs-divider">vs</div>
+                          <div class="player-team">D. Diaz / JL. Palma</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
           
         </div>
 
         <div class="text-center mt-4">
-          <a href="Programacion-001.pdf" target="_blank" class="btn btn-rg-primary">
+          <a href="Programacion-002.pdf" target="_blank" class="btn btn-rg-primary">
             <i class="bi bi-file-earmark-pdf"></i> Descargar Horarios Oficiales (PDF)
           </a>
         </div>
@@ -1129,7 +1361,7 @@
                   </div>
 
                   <div class="text-center mt-3">
-                    <a href="cuadros/DOBLES-A-001.pdf" target="_blank" class="btn btn-rg-secondary w-100 justify-content-center">
+                    <a href="cuadros/DOBLES-A-002.pdf" target="_blank" class="btn btn-rg-secondary w-100 justify-content-center">
                       <i class="bi bi-file-earmark-pdf"></i> Ver Cuadro Categoría A (PDF)
                     </a>
                   </div>
@@ -1137,8 +1369,8 @@
 
                 <div class="col-lg-7 col-12">
                   <div class="pdf-container">
-                    <object data="cuadros/DOBLES-A-001.pdf" type="application/pdf" width="100%" height="650px">
-                      <embed src="cuadros/DOBLES-A-001.pdf" type="application/pdf" />
+                    <object data="cuadros/DOBLES-A-002.pdf" type="application/pdf" width="100%" height="650px">
+                      <embed src="cuadros/DOBLES-A-002.pdf" type="application/pdf" />
                     </object>
                   </div>
                   <div class="mobile-pdf-notice text-center">
@@ -1361,7 +1593,7 @@
                   </div>
 
                   <div class="text-center mt-3">
-                    <a href="cuadros/DOBLES-B-001.pdf" target="_blank" class="btn btn-rg-secondary w-100 justify-content-center">
+                    <a href="cuadros/DOBLES-B-002.pdf" target="_blank" class="btn btn-rg-secondary w-100 justify-content-center">
                       <i class="bi bi-file-earmark-pdf"></i> Ver Cuadro Categoría B (PDF)
                     </a>
                   </div>
@@ -1369,8 +1601,8 @@
 
                 <div class="col-lg-7 col-12">
                   <div class="pdf-container">
-                    <object data="cuadros/DOBLES-B-001.pdf" type="application/pdf" width="100%" height="650px">
-                      <embed src="cuadros/DOBLES-B-001.pdf" type="application/pdf" />
+                    <object data="cuadros/DOBLES-B-002.pdf" type="application/pdf" width="100%" height="650px">
+                      <embed src="cuadros/DOBLES-B-002.pdf" type="application/pdf" />
                     </object>
                   </div>
                   <div class="mobile-pdf-notice text-center">
@@ -1479,7 +1711,7 @@
                   </div>
 
                   <div class="text-center mt-3">
-                    <a href="cuadros/DOBLES-MIXTO-001.pdf" target="_blank" class="btn btn-rg-secondary w-100 justify-content-center">
+                    <a href="cuadros/DOBLES-MIXTO-002.pdf" target="_blank" class="btn btn-rg-secondary w-100 justify-content-center">
                       <i class="bi bi-file-earmark-pdf"></i> Ver Cuadro Mixto (PDF)
                     </a>
                   </div>
@@ -1487,8 +1719,8 @@
 
                 <div class="col-lg-7 col-12">
                   <div class="pdf-container">
-                    <object data="cuadros/DOBLES-MIXTO-001.pdf" type="application/pdf" width="100%" height="650px">
-                      <embed src="cuadros/DOBLES-MIXTO-001.pdf" type="application/pdf" />
+                    <object data="cuadros/DOBLES-MIXTO-002.pdf" type="application/pdf" width="100%" height="650px">
+                      <embed src="cuadros/DOBLES-MIXTO-002.pdf" type="application/pdf" />
                     </object>
                   </div>
                   <div class="mobile-pdf-notice text-center">
