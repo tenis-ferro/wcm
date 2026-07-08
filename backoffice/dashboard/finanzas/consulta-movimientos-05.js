@@ -12,6 +12,7 @@ let allIngresosRaw = [];
 // Conjuntos filtrados actuales para exportación
 let currentFilteredIngresos = [];
 let currentFilteredEgresos = [];
+let listenersBound = false;
 
 // Elementos DOM
 const ingYear = document.getElementById('ingYearFilter');
@@ -488,16 +489,25 @@ function hideLoading() {
     }
 }
 
-async function loadData() {
+async function loadData(forceReload = false) {
     try {
-        const cache = getCachedData();
+        if (forceReload) {
+            const loader = document.getElementById('loadingOverlay');
+            if (loader) {
+                loader.style.display = 'flex';
+                loader.style.opacity = '1';
+                loader.style.visibility = 'visible';
+            }
+        }
+
+        const cache = forceReload ? null : getCachedData();
         if (cache) {
             console.log("Cargando movimientos desde cache local.");
             allIngresosRaw = cache.ingresos;
             ingresosData = cache.ingresos;
             egresosData = cache.egresos;
         } else {
-            console.log("Cache ausente o expirado. Consultando Supabase...");
+            console.log("Cache ausente, expirado o forzado. Consultando Supabase...");
             const [ingresosCerrados, egresosCerrados, ingresosAnno, egresosAnno] = await Promise.all([
                 fetchAllFromTable('ingresos-cerrados'),
                 fetchAllFromTable('egresos-cerrados'),
@@ -516,56 +526,69 @@ async function loadData() {
         filterIngresos();
         filterEgresos();
         
-        // Listeners Pestaña Ingresos
-        ingYear.addEventListener('change', () => filterIngresos());
-        ingMonth.addEventListener('change', () => filterIngresos());
-        ingCategory.addEventListener('change', () => filterIngresos());
-        ingSearch.addEventListener('input', () => filterIngresos());
-        resetIng.addEventListener('click', () => {
-            ingYear.value = 'all';
-            ingMonth.value = 'all';
-            ingCategory.value = 'all';
-            ingSearch.value = '';
-            filterIngresos();
-        });
-        document.getElementById('exportIngresos').addEventListener('click', () => exportToExcel('ingresos'));
-        
-        // Listeners Pestaña Egresos
-        egrYear.addEventListener('change', () => filterEgresos());
-        egrMonth.addEventListener('change', () => filterEgresos());
-        egrCategory.addEventListener('change', () => filterEgresos());
-        egrSearch.addEventListener('input', () => filterEgresos());
-        resetEgr.addEventListener('click', () => {
-            egrYear.value = 'all';
-            egrMonth.value = 'all';
-            egrCategory.value = 'all';
-            egrSearch.value = '';
-            filterEgresos();
-        });
-        document.getElementById('exportEgresos').addEventListener('click', () => exportToExcel('egresos'));
-        
-        // Gestión de Pestañas (Tabs)
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabId = btn.getAttribute('data-tab');
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
+        if (!listenersBound) {
+            // Listeners Pestaña Ingresos
+            ingYear.addEventListener('change', () => filterIngresos());
+            ingMonth.addEventListener('change', () => filterIngresos());
+            ingCategory.addEventListener('change', () => filterIngresos());
+            ingSearch.addEventListener('input', () => filterIngresos());
+            resetIng.addEventListener('click', () => {
+                ingYear.value = 'all';
+                ingMonth.value = 'all';
+                ingCategory.value = 'all';
+                ingSearch.value = '';
+                filterIngresos();
             });
-        });
-        
-        closeModal.onclick = () => { modal.style.display = 'none'; };
-        window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
+            document.getElementById('exportIngresos').addEventListener('click', () => exportToExcel('ingresos'));
+            
+            // Listeners Pestaña Egresos
+            egrYear.addEventListener('change', () => filterEgresos());
+            egrMonth.addEventListener('change', () => filterEgresos());
+            egrCategory.addEventListener('change', () => filterEgresos());
+            egrSearch.addEventListener('input', () => filterEgresos());
+            resetEgr.addEventListener('click', () => {
+                egrYear.value = 'all';
+                egrMonth.value = 'all';
+                egrCategory.value = 'all';
+                egrSearch.value = '';
+                filterEgresos();
+            });
+            document.getElementById('exportEgresos').addEventListener('click', () => exportToExcel('egresos'));
+            
+            // Gestión de Pestañas (Tabs)
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            closeModal.onclick = () => { modal.style.display = 'none'; };
+            window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
+            
+            const reloadDbBtn = document.getElementById('reloadDbBtn');
+            if (reloadDbBtn) {
+                reloadDbBtn.addEventListener('click', () => loadData(true));
+            }
+            
+            listenersBound = true;
+        }
         
         hideLoading();
     } catch (error) {
         console.error(error);
         hideLoading();
-        ingBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
-        egrBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
+        if (forceReload) {
+            alert(`Error al recargar desde Supabase: ${error.message}`);
+        } else {
+            ingBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
+            egrBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
+        }
     }
 }
 
@@ -574,3 +597,4 @@ window.openSocioModal = openSocioModal;
 
 // Carga inicial
 loadData();
+
