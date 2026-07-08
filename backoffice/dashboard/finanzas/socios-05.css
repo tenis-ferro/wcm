@@ -1,0 +1,123 @@
+@import url('socios-03.css');
+
+/* Tabs layout */
+.tabs-header {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid #e8f0ea;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 30px 30px 0 0;
+    color: #5a6e62;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+.tab-btn:hover {
+    color: #1e5c3a;
+    background: rgba(30, 92, 58, 0.05);
+}
+.tab-btn.active {
+    color: #1e5c3a;
+    background: #e8f0ea;
+    border-bottom: 3px solid #1e5c3a;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* Reload Button Styles */
+.reload-btn {
+    background: #1e5c3a;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
+}
+.reload-btn:hover {
+    background: #15432a;
+}
+.reload-btn:active {
+    transform: scale(0.98);
+}
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Badges for active/inactive views */
+.inactive-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    background: #fee2e2;
+    color: #b91c1c;
+}
+.active-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* Loading Overlay & Spinner Styles */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(240, 247, 240, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-overlay p {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e3a2f;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #bdd4c5;
+    border-top: 5px solid #1e5c3a;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
