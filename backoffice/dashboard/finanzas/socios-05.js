@@ -302,6 +302,9 @@ function renderTablaLast12(socios) {
         return;
     }
     
+    // Ordenar por N° Cuotas Pagadas (12M) de menor a mayor
+    filteredList.sort((a, b) => a.cantidadCuotas12M - b.cantidadCuotas12M);
+    
     tbody.innerHTML = filteredList.map(s => {
         const badge = `<span class="active-badge"><i class="fas fa-check"></i> Activo (${s.cantidadCuotas12M} cuotas)</span>`;
             
@@ -326,6 +329,13 @@ function renderTablaInactive(socios) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">🎉 ¡Excelente! No hay socios inactivos en este período</td></tr>';
         return;
     }
+    
+    // Ordenar por tiempo transcurrido de menor a mayor (fecha de pago más reciente a más antigua)
+    inactiveList.sort((a, b) => {
+        const dateA = new Date(a.ultimaCuotaMensual);
+        const dateB = new Date(b.ultimaCuotaMensual);
+        return dateB - dateA;
+    });
     
     tbody.innerHTML = inactiveList.map(s => {
         const meses = calcularMesesDiferencia(s.ultimaCuotaMensual);
