@@ -37,12 +37,13 @@ function formatCLP(value) {
     return Math.round(value).toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
-// TAB 1: Agrupar datos de profesores (Socio 86, 158, 269) para un año seleccionado
+// TAB 1: Agrupar datos de profesores (Socio 86, 97, 158, 269) para un año seleccionado
 function updateComparativaProfesores(year) {
     const matrix = {};
     for (let m = 1; m <= 12; m++) {
         matrix[m] = {
             86: { total: 0, count: 0 },
+            97: { total: 0, count: 0 },
             158: { total: 0, count: 0 },
             269: { total: 0, count: 0 }
         };
@@ -70,7 +71,7 @@ function updateComparativaProfesores(year) {
     // Calcular cantidad de meses activos en este año (donde algún profesor tenga actividad)
     for (let m = 1; m <= 12; m++) {
         const row = matrix[m];
-        if (row[86].total > 0 || row[158].total > 0 || row[269].total > 0) {
+        if (row[86].total > 0 || row[97].total > 0 || row[158].total > 0 || row[269].total > 0) {
             activeMonths++;
         }
     }
@@ -91,6 +92,8 @@ function updateComparativaProfesores(year) {
                 <td>${MONTH_NAMES[m - 1]}</td>
                 <td class="number-cell">$${formatCLP(row[86].total)}</td>
                 <td class="number-cell" style="color: #5a6e62;">${row[86].count}</td>
+                <td class="number-cell">$${formatCLP(row[97].total)}</td>
+                <td class="number-cell" style="color: #5a6e62;">${row[97].count}</td>
                 <td class="number-cell">$${formatCLP(row[158].total)}</td>
                 <td class="number-cell" style="color: #5a6e62;">${row[158].count}</td>
                 <td class="number-cell">$${formatCLP(row[269].total)}</td>
@@ -103,11 +106,12 @@ function updateComparativaProfesores(year) {
     // Calcular totales anuales por profesor
     const totals = {
         86: { total: 0, count: 0 },
+        97: { total: 0, count: 0 },
         158: { total: 0, count: 0 },
         269: { total: 0, count: 0 }
     };
     for (let m = 1; m <= 12; m++) {
-        for (const s of [86, 158, 269]) {
+        for (const s of [86, 97, 158, 269]) {
             totals[s].total += matrix[m][s].total;
             totals[s].count += matrix[m][s].count;
         }
@@ -118,6 +122,8 @@ function updateComparativaProfesores(year) {
             <td>Total Anual</td>
             <td class="number-cell">$${formatCLP(totals[86].total)}</td>
             <td class="number-cell">${totals[86].count}</td>
+            <td class="number-cell">$${formatCLP(totals[97].total)}</td>
+            <td class="number-cell">${totals[97].count}</td>
             <td class="number-cell">$${formatCLP(totals[158].total)}</td>
             <td class="number-cell">${totals[158].count}</td>
             <td class="number-cell">$${formatCLP(totals[269].total)}</td>
@@ -348,8 +354,8 @@ async function loadData() {
             rawData = ingresosDataFull;
         }
         
-        // Filtrar inmediatamente por la categoría = "ARRIENDO" y los 3 socios
-        const targetSocios = [86, 158, 269];
+        // Filtrar inmediatamente por la categoría = "ARRIENDO" y los socios
+        const targetSocios = [86, 97, 158, 269];
         allIngresosRaw = rawData.filter(i => 
             targetSocios.includes(Number(i.socio)) && 
             i.categoria === "ARRIENDO"
@@ -384,7 +390,7 @@ async function loadData() {
     } catch (error) {
         console.error(error);
         hideLoading();
-        document.getElementById('profTableBody').innerHTML = `<tr><td colspan="7" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
+        document.getElementById('profTableBody').innerHTML = `<tr><td colspan="9" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
         document.getElementById('histTableBody').innerHTML = `<tr><td colspan="9" style="text-align:center; color:red; padding:40px;">❌ Error al cargar datos: ${error.message}</td></tr>`;
     }
 }

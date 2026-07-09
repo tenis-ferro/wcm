@@ -371,8 +371,8 @@ async function loadData() {
             rawData = ingresosDataFull;
         }
         
-        // Filtrar inmediatamente por los ID Socio (86, 158, 269) y Categoría = "ARRIENDO"
-        const targetSocios = [86, 158, 269];
+        // Filtrar inmediatamente por los ID Socio (86, 97, 158, 269) y Categoría = "ARRIENDO"
+        const targetSocios = [86, 97, 158, 269];
         allIngresosRaw = rawData.filter(i => 
             targetSocios.includes(Number(i.socio)) && 
             i.categoria === "ARRIENDO"

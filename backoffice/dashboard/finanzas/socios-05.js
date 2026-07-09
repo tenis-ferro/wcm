@@ -66,6 +66,14 @@ function calcularMesesDiferencia(fechaStr) {
     return diffMonths;
 }
 
+// Calcular diferencia en meses calendario entre dos fechas
+function calcularMesesDiferenciaFechas(fechaInicio, fechaFin) {
+    if (!fechaInicio || !fechaFin) return null;
+    const start = new Date(fechaInicio);
+    const end = new Date(fechaFin);
+    return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+}
+
 // Comprobar si el socio no tiene pagos en los últimos 3 meses
 function isSocioInactive(s) {
     if (!s.ultimaCuotaMensual) return true; // Nunca ha pagado
@@ -175,7 +183,10 @@ function procesarSocios(ingresos) {
                 total2026: 0,
                 ultimaCuotaMensual: null,
                 montoCuotaMensual12M: 0,
-                cantidadCuotas12M: 0
+                cantidadCuotas12M: 0,
+                primerIngreso: null,
+                montoPrimerIngreso: 0,
+                mesesAntiguedad: null
             });
         }
         
@@ -187,8 +198,16 @@ function procesarSocios(ingresos) {
         if (anno === 2025) socio.total2025 += monto;
         if (anno === 2026) socio.total2026 += monto;
         
+        const dateObj = getDateObj(ing);
+        if (dateObj) {
+            const fechaStr = fecha || `${anno}-${String(ing.mes).padStart(2, '0')}-15`;
+            if (!socio.primerIngreso || dateObj < new Date(socio.primerIngreso)) {
+                socio.primerIngreso = fechaStr;
+                socio.montoPrimerIngreso = monto;
+            }
+        }
+        
         if (categoria === "CUOTA MENSUAL") {
-            const dateObj = getDateObj(ing);
             if (dateObj) {
                 // Actualizar último pago
                 if (!socio.ultimaCuotaMensual || dateObj > new Date(socio.ultimaCuotaMensual)) {
@@ -205,6 +224,14 @@ function procesarSocios(ingresos) {
     });
     
     const socios = Array.from(sociosMap.values());
+    
+    // Calcular mesesAntiguedad para cada socio
+    socios.forEach(socio => {
+        if (socio.primerIngreso) {
+            socio.mesesAntiguedad = calcularMesesDiferenciaFechas(socio.primerIngreso, baseDate);
+        }
+    });
+    
     socios.sort((a, b) => b.id - a.id);
     
     return socios;
@@ -265,6 +292,34 @@ function renderEstadisticas(socios) {
             <div class="stat-card">
                 <div class="stat-label"><i class="fas fa-users"></i> Socios Analizados (12M)</div>
                 <div class="stat-number">${totalAnalizados}</div>
+            </div>
+        `;
+    } else if (currentTab === "antiguedad") {
+        const sociosNuevos12M = socios.filter(s => s.mesesAntiguedad !== null && s.mesesAntiguedad <= 12).length;
+        const hitosRelevantes = socios.filter(s => s.mesesAntiguedad !== null && s.mesesAntiguedad > 0 && s.mesesAntiguedad % 6 === 0).length;
+        
+        let sumAntiguedad = 0;
+        let countConAntiguedad = 0;
+        socios.forEach(s => {
+            if (s.mesesAntiguedad !== null) {
+                sumAntiguedad += s.mesesAntiguedad;
+                countConAntiguedad++;
+            }
+        });
+        const promAntiguedad = countConAntiguedad > 0 ? sumAntiguedad / countConAntiguedad : 0;
+
+        statsHtml = `
+            <div class="stat-card" style="border-left-color: #1e5c3a;">
+                <div class="stat-label"><i class="fas fa-user-plus"></i> Nuevos Socios (&le;12M)</div>
+                <div class="stat-number">${sociosNuevos12M}</div>
+            </div>
+            <div class="stat-card" style="border-left-color: #d97706;">
+                <div class="stat-label" style="color: #b45309;"><i class="fas fa-birthday-cake"></i> En Hitos (6M, 12M, 18M...)</div>
+                <div class="stat-number" style="color: #b45309;">${hitosRelevantes}</div>
+            </div>
+            <div class="stat-card" style="border-left-color: #2563eb;">
+                <div class="stat-label" style="color: #1d4ed8;"><i class="fas fa-hourglass-half"></i> Antigüedad Promedio</div>
+                <div class="stat-number" style="color: #1d4ed8;">${promAntiguedad.toFixed(1)} meses</div>
             </div>
         `;
     }
@@ -354,6 +409,73 @@ function renderTablaInactive(socios) {
     }).join('');
 }
 
+// Renderizar la tabla de antigüedad y primer ingreso
+function renderTablaAntiguedad(socios) {
+    const tbody = document.getElementById('antiguedadBody');
+    if (!tbody) return;
+
+    const monthsSelect = document.getElementById('antiguedadMonths');
+    if (!monthsSelect) return;
+    const monthsVal = monthsSelect.value;
+    
+    let filteredList = [...socios];
+
+    if (monthsVal !== "all") {
+        const xMonths = parseInt(monthsVal, 10);
+        filteredList = filteredList.filter(s => s.mesesAntiguedad !== null && s.mesesAntiguedad <= xMonths);
+    }
+
+    if (filteredList.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px;">📭 No hay socios que cumplan con el criterio seleccionado</td></tr>';
+        return;
+    }
+
+    // Ordenar por antigüedad (meses) de menor a mayor (socios más nuevos primero)
+    filteredList.sort((a, b) => {
+        if (a.mesesAntiguedad === null) return 1;
+        if (b.mesesAntiguedad === null) return -1;
+        return a.mesesAntiguedad - b.mesesAntiguedad;
+    });
+
+    tbody.innerHTML = filteredList.map(s => {
+        const meses = s.mesesAntiguedad;
+        let antiguedadText = '';
+        if (meses === null) {
+            antiguedadText = 'Sin ingresos';
+        } else if (meses === 0) {
+            antiguedadText = 'Menos de 1 mes';
+        } else if (meses === 12) {
+            antiguedadText = '12 meses (1 año)';
+        } else if (meses === 24) {
+            antiguedadText = '24 meses (2 años)';
+        } else if (meses === 36) {
+            antiguedadText = '36 meses (3 años)';
+        } else {
+            antiguedadText = `${meses} meses`;
+        }
+
+        // Hito badge
+        let hitoBadge = '-';
+        if (meses !== null && meses > 0 && meses % 6 === 0) {
+            hitoBadge = `<span class="active-badge" style="background:#fef3c7; color:#d97706; border: 1px solid #f59e0b;"><i class="fas fa-birthday-cake"></i> Hito ${meses}M</span>`;
+        } else if (meses !== null && meses <= 3) {
+            hitoBadge = `<span class="active-badge"><i class="fas fa-baby"></i> Nuevo (&le;3M)</span>`;
+        }
+
+        return `
+            <tr>
+                <td class="number-cell"><span class="socio-link" onclick="openSocioModal('${s.id}', '${escapeHtml(s.nombre)}')">${s.id}</span></td>
+                <td>${escapeHtml(s.nombre)}</td>
+                <td>${formatFecha(s.primerIngreso)}</td>
+                <td class="number-cell">${s.primerIngreso ? '$' + formatCLP(s.montoPrimerIngreso) : '-'}</td>
+                <td class="number-cell" style="font-weight: bold; color: #1e3a2f;">${antiguedadText}</td>
+                <td>${hitoBadge}</td>
+                <td>${formatFecha(s.ultimaCuotaMensual)}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -378,6 +500,7 @@ function filterSocios(searchTerm) {
     renderTablaGeneral(filteredSocios);
     renderTablaLast12(filteredSocios);
     renderTablaInactive(filteredSocios);
+    renderTablaAntiguedad(filteredSocios);
 }
 
 // ======================== CACHÉ Y CARGA DE SUPABASE ========================
@@ -543,15 +666,18 @@ async function loadData(forceReload = false) {
         renderTablaGeneral(filteredSocios);
         renderTablaLast12(filteredSocios);
         renderTablaInactive(filteredSocios);
+        renderTablaAntiguedad(filteredSocios);
         
         if (!listenersBound) {
             const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', (e) => {
-                filterSocios(e.target.value);
-            });
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    filterSocios(e.target.value);
+                });
+            }
             
             // Configurar modal
-            closeModal.onclick = () => { modal.style.display = 'none'; };
+            if (closeModal) closeModal.onclick = () => { modal.style.display = 'none'; };
             window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
             
             // Configurar pestañas
@@ -563,7 +689,8 @@ async function loadData(forceReload = false) {
                     tabBtns.forEach(b => b.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
                     btn.classList.add('active');
-                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    const tabElem = document.getElementById(`${tabId}-tab`);
+                    if (tabElem) tabElem.classList.add('active');
                     
                     currentTab = tabId;
                     renderEstadisticas(filteredSocios);
@@ -574,6 +701,14 @@ async function loadData(forceReload = false) {
             const reloadDbBtn = document.getElementById('reloadDbBtn');
             if (reloadDbBtn) {
                 reloadDbBtn.addEventListener('click', () => loadData(true));
+            }
+
+            // Listeners para controles de Antigüedad
+            const monthsSelect = document.getElementById('antiguedadMonths');
+            if (monthsSelect) {
+                monthsSelect.addEventListener('change', () => {
+                    renderTablaAntiguedad(filteredSocios);
+                });
             }
             
             listenersBound = true;
