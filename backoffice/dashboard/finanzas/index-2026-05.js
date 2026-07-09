@@ -18,7 +18,7 @@ document.getElementById('currentYearForFilter').innerText = YEAR;
 let ingresosData = [];
 let egresosData = [];
 let currentMonth = "all";
-let monthlyChart, remuneracionesChart, regularEvolutionChart;
+let monthlyChart, remuneracionesChart, regularEvolutionChart, arriendoChart;
 const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 const mesesCortos = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
@@ -146,6 +146,21 @@ function getRemuneracionesMensual() {
     const promedioMensual = mesesConDatos.length > 0 ? totalAnual / mesesConDatos.length : 0;
     const maxMensual = Math.max(...remuneracionesMensual);
     return { remuneracionesMensual, totalAnual, promedioMensual, maxMensual };
+}
+
+function getArriendoMensual() {
+    const arriendoMensual = new Array(12).fill(0);
+    ingresosData.forEach(ing => {
+        const categoria = (ing.categoria || "").toUpperCase().trim();
+        if (categoria === "ARRIENDO" && ing.mes >= 1 && ing.mes <= 12) {
+            arriendoMensual[ing.mes - 1] += ing.importe || 0;
+        }
+    });
+    const totalAnual = arriendoMensual.reduce((a,b) => a + b, 0);
+    const mesesConDatos = arriendoMensual.filter(v => v > 0);
+    const promedioMensual = mesesConDatos.length > 0 ? totalAnual / mesesConDatos.length : 0;
+    const maxMensual = Math.max(...arriendoMensual);
+    return { arriendoMensual, totalAnual, promedioMensual, maxMensual };
 }
 
 function getMonthlyStats() {
@@ -323,6 +338,21 @@ function renderRemuneracionesChart() {
     });
 }
 
+function renderArriendoChart() {
+    const { arriendoMensual, totalAnual, promedioMensual, maxMensual } = getArriendoMensual();
+    document.getElementById('totalArriendoAnual').innerHTML = `$${formatCLP(totalAnual)}`;
+    document.getElementById('promedioArriendoMensual').innerHTML = `$${formatCLP(promedioMensual)}`;
+    document.getElementById('maxArriendoMensual').innerHTML = `$${formatCLP(maxMensual)}`;
+    
+    const ctx = document.getElementById('arriendoChart').getContext('2d');
+    if (arriendoChart) arriendoChart.destroy();
+    arriendoChart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: mesesCortos, datasets: [{ label: 'ARRIENDOS (CLP)', data: arriendoMensual, backgroundColor: '#d97706', borderRadius: 8 }] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { tooltip: { callbacks: { label: (ctx) => `$${formatCLP(ctx.raw)}` } }, legend: { position: 'top', labels: { font: { size: 10 } } } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${formatCLP(v)}` }, title: { display: true, text: 'Monto en CLP', font: { size: 10 } } }, x: { title: { display: true, text: 'Mes', font: { size: 10 } } } } }
+    });
+}
+
 function renderMonthlyStatsAndChart() {
     const stats = getMonthlyStats();
     
@@ -376,6 +406,7 @@ function updateUIAndCharts() {
     renderQuotaAnalysis(filteredIngresos);
     renderRegularEvolutionChart();
     renderRemuneracionesChart();
+    renderArriendoChart();
     renderMonthlyStatsAndChart();
 }
 
@@ -387,6 +418,7 @@ function setupToggleButtons() {
         { btnId: 'toggleQuotaBtn', componentId: 'quotaSection' },
         { btnId: 'toggleRegularEvolutionBtn', componentId: 'regularEvolutionSection' },
         { btnId: 'toggleRemuneracionesBtn', componentId: 'remuneracionesSection' },
+        { btnId: 'toggleArriendoBtn', componentId: 'arriendoSection' },
         { btnId: 'toggleMonthlyChartBtn', componentId: 'monthlyChartSection' }
     ];
 
@@ -412,6 +444,9 @@ function setupToggleButtons() {
                 }
                 if (t.componentId === 'remuneracionesSection' && remuneracionesChart) {
                     remuneracionesChart.resize();
+                }
+                if (t.componentId === 'arriendoSection' && arriendoChart) {
+                    arriendoChart.resize();
                 }
                 if (t.componentId === 'monthlyChartSection' && monthlyChart) {
                     monthlyChart.resize();

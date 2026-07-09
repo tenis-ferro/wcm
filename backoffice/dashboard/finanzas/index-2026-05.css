@@ -317,6 +317,7 @@ canvas { max-height: 260px; width: 100%; }
 .quota-card { background: linear-gradient(135deg, #1e5c3a08, #ffffff); border: 1px solid #1e5c3a20; }
 .remuneraciones-card { background: linear-gradient(135deg, #b91c1c08, #ffffff); border: 1px solid #b91c1c20; }
 .regular-card { background: linear-gradient(135deg, #2e9e7308, #ffffff); border: 1px solid #2e9e7320; }
+.arriendo-card { background: linear-gradient(135deg, #d9770608, #ffffff); border: 1px solid #d9770620; }
 
 .metric-cards {
     display: flex;

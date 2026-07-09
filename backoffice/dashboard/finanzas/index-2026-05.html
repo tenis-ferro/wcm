@@ -33,6 +33,7 @@
             <button id="toggleQuotaBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Cuota Mensual</button>
             <button id="toggleRegularEvolutionBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Evolución REGULAR</button>
             <button id="toggleRemuneracionesBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Evolución REMUNERACIONES</button>
+            <button id="toggleArriendoBtn" class="toggle-btn active"><i class="fas fa-chart-line"></i> Evolución ARRIENDO</button>
             <button id="toggleMonthlyChartBtn" class="toggle-btn active"><i class="fas fa-chart-bar"></i> Evolución Mensual</button>
         </div>
         <div class="filter-group">
@@ -157,6 +158,19 @@
                 <div class="metric-card"><div class="label">Máximo Mensual</div><div class="value" id="maxRemuneracionesMensual">$0</div></div>
             </div>
             <canvas id="remuneracionesChart" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+
+    <!-- Evolución ARRIENDO -->
+    <div id="arriendoSection" class="composition-row">
+        <div class="composition-card arriendo-card full-width">
+            <h3><i class="fas fa-chart-line" style="color:#d97706;"></i> Evolución Mensual de ARRIENDOS</h3>
+            <div class="metric-cards">
+                <div class="metric-card"><div class="label">Total Anual</div><div class="value" id="totalArriendoAnual">$0</div></div>
+                <div class="metric-card"><div class="label">Promedio Mensual</div><div class="value" id="promedioArriendoMensual">$0</div></div>
+                <div class="metric-card"><div class="label">Máximo Mensual</div><div class="value" id="maxArriendoMensual">$0</div></div>
+            </div>
+            <canvas id="arriendoChart" style="max-height: 300px;"></canvas>
         </div>
     </div>
 
