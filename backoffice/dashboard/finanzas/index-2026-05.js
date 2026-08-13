@@ -94,15 +94,15 @@ function analyzeQuotaMensual(filteredIngresos) {
     
     cuotaMensualItems.forEach(item => {
         const monto = item.importe;
-        if (monto === 43500) { regular.cantidad++; regular.total += monto; }
-        else if (monto === 21750) { damaEstudiante.cantidad++; damaEstudiante.total += monto; }
+        if (monto === 43500 || monto === 50000) { regular.cantidad++; regular.total += monto; }
+        else if (monto === 21750 || monto === 25000) { damaEstudiante.cantidad++; damaEstudiante.total += monto; }
         else if (monto === 13050) { pasivo.cantidad++; pasivo.total += monto; }
         else { otros.cantidad++; otros.total += monto; }
     });
     
     const quotaData = [];
-    if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: "$43.500", cantidad: regular.cantidad, total: regular.total });
-    if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: "$21.750", cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
+    if (regular.cantidad > 0) quotaData.push({ tipo: "REGULAR", montoUnitario: "$43.500 / $50.000", cantidad: regular.cantidad, total: regular.total });
+    if (damaEstudiante.cantidad > 0) quotaData.push({ tipo: "DAMA / ESTUDIANTE", montoUnitario: "$21.750 / $25.000", cantidad: damaEstudiante.cantidad, total: damaEstudiante.total });
     if (pasivo.cantidad > 0) quotaData.push({ tipo: "PASIVO", montoUnitario: "$13.050", cantidad: pasivo.cantidad, total: pasivo.total });
     if (otros.cantidad > 0) quotaData.push({ tipo: "📦 OTROS", montoUnitario: "---", cantidad: otros.cantidad, total: otros.total });
     
@@ -117,7 +117,7 @@ function getRegularEvolution() {
     
     ingresosData.forEach(ing => {
         const categoria = (ing.categoria || "").toUpperCase().trim();
-        if (categoria === "CUOTA MENSUAL" && ing.importe === 43500 && ing.mes >= 1 && ing.mes <= 12) {
+        if (categoria === "CUOTA MENSUAL" && (ing.importe === 43500 || ing.importe === 50000) && ing.mes >= 1 && ing.mes <= 12) {
             regularMensualCantidad[ing.mes - 1]++;
             regularMensualMonto[ing.mes - 1] += ing.importe;
         }

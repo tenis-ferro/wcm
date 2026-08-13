@@ -450,3 +450,29 @@ canvas { max-height: 260px; width: 100%; }
     background: #15432a;
 }
 
+/* Excel Button Styles */
+.excel-btn {
+    background: #107c41;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.excel-btn:hover {
+    background: #0d6233;
+    transform: translateY(-1px);
+}
+
+.excel-btn:active {
+    transform: translateY(1px);
+}
+
+
