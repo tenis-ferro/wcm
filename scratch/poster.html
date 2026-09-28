@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 1200px;
+      height: 1680px;
+      background: #082d16;
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #121e17;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Tennis Court Frame */
+    .poster-frame {
+      width: 100%;
+      height: 100%;
+      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .poster-inner {
+      flex: 1;
+      background: #faf7f2;
+      border: 4px solid #ffffff;
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Header Section with Clay Texture & Gradient */
+    .header-box {
+      position: relative;
+      background: linear-gradient(135deg, rgba(8, 45, 22, 0.95) 0%, rgba(18, 30, 23, 0.96) 45%, rgba(162, 70, 22, 0.94) 100%),
+                  url('c:/net/front-html/wcm-ferro-02/torneos/2026/la-liga/hero_clay_bg.png') no-repeat center center;
+      background-size: cover;
+      color: #ffffff;
+      padding: 30px 40px 26px 40px;
+      text-align: center;
+      border-bottom: 5px solid #c65f29;
+    }
+
+    .header-box::after {
+      content: '';
+      position: absolute;
+      bottom: -9px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, #c65f29, #c65f29 25px, #ffffff 25px, #ffffff 45px);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 8px;
+    }
+
+    .club-logo {
+      width: 105px;
+      height: 105px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+    }
+
+    .club-tag {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #f7a67b;
+      margin-bottom: 2px;
+    }
+
+    .main-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 62px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      line-height: 1.05;
+      margin-bottom: 5px;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .main-title span {
+      color: #f7a67b;
+      font-style: italic;
+    }
+
+    .sub-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e5e7eb;
+      margin-bottom: 16px;
+    }
+
+    /* Price Badge Ribbon */
+    .price-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      background: linear-gradient(135deg, #c65f29 0%, #8c380d 100%);
+      color: #ffffff;
+      padding: 9px 36px;
+      border-radius: 50px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .price-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .price-amount {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff9e6;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* Main Content Body with Tenuous Clay Court Background */
+    .body-content {
+      flex: 1;
+      padding: 24px 38px 26px 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background: linear-gradient(rgba(250, 247, 242, 0.88), rgba(250, 247, 242, 0.91)),
+                  url('c:/net/front-html/wcm-ferro-02/assets/img/Cancha-02.png') center center / cover no-repeat;
+    }
+
+    /* Grid for Dates & Formato */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid #e0d7cb;
+      border-radius: 14px;
+      padding: 18px 22px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      backdrop-filter: blur(4px);
+    }
+
+    .info-card.green-theme {
+      border-top: 5px solid #0a3d1c;
+    }
+
+    .info-card.clay-theme {
+      border-top: 5px solid #c65f29;
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #0a3d1c;
+      margin-bottom: 12px;
+      padding-bottom: 7px;
+      border-bottom: 1px dashed #e0d7cb;
+    }
+
+    .clay-theme .card-heading {
+      color: #a24616;
+    }
+
+    .card-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .card-list li {
+      font-size: 14.5px;
+      color: #374151;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .card-list li .bullet {
+      font-weight: 900;
+      color: #c65f29;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .card-list li strong {
+      color: #111827;
+      font-weight: 700;
+    }
+
+    /* Major Prizes Section with Real Product Images */
+    .prizes-container {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #c65f29;
+      border-radius: 16px;
+      padding: 18px 22px;
+      box-shadow: 0 8px 24px rgba(198, 95, 41, 0.12);
+      margin-bottom: 16px;
+      backdrop-filter: blur(4px);
+    }
+
+    .prizes-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #a24616;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .prizes-tag {
+      background: #0a3d1c;
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+    }
+
+    .prizes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .prize-box {
+      background: #ffffff;
+      border: 1px solid #e0d7cb;
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .prize-box.gold {
+      border: 2px solid #eab308;
+      background: linear-gradient(180deg, #ffffff 0%, #fffdf0 100%);
+    }
+
+    .prize-img-frame {
+      width: 100%;
+      height: 125px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+      padding: 4px;
+    }
+
+    .prize-img-frame img {
+      max-height: 118px;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12));
+    }
+
+    .prize-double-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .prize-double-img img {
+      height: 115px;
+      width: 48%;
+      object-fit: contain;
+    }
+
+    .prize-box .p-place {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #c65f29;
+      margin-bottom: 2px;
+    }
+
+    .prize-box .p-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #0a3d1c;
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+
+    .prize-box .p-desc {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.3;
+    }
+
+    /* Points and Fairness Highlight Banner */
+    .fairness-banner {
+      background: rgba(10, 61, 28, 0.95);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 13px 18px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(10, 61, 28, 0.2);
+    }
+
+    .fairness-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .fairness-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #f7a67b;
+      margin-bottom: 2px;
+    }
+
+    .fairness-text p {
+      font-size: 13px;
+      color: #e5e7eb;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    /* Footer Inscription Call To Action */
+    .footer-cta {
+      background: linear-gradient(135deg, #121e17 0%, #052612 100%);
+      color: #ffffff;
+      padding: 18px 30px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-info h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 3px;
+    }
+
+    .cta-info p {
+      font-size: 13.5px;
+      color: #9ca3af;
+      margin: 0;
+    }
+
+    .cta-contact {
+      text-align: right;
+    }
+
+    .cta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: #25d366;
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 10px 22px;
+      border-radius: 50px;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+      letter-spacing: 0.5px;
+    }
+
+    .cta-web {
+      font-size: 12px;
+      color: #e5e7eb;
+      margin-top: 5px;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster-frame">
+    <div class="poster-inner">
+
+      <!-- Header with Club Logo, Title and Price -->
+      <div class="header-box">
+        <div class="header-top">
+          <img src="c:/net/front-html/wcm-ferro-02/assets/img/Logo-Ferro-3.png" alt="Club de Tenis Ferroviario" class="club-logo">
+        </div>
+        <span class="club-tag">Club de Tenis Ferroviario Santiago</span>
+        <h1 class="main-title">LA LIGA FERRO <span>2026/27</span></h1>
+        <div class="sub-title">Circuito Oficial de Tenis en Polvo de Ladrillo &bull; 4 Etapas</div>
+        
+        <div class="price-ribbon">
+          <span class="price-label">Valor de Inscripción:</span>
+          <span class="price-amount">$25.000</span>
+        </div>
+      </div>
+
+      <!-- Main Body Information with Tenuous Clay Court Background -->
+      <div class="body-content">
+
+        <!-- Two Column Grid: Fechas / Etapas and Formato -->
+        <div class="two-col-grid">
+          
+          <!-- Card 1: Fechas y Etapas -->
+          <div class="info-card green-theme">
+            <div class="card-heading">
+              <span>📅</span> Fechas y Calendario
+            </div>
+            <ul class="card-list">
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Inicio Etapa 1:</strong> Sábado 10 de Octubre 2026</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Cierre Inscripciones:</strong> Miércoles 7 de Octubre (23:59 hrs)</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Sorteo de Grupos:</strong> Jueves 8 de Octubre 2026</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Duración:</strong> 4 Etapas (Octubre, Noviembre, Diciembre y Enero 2027)</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Categorías:</strong> 1ª/2ª Categoría &bull; 3ª/4ª Categoría</div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Card 2: Formato de Competencia -->
+          <div class="info-card clay-theme">
+            <div class="card-heading">
+              <span>🎾</span> Formato de Juego
+            </div>
+            <ul class="card-list">
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Fase 1: Grupos Round Robin</strong> (zonas de 3, aseguras mínimo 2 partidos por etapa)</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Fase 2: Cuadro de Eliminación Directa</strong> (clasifica el 1° de cada grupo a la llave final)</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Reglamento de Partidos:</strong> Al mejor de 3 sets completos (Super Tie-break a 10 en el 3°)</div>
+              </li>
+              <li>
+                <span class="bullet">&bull;</span>
+                <div><strong>Puntaje Progresivo:</strong> ¡Etapa 4 con Puntos Dobles (70 pts)! Todos con opciones hasta Enero</div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Major Prizes Block with Real Images -->
+        <div class="prizes-container">
+          <div class="prizes-title">
+            <div><span>🏆</span> Grandes Premios del Circuito</div>
+            <span class="prizes-tag">Palmarés 2026/27</span>
+          </div>
+
+          <div class="prizes-grid">
+            
+            <!-- Prize 1: Bolso RH12 -->
+            <div class="prize-box gold">
+              <div class="prize-img-frame">
+                <img src="c:/net/front-html/wcm-ferro-02/torneos/2026/la-liga/img/Bolso-RH12.jpeg" alt="Bolso Raquetero Pro 12 Raquetas">
+              </div>
+              <div class="p-place">1° Lugar General</div>
+              <div class="p-name">Bolso Raquetero Pro</div>
+              <div class="p-desc">Capacidad para 12 Raquetas de alta gama</div>
+            </div>
+
+            <!-- Prize 2: Zapatillas -->
+            <div class="prize-box gold">
+              <div class="prize-img-frame">
+                <img src="c:/net/front-html/wcm-ferro-02/torneos/2026/la-liga/img/Zapatillas.webp" alt="Zapatillas de Tenis Profesionales">
+              </div>
+              <div class="p-place">2° Lugar General</div>
+              <div class="p-name">Zapatillas Profesionales</div>
+              <div class="p-desc">Un par de zapatillas de tenis de alta gama</div>
+            </div>
+
+            <!-- Prize 3: Copa y Tarro de Pelotas + Sorteo -->
+            <div class="prize-box">
+              <div class="prize-img-frame">
+                <div class="prize-double-img">
+                  <img src="c:/net/front-html/wcm-ferro-02/torneos/2026/la-liga/img/Copa.jpg" alt="Copa Oficial de Campeón">
+                  <img src="c:/net/front-html/wcm-ferro-02/torneos/2026/la-liga/img/Tarro-Pelotas.jpg" alt="Tarros de Pelotas Oficiales">
+                </div>
+              </div>
+              <div class="p-place">Por Etapa & Sorteo</div>
+              <div class="p-name">Copas, Tarros & Tenida</div>
+              <div class="p-desc">Premiación en cada etapa + Sorteo de Tenida Deportiva entre todos</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Fairness and Bonus Banner -->
+        <div class="fairness-banner">
+          <div class="fairness-icon">🎖️</div>
+          <div class="fairness-text">
+            <h4>Bonus de Constancia (+10 Pts) y Premios por Etapa</h4>
+            <p>Se premiará con <strong>+10 puntos de bonificación</strong> al ranking a quienes jueguen las 4 etapas completas. Además, se entregan <strong>copas y medallas oficiales</strong> para el Campeón y Finalista de cada etapa.</p>
+          </div>
+        </div>
+
+        <!-- Footer Call to Action -->
+        <div class="footer-cta">
+          <div class="cta-info">
+            <h3>¡Asegura tu cupo en la cancha!</h3>
+            <p>Inscripciones abiertas por orden de llegada con la comisión organizadora</p>
+          </div>
+          <div class="cta-contact">
+            <div class="cta-badge">
+              WhatsApp: +56 9 2027 7423
+            </div>
+            <div class="cta-web">tenis-ferro.github.io/wcm</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
