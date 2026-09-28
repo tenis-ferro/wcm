@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Afiche Oficial | La Liga Ferro 2026/27 - Club Ferroviario</title>
+  <meta name="description" content="Afiche y Flyer oficial de La Liga Ferro 2026/27. Circuito en polvo de ladrillo de 4 etapas hasta Enero 2027. Premios: Bolso Raquetero 12R, Zapatillas Pro y Sorteo de Tenida Deportiva.">
+
+  <!-- Favicons -->
+  <link href="../../../assets/img/favicon-ferro.png" rel="icon">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link href="../../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --rg-green-dark: #0A3D1C;
+      --rg-green-deep: #05482F;
+      --rg-clay: #C65F29;
+      --rg-clay-dark: #A24616;
+      --rg-cream: #FAF7F2;
+      --rg-sand: #EFEBE4;
+      --rg-sand-border: #E0D7CB;
+      --rg-dark: #121E17;
+      --rg-white: #FFFFFF;
+    }
+
+    body {
+      background-color: var(--rg-cream);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--rg-dark);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top Action Bar */
+    .flyer-nav {
+      background: #ffffff;
+      border-bottom: 1px solid var(--rg-sand-border);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-rg-action {
+      background-color: var(--rg-clay);
+      color: #ffffff !important;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 9px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--rg-clay);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .btn-rg-action:hover {
+      background-color: var(--rg-clay-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-rg-secondary {
+      background-color: #ffffff;
+      color: var(--rg-green-dark) !important;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 9px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--rg-sand-border);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .btn-rg-secondary:hover {
+      background-color: var(--rg-sand);
+      color: var(--rg-dark) !important;
+    }
+
+    /* Flyer Main Layout */
+    .flyer-container {
+      max-width: 1040px;
+      margin: 35px auto 60px auto;
+      padding: 0 15px;
+    }
+
+    .flyer-card {
+      background: #ffffff;
+      border: 1px solid var(--rg-sand-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(10, 61, 28, 0.08);
+    }
+
+    .flyer-img-box {
+      text-align: center;
+      background: #0d1e13;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flyer-img-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      max-height: 780px;
+      object-fit: contain;
+    }
+
+    .flyer-details {
+      padding: 36px 32px;
+    }
+
+    .flyer-tag {
+      display: inline-block;
+      background-color: var(--rg-green-dark);
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    .flyer-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--rg-green-dark);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .flyer-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--rg-clay);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 22px;
+    }
+
+    .flyer-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .flyer-info-item {
+      background: var(--rg-cream);
+      border: 1px solid var(--rg-sand-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--rg-clay);
+    }
+
+    .flyer-info-item.green-accent {
+      border-left-color: var(--rg-green-dark);
+    }
+
+    .flyer-info-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #6b7280;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .flyer-info-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--rg-dark);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .flyer-prizes-box {
+      background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+      border: 2px solid var(--rg-clay);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+
+    .flyer-prizes-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--rg-clay-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flyer-prize-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .flyer-prize-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .share-banner {
+      background-color: var(--rg-green-dark);
+      color: #ffffff;
+      padding: 20px 24px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .share-banner h5 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .share-banner p {
+      font-size: 13.5px;
+      margin-bottom: 0;
+      color: #d1fae5;
+    }
+
+    @media (max-width: 768px) {
+      .flyer-container {
+        margin: 20px auto 40px auto;
+      }
+      .flyer-details {
+        padding: 24px 18px;
+      }
+      .flyer-title {
+        font-size: 26px;
+      }
+      .flyer-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .share-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .share-banner .btn-rg-action {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Print Optimization */
+    @media print {
+      .flyer-nav, .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff;
+      }
+      .flyer-container {
+        margin: 0;
+        max-width: 100%;
+        padding: 0;
+      }
+      .flyer-card {
+        border: none;
+        box-shadow: none;
+      }
+      .flyer-img-box {
+        background: transparent;
+        padding: 0;
+      }
+      .flyer-img-box img {
+        max-height: 90vh;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Action Bar -->
+  <nav class="flyer-nav no-print">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="index.html" class="btn-rg-secondary">
+        <i class="bi bi-arrow-left"></i> Volver a La Liga
+      </a>
+      <div class="d-flex gap-2">
+        <a href="afiche_la_liga_ferro.jpg" download="Afiche_La_Liga_Ferro_2026.jpg" class="btn-rg-secondary">
+          <i class="bi bi-download"></i> Descargar Imagen
+        </a>
+        <button onclick="window.print()" class="btn-rg-secondary d-none d-md-inline-flex">
+          <i class="bi bi-printer"></i> Imprimir
+        </button>
+        <a href="https://wa.me/56920277423?text=Hola,%20vi%20el%20afiche%20de%20La%20Liga%20Ferro%202026%20y%20me%20gustar%C3%ADa%20inscribirme" target="_blank" class="btn-rg-action">
+          <i class="bi bi-whatsapp"></i> Inscribirse
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="flyer-container">
+    <div class="flyer-card">
+      <div class="row g-0">
+        
+        <!-- Columna 1: Imagen del Afiche Oficial -->
+        <div class="col-lg-6 flyer-img-box">
+          <img src="afiche_la_liga_ferro.jpg" alt="Afiche Oficial La Liga Ferro 2026/27">
+        </div>
+
+        <!-- Columna 2: Ficha Técnica y Promoción -->
+        <div class="col-lg-6 flyer-details d-flex flex-column justify-content-between">
+          <div>
+            <span class="flyer-tag">Circuito Oficial 2026/27</span>
+            <h1 class="flyer-title">La Liga Ferro</h1>
+            <div class="flyer-subtitle">Club de Tenis Ferroviario Santiago</div>
+
+            <!-- Grid de Información Clave -->
+            <div class="flyer-info-grid">
+              <div class="flyer-info-item">
+                <span class="flyer-info-label"><i class="bi bi-calendar-event me-1"></i> Inicio Etapa 1</span>
+                <p class="flyer-info-val">Sábado 10 de Octubre 2026</p>
+              </div>
+
+              <div class="flyer-info-item">
+                <span class="flyer-info-label"><i class="bi bi-clock-history me-1"></i> Cierre de Inscripción</span>
+                <p class="flyer-info-val">Miércoles 7 de Octubre (23:59 hrs)</p>
+              </div>
+
+              <div class="flyer-info-item green-accent">
+                <span class="flyer-info-label"><i class="bi bi-hourglass-split me-1"></i> Duración Circuito</span>
+                <p class="flyer-info-val">4 Etapas (Hasta Enero 2027)</p>
+              </div>
+
+              <div class="flyer-info-item green-accent">
+                <span class="flyer-info-label"><i class="bi bi-layers-fill me-1"></i> Categorías</span>
+                <p class="flyer-info-val">1ª / 2ª y 3ª / 4ª Categoría</p>
+              </div>
+            </div>
+
+            <!-- Bloque de Grandes Premios -->
+            <div class="flyer-prizes-box">
+              <div class="flyer-prizes-title">
+                <i class="bi bi-trophy-fill text-warning"></i> Grandes Premios de la Temporada
+              </div>
+              <div class="flyer-prize-row">
+                <span style="font-size: 20px;">🏆</span>
+                <div><strong>1° Lugar General:</strong> Bolso Raquetero Pro (12 Raquetas)</div>
+              </div>
+              <div class="flyer-prize-row">
+                <span style="font-size: 20px;">🥈</span>
+                <div><strong>2° Lugar General:</strong> Par de Zapatillas de tenis profesionales</div>
+              </div>
+              <div class="flyer-prize-row">
+                <span style="font-size: 20px;">🎁</span>
+                <div><strong>Sorteo General:</strong> Tenida deportiva completa sorteada entre todos</div>
+              </div>
+            </div>
+
+            <!-- Sistema Progresivo -->
+            <p class="text-muted small mb-4">
+              <i class="bi bi-graph-up-arrow text-success me-1"></i> <strong>Sistema de Puntos Progresivo:</strong> La Etapa 4 otorga puntaje doble (70 pts al campeón). Además, suma un <strong>Bonus de Constancia (+10 pts)</strong> si disputas las 4 etapas. ¡Todos compiten con opciones hasta el final!
+            </p>
+          </div>
+
+          <!-- Banner de Inscripción / Compartir -->
+          <div class="share-banner no-print">
+            <div>
+              <h5>¿Listo para competir?</h5>
+              <p>Inscripciones abiertas vía WhatsApp oficial del club</p>
+            </div>
+            <a href="https://wa.me/56920277423?text=Hola,%20vi%20el%20afiche%20de%20La%20Liga%20Ferro%202026%20y%20me%20gustar%C3%ADa%20inscribirme" target="_blank" class="btn-rg-action">
+              <i class="bi bi-whatsapp"></i> Inscribirme Ahora
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</body>
+
+</html>

@@ -7,20 +7,18 @@
   const path = window.location.pathname;
   let activeItem = '';
   
-  if (path.endsWith('/') || path.endsWith('/index.html') || path.endsWith('/wcm') || path.endsWith('/wcm/')) {
-    activeItem = 'inicio';
+  if (path.includes('/torneos.html') || path.includes('/torneos/')) {
+    activeItem = 'torneos';
   } else if (path.includes('elclub.html')) {
     activeItem = 'elclub';
   } else if (path.includes('canchas')) {
     activeItem = 'canchas';
   } else if (path.includes('escalerilla.html')) {
     activeItem = 'escalerilla';
-  } else if (path.includes('/torneos.html') || path.includes('/torneos/')) {
-    activeItem = 'torneos';
   } else if (path.includes('estatutos.html')) {
     activeItem = 'estatutos';
-  } else if (path.includes('reproductor.html')) {
-    activeItem = 'reproductor';
+  } else if (path.endsWith('/') || path.endsWith('/index.html') || path.endsWith('/wcm') || path.endsWith('/wcm/')) {
+    activeItem = 'inicio';
   }
 
   const isHome = activeItem === 'inicio';
@@ -55,7 +53,6 @@
             <li><a class="nav-link scrollto ${activeItem === 'torneos' ? 'active' : ''}" href="${siteRoot}torneos.html">Torneos</a></li>
             <li><a class="nav-link scrollto" href="${siteRoot}index.html#directorio">Directorio</a></li> 
             <li><a class="nav-link scrollto ${activeItem === 'estatutos' ? 'active' : ''}" href="${siteRoot}estatutos.html">Estatutos</a></li>
-            <li><a class="nav-link scrollto ${activeItem === 'reproductor' ? 'active' : ''}" href="${siteRoot}reproductor.html">Reproductor</a></li>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
