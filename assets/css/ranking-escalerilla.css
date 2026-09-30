@@ -1,0 +1,851 @@
+﻿/* ==========================================================================
+   Ranking Interno / Escalerilla - Club de Tenis Ferroviario Santiago
+   Diseño Mobile-First Optimizado para Jugadores en Teléfonos Móviles
+   ========================================================================== */
+
+:root {
+  --ferro-gold: #ffc451;
+  --ferro-gold-dark: #d49b28;
+  --ferro-gold-light: #fff8eb;
+  --ferro-dark: #151515;
+  --ferro-dark-card: #202020;
+  --ferro-gray: #64748b;
+  --ferro-light-bg: #f8fafc;
+  --ferro-border: #e2e8f0;
+  --ferro-clay: #b33927;
+  --ferro-green: #16a34a;
+  --ferro-green-light: #f0fdf4;
+  --ferro-shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --ferro-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  --ferro-shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+  --ferro-radius: 12px;
+  --ferro-touch-target: 44px;
+}
+
+/* Evitar scroll horizontal accidental en móviles */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ==========================================================================
+   1. Banner Hero del Ranking (Mobile-First)
+   ========================================================================== */
+.ranking-hero {
+  background: linear-gradient(135deg, #151515 0%, #222222 100%);
+  color: #ffffff;
+  padding: 30px 0 25px 0;
+  border-bottom: 3px solid var(--ferro-gold);
+  position: relative;
+  overflow: hidden;
+}
+
+.ranking-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,196,81,0.18) 0%, rgba(255,196,81,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ranking-hero-title {
+  font-size: clamp(1.6rem, 5.5vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.ranking-hero-title span {
+  color: var(--ferro-gold);
+}
+
+.ranking-hero-subtitle {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+/* Status Badges en Hero */
+.ranking-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  color: #f1f5f9;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-dot.online {
+  background-color: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulse-green 2s infinite;
+}
+
+.status-dot.fallback {
+  background-color: var(--ferro-gold);
+  box-shadow: 0 0 8px var(--ferro-gold);
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* Botones del Hero (Optimizados para pulgar en móviles) */
+.hero-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-ferro-gold,
+.btn-ferro-outline {
+  min-height: var(--ferro-touch-target);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-ferro-gold {
+  background: var(--ferro-gold);
+  color: var(--ferro-dark);
+  border: none;
+}
+
+.btn-ferro-gold:hover,
+.btn-ferro-gold:active {
+  background: var(--ferro-gold-dark);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-ferro-outline {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.btn-ferro-outline:hover,
+.btn-ferro-outline:active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* KPI Summary Ribbon (3 Columnas compactas en celular, sin desbordamiento) */
+.ranking-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.kpi-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px 6px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.kpi-num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--ferro-gold);
+  line-height: 1.1;
+}
+
+.kpi-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #94a3b8;
+  margin-top: 4px;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   2. Barra de Control Pegajosa (Sticky Controls)
+   ========================================================================== */
+.ranking-controls {
+  background: #ffffff;
+  padding: 10px 0 8px 0;
+  border-bottom: 1px solid var(--ferro-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 70px; /* Alineado justo bajo el fixed navbar */
+  z-index: 990;
+  transition: all 0.2s ease;
+}
+
+/* Buscador con prevención de zoom en iPhone (font-size >= 16px) */
+.search-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-group i.bi-search {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  font-size: 1.05rem;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  min-height: var(--ferro-touch-target);
+  padding: 10px 42px 10px 40px;
+  border: 2px solid var(--ferro-border);
+  border-radius: 30px;
+  font-size: 16px; /* CRÍTICO: 16px exactos evita zoom forzado en iOS Safari */
+  outline: none;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+}
+
+.search-input:focus {
+  border-color: var(--ferro-gold);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 196, 81, 0.25);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 4px;
+  width: var(--ferro-touch-target);
+  height: var(--ferro-touch-target);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.clear-search-btn:active {
+  color: #334155;
+  transform: scale(0.9);
+}
+
+/* Carrusel Horizontal de Pestañas con Desplazamiento Táctil Suave */
+.category-tabs-wrapper {
+  position: relative;
+  margin-top: 10px;
+}
+
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding: 4px 2px 8px 2px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.category-tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.cat-tab-btn {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  min-height: 38px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.cat-tab-btn:active {
+  transform: scale(0.96);
+}
+
+.cat-tab-btn.active {
+  background: var(--ferro-dark);
+  color: var(--ferro-gold);
+  border-color: var(--ferro-gold);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cat-tab-count {
+  font-size: 0.72rem;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+.cat-tab-btn.active .cat-tab-count {
+  background: var(--ferro-gold);
+  color: var(--ferro-dark);
+}
+
+/* ==========================================================================
+   3. Sección Principal y Tarjetas de Jugadores (Cards)
+   ========================================================================== */
+.ranking-section {
+  padding: 20px 0 80px 0;
+  background-color: var(--ferro-light-bg);
+  min-height: 60vh;
+}
+
+.category-block {
+  margin-bottom: 24px;
+  background: #ffffff;
+  border-radius: var(--ferro-radius);
+  border: 1px solid var(--ferro-border);
+  box-shadow: var(--ferro-shadow-sm);
+  padding: 16px 12px;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.category-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ferro-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.category-title i {
+  color: var(--ferro-gold-dark);
+}
+
+.category-badge-count {
+  font-size: 0.75rem;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+/* Grid de jugadores: 1 columna en móvil */
+.players-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+/* Tarjeta de jugador (Touch-optimized) */
+.player-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  min-height: 56px;
+}
+
+.player-card:active {
+  transform: scale(0.985);
+  background-color: #f8fafc;
+}
+
+/* Número de puesto en la categoría */
+.player-rank {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Podios 1, 2 y 3 */
+.player-card.rank-1 {
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(90deg, #fffdf5 0%, #ffffff 100%);
+}
+
+.player-card.rank-1 .player-rank {
+  background: #f59e0b;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.35);
+}
+
+.player-card.rank-2 {
+  border-left: 4px solid #94a3b8;
+  background: linear-gradient(90deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.player-card.rank-2 .player-rank {
+  background: #94a3b8;
+  color: #ffffff;
+}
+
+.player-card.rank-3 {
+  border-left: 4px solid #b45309;
+  background: linear-gradient(90deg, #fff7ed 0%, #ffffff 100%);
+}
+
+.player-card.rank-3 .player-rank {
+  background: #b45309;
+  color: #ffffff;
+}
+
+.player-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.player-name {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.player-category-tag {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.player-ruf-badge {
+  font-size: 0.68rem;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border: 1px solid #e2e8f0;
+}
+
+.player-card.rank-1 .player-ruf-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.player-card.rank-2 .player-ruf-badge {
+  background: #f1f5f9;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.player-card.rank-3 .player-ruf-badge {
+  background: #ffedd5;
+  color: #9a3412;
+  border-color: #fed7aa;
+}
+
+.player-podium-icon {
+  font-size: 1.15rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   4. Simulador de Desafíos y Resaltado
+   ========================================================================== */
+.player-card.selected-challenger {
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2) !important;
+  background: #f0f9ff !important;
+}
+
+.challenger-badge {
+  background: #0284c7;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.player-card.challenge-target {
+  border: 2px solid var(--ferro-green) !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25) !important;
+  background: var(--ferro-green-light) !important;
+  animation: pulse-target 1.8s infinite;
+}
+
+.target-badge {
+  background: var(--ferro-green);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-target {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+/* Helper Box en Desktop/Tablet */
+.challenge-helper-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--ferro-radius);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.challenge-helper-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #1e40af;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.challenge-helper-text i {
+  font-size: 1.3rem;
+  color: #2563eb;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ==========================================================================
+   5. Barra Flotante de Desafío en Celulares (Mobile Floating Action Bar)
+   ========================================================================== */
+.mobile-floating-challenge-bar {
+  position: fixed;
+  bottom: 16px;
+  left: 12px;
+  right: 12px;
+  background: rgba(21, 21, 21, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--ferro-gold);
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1050;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  animation: slide-up-mobile 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slide-up-mobile {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.mobile-challenge-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mobile-challenge-title {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.mobile-challenge-subtitle {
+  color: var(--ferro-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.mobile-challenge-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-mobile-jump {
+  background: var(--ferro-green);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-mobile-jump:active {
+  transform: scale(0.95);
+  background: #15803d;
+}
+
+.btn-mobile-close {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+/* ==========================================================================
+   6. Sección Reglamento y Normativa
+   ========================================================================== */
+.reglamento-card {
+  background: #ffffff;
+  border-radius: var(--ferro-radius);
+  border: 1px solid var(--ferro-border);
+  padding: 20px 14px;
+  box-shadow: var(--ferro-shadow-sm);
+  margin-top: 24px;
+}
+
+.reglamento-card h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ferro-dark);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.rule-item {
+  display: flex;
+  gap: 12px;
+  background: #f8fafc;
+  padding: 14px 12px;
+  border-radius: 10px;
+  border-left: 3px solid var(--ferro-gold);
+}
+
+.rule-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  background: rgba(255, 196, 81, 0.2);
+  color: var(--ferro-gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.rule-content h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+  color: #1e293b;
+}
+
+.rule-content p {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Estado Vacío / Sin Resultados */
+.no-results-box {
+  text-align: center;
+  padding: 40px 16px;
+  background: #ffffff;
+  border-radius: var(--ferro-radius);
+  border: 1px dashed #cbd5e1;
+  margin: 16px 0;
+}
+
+.no-results-box i {
+  font-size: 2.5rem;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.no-results-box h4 {
+  font-weight: 700;
+  color: #334155;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.no-results-box p {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   7. Progressive Enhancement (Tablets y Desktop: >= 768px y >= 992px)
+   ========================================================================== */
+@media (min-width: 768px) {
+  .ranking-hero {
+    padding: 45px 0 35px 0;
+  }
+
+  .hero-action-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn-ferro-gold,
+  .btn-ferro-outline {
+    width: auto;
+  }
+
+  .ranking-kpi-grid {
+    gap: 12px;
+  }
+
+  .kpi-num {
+    font-size: 1.6rem;
+  }
+
+  .ranking-controls {
+    padding: 16px 0 12px 0;
+  }
+
+  .players-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .category-block {
+    padding: 24px;
+    margin-bottom: 35px;
+  }
+
+  .rules-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .reglamento-card {
+    padding: 30px;
+  }
+
+  .challenge-helper-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* En pantallas más grandes, no necesitamos la barra flotante */
+  .mobile-floating-challenge-bar {
+    display: none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .players-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .rules-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

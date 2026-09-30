@@ -5,22 +5,22 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Torneo de Escalerilla | Club de Tenis Ferroviario Santiago</title>
-  <meta name="description" content="Sigue la tabla de posiciones, el reglamento de juego y los desafíos activos de la Escalerilla del Club de Tenis Ferroviario Santiago en Estación Central.">
-  <meta name="keywords" content="escalerilla de tenis, ranking de tenis santiago, desafios internos tenis, club ferroviario escalerilla">
+  <title>Ranking Oficial y Escalerilla | Club de Tenis Ferroviario Santiago</title>
+  <meta name="description" content="Consulta las tablas de posiciones actualizadas en vivo del Ranking Interno (Escalerilla / RUF) del Club de Tenis Ferroviario Santiago. Sigue a los jugadores por categoría, simula desafíos y conoce las reglas oficiales.">
+  <meta name="keywords" content="ranking tenis santiago, escalerilla tenis ferroviario, RUF tenis, club de tenis ferroviario estacion central, ranking socios tenis">
 
   <!-- Metadatos Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tenis-ferro.github.io/wcm/escalerilla.html">
-  <meta property="og:title" content="Torneo de Escalerilla | Club de Tenis Ferroviario Santiago">
-  <meta property="og:description" content="Sigue la tabla de posiciones, el reglamento de juego y los desafíos activos de la Escalerilla del Club de Tenis Ferroviario Santiago en Estación Central.">
+  <meta property="og:title" content="Ranking Oficial y Escalerilla | Club de Tenis Ferroviario Santiago">
+  <meta property="og:description" content="Tablas de posiciones actualizadas del Ranking Interno de Tenis Ferroviario. Honor, Primera, Segunda, Tercera, Cuarta y Damas.">
   <meta property="og:image" content="https://tenis-ferro.github.io/wcm/assets/img/Logo-Ferro-3.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://tenis-ferro.github.io/wcm/escalerilla.html">
-  <meta name="twitter:title" content="Torneo de Escalerilla | Club de Tenis Ferroviario Santiago">
-  <meta name="twitter:description" content="Sigue la tabla de posiciones, el reglamento de juego y los desafíos activos de la Escalerilla del Club de Tenis Ferroviario Santiago en Estación Central.">
+  <meta name="twitter:title" content="Ranking Oficial y Escalerilla | Club de Tenis Ferroviario Santiago">
+  <meta name="twitter:description" content="Tablas de posiciones actualizadas del Ranking Interno de Tenis Ferroviario.">
   <meta name="twitter:image" content="https://tenis-ferro.github.io/wcm/assets/img/Logo-Ferro-3.png">
 
   <!-- Favicons -->
@@ -41,16 +41,17 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <!-- Ranking Escalerilla CSS File -->
+  <link href="assets/css/ranking-escalerilla.css" rel="stylesheet">
 
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'G-26JLZNSPM7');
-	</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-26JLZNSPM7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-26JLZNSPM7');
+  </script>
 </head>
 
 <body>
@@ -65,42 +66,200 @@
     <!-- ======= Breadcrumbs ======= -->
     <section class="breadcrumbs">
       <div class="container">
-		<div>
-			<br>
-		</div>
+        <div><br></div>
         <div class="d-flex justify-content-between align-items-center">
-		  <h2>Escalerilla</h2>
+          <h2>Ranking Interno / Escalerilla</h2>
           <ol>
             <li><a href="index.html">Inicio</a></li>
             <li>Escalerilla</li>
           </ol>
         </div>
-
       </div>
     </section><!-- End Breadcrumbs -->
 
-    <section id="about" class="about">
-      <div class="container" data-aos="fade-up">
-		<div class="row">
-			<p>
-			  La escalerilla de tenis es un sistema de competencia permanente entre los socios, cuya finalidad es mantener un ranking dentro del Club durante gran parte del año.
-			</p>
-		</div>
-        <div class="row">
-          <div class="content" data-aos="fade-right" data-aos-delay="100">
-            <ul>
-              <!--
-              <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQmax6Qesch07UlO10sKOOVXJrI_Iar6Dz6h2IcNfQspeClImiYSuMNn5bkOo0T4w/pubhtml" target="_blank"> <i class="ri-check-double-line"></i> Ver Ranking</a></li>
-              -->
-              <li><a href="assets/pdf/RUF-2025-03.pdf" target="_blank"> <i class="ri-check-double-line"></i> Ver Ranking</a></li>
-              <li><a href="https://drive.google.com/uc?export=download&id=1zn3vJKlolhu3EpUMeJMkHuZPAzJuA58a" target="_blank"><i class="ri-check-double-line"></i> Ver Reglamento.</a></li>
-            </ul>
+    <!-- ======= Ranking Hero Section ======= -->
+    <section class="ranking-hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8" data-aos="fade-right">
+            <p class="ranking-hero-subtitle">
+              Sistema oficial de competencia entre socios del Club de Tenis Ferroviario Santiago. Consulta las tablas de posiciones actualizadas en tiempo real desde Google Sheets, busca a tus rivales y simula tus desafíos.
+            </p>
+            <div class="hero-action-buttons">
+              <a href="#reglamento" class="btn-ferro-gold">
+                <i class="bi bi-book-half"></i> Reglamento de Desafíos
+              </a>
+              <button id="btn-sync-now" class="btn-ferro-outline" title="Sincronizar ahora con Google Sheets">
+                <i class="bi bi-arrow-repeat"></i> Actualizar
+              </button>
+            </div>
           </div>
-        </div>		
+          <div class="col-lg-4 mt-3 mt-lg-0" data-aos="fade-left">
+            <div class="ranking-kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-num" id="stat-total-players">--</div>
+                <div class="kpi-label">Socios Rankeados</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-num">6</div>
+                <div class="kpi-label">Categorías</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+    </section><!-- End Hero Section -->
+
+    <!-- ======= Controls Bar (Search & Categories) ======= -->
+    <section class="ranking-controls">
+      <div class="container">
+        <div class="row align-items-center g-2">
+          <div class="col-10 col-md-6 col-lg-5">
+            <div class="search-input-group">
+              <i class="bi bi-search"></i>
+              <input type="text" id="ranking-search-input" class="search-input" placeholder="Buscar jugador por nombre o puesto...">
+              <button id="clear-search-btn" class="clear-search-btn" title="Limpiar"><i class="bi bi-x-circle-fill"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="category-tabs-wrapper">
+          <div id="category-tabs-container" class="category-tabs">
+            <!-- Renderizado dinámico de pestañas -->
+          </div>
+        </div>
+    </section><!-- End Controls Bar -->
+
+    <!-- ======= Ranking Content Section ======= -->
+    <section class="ranking-section">
+      <div class="container">
+        <!-- Banner del simulador de desafío -->
+        <div id="challenge-helper-box" class="challenge-helper-box" data-aos="fade-up">
+          <!-- Renderizado dinámico -->
+        </div>
+
+        <!-- Lista de Jugadores por Categoría -->
+        <div id="ranking-list-container" data-aos="fade-up" data-aos-delay="100">
+          <!-- Renderizado dinámico con JavaScript -->
+        </div>
+
+        <!-- ======= Sección Reglamento & Normativa ======= -->
+        <div id="reglamento" class="reglamento-card" data-aos="fade-up">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+            <h3><i class="bi bi-shield-check text-warning"></i> Reglamento Oficial de la Escalerilla</h3>
+            <a href="https://drive.google.com/uc?export=download&id=1zn3vJKlolhu3EpUMeJMkHuZPAzJuA58a" target="_blank" class="btn btn-sm btn-primary" style="border-radius:20px;">
+              <i class="bi bi-download"></i> Descargar Documento Completo
+            </a>
+          </div>
+          <p class="text-muted" style="line-height: 1.6;">
+            La Escalerilla de Tenis es el sistema de competencia continua de los socios del Club de Tenis Ferroviario. A continuación se resumen los puntos clave para desafiar y defender posiciones:
+          </p>
+
+          <div class="rules-grid">
+            <div class="rule-item">
+              <div class="rule-icon"><i class="bi bi-arrow-up-circle-fill"></i></div>
+              <div class="rule-content">
+                <h4>1. Rango de Desafíos</h4>
+                <p>Cualquier jugador activo puede desafiar a un rival ubicado hasta <strong>3 puestos por encima</strong> en su misma categoría.</p>
+              </div>
+            </div>
+
+            <div class="rule-item">
+              <div class="rule-icon"><i class="bi bi-calendar-check-fill"></i></div>
+              <div class="rule-content">
+                <h4>2. Plazo de Coordinación</h4>
+                <p>El desafiado tiene un plazo máximo de <strong>48 horas</strong> para responder y hasta <strong>7 días</strong> corridos para disputar el encuentro.</p>
+              </div>
+            </div>
+
+            <div class="rule-item">
+              <div class="rule-icon"><i class="bi bi-trophy-fill"></i></div>
+              <div class="rule-content">
+                <h4>3. Formato del Partido</h4>
+                <p>Al mejor de 3 sets con ventaja y tie-break tradicional a 7 puntos en cada set (o match tie-break a 10 puntos en el 3º previo acuerdo).</p>
+              </div>
+            </div>
+
+            <div class="rule-item">
+              <div class="rule-icon"><i class="bi bi-arrow-repeat"></i></div>
+              <div class="rule-content">
+                <h4>4. Movilidad en la Tabla</h4>
+                <p>Si el retador gana, asciende exactamente al puesto del desafiado y todos los intermedios descienden un puesto. Si el desafiado gana, las posiciones se mantienen.</p>
+              </div>
+            </div>
+
+            <div class="rule-item">
+              <div class="rule-icon"><i class="bi bi-hourglass-split"></i></div>
+              <div class="rule-content">
+                <h4>5. Período de Descanso</h4>
+                <p>Un retador que pierda un desafío debe esperar al menos <strong>7 días</strong> antes de poder desafiar nuevamente al mismo socio.</p>
+              </div>
+            </div>
+
+            <div class="rule-item">
+              <div class="rule-icon"><i class="bi bi-bell-fill"></i></div>
+              <div class="rule-content">
+                <h4>6. Notificación del Resultado</h4>
+                <p>El ganador es responsable de informar inmediatamente el resultado y parciales a la Capitanía de Tenis para la actualización del Google Sheet.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-light border d-flex align-items-center gap-3 mb-0" style="border-radius:10px;">
+            <i class="bi bi-info-circle-fill text-primary" style="font-size:1.5rem;"></i>
+            <div style="font-size:0.9rem;">
+              <strong>¿Tienes dudas o necesitas reportar un resultado?</strong> Contacta a la Capitanía de Tenis del Club o dirígete a la secretaría deportiva en las canchas de San Alfonso 2141.
+            </div>
+          </div>
+        </div><!-- End Reglamento -->
+
+        <!-- Barra flotante de desafío en móviles -->
+        <div id="mobile-floating-challenge-bar" class="mobile-floating-challenge-bar">
+          <div class="mobile-challenge-info">
+            <p id="mobile-challenge-title" class="mobile-challenge-title">Jugador Seleccionado</p>
+            <span id="mobile-challenge-subtitle" class="mobile-challenge-subtitle">Puesto #--</span>
+          </div>
+          <div class="mobile-challenge-actions">
+            <button id="btn-mobile-jump" class="btn-mobile-jump" title="Ir a los rivales desafiables">
+              <i class="bi bi-crosshair"></i> Ver Rivales
+            </button>
+            <button id="btn-mobile-close" class="btn-mobile-close" title="Cerrar selección">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Ranking Content Section -->
 
   </main><!-- End #main -->
+
+  <!-- Modal Configuración Google Sheet -->
+  <div class="modal fade" id="sheetConfigModal" tabindex="-1" aria-labelledby="sheetConfigModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sheetConfigModalLabel"><i class="bi bi-file-earmark-spreadsheet text-success"></i> Conexión Google Sheets</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted">
+            La landing lee los datos directamente en tiempo real desde la API / Web App oficial de Google Sheets. Si el club publica un nuevo endpoint o CSV para la temporada, puedes actualizarlo aquí:
+          </p>
+          <div class="mb-3">
+            <label for="input-custom-sheet-url" class="form-label small fw-bold">URL del Endpoint / Google Apps Script / CSV:</label>
+            <input type="text" class="form-control form-control-sm" id="input-custom-sheet-url" placeholder="https://script.google.com/macros/s/.../exec">
+            <div class="form-text" style="font-size:0.75rem;">
+              Endpoint oficial por defecto: <code>Google Apps Script Web App (JSON)</code>. También soporta URLs de Google Sheets publicadas en formato CSV.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-reset-sheet-url">Restablecer Original</button>
+          <button type="button" class="btn btn-sm btn-primary" id="btn-save-sheet-url">Guardar y Sincronizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ======= Footer ======= -->
   <footer id="footer"></footer>
@@ -121,6 +280,9 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Ranking Escalerilla Logic JS File -->
+  <script src="assets/js/ranking-escalerilla.js"></script>
 
 </body>
 
